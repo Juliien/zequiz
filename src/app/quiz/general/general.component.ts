@@ -14,19 +14,19 @@ export class GeneralComponent {
 
   generalEasyQuiz() {
     this.generalService.generalEasy().subscribe(data => {
-      this.quiz = data;
+      this.quiz.push(data);
       this.game = true;
     });
   }
   generalAnyQuiz() {
     this.generalService.generalAny().subscribe(data => {
-      this.quiz = data;
+      this.quiz.push(data);
       this.game = true;
     });
   }
   generalMediumQuiz() {
     this.generalService.generalMedium().subscribe(data => {
-      this.quiz = data;
+      this.quiz.push(data);
       this.game = true;
     });
   }
