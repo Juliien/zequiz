@@ -14,6 +14,7 @@ export class GameComponent {
   result = false;
   answer = false;
   listQuestions: QuizModel[] = [];
+  q: string;
 
   constructor() { }
 
@@ -24,6 +25,15 @@ export class GameComponent {
     this.index = 0;
     this.score = 0;
     this.start = true;
+  }
+
+  parseQuestion(res: string) {
+    return res.replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&')
+      .replace(/&deg;/g, '°');
   }
 
   nextQuestion() {

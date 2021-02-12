@@ -10,7 +10,7 @@
       <p>{{index + 1}}/10</p>
     </div>
     <h5>
-      {{listQuestions[index].question}}
+      {{parseQuestion(listQuestions[index].question)}}
     </h5>
     <div class="d-flex justify-content-start mt-3" *ngIf="!this.answer">
       <button type="button" class="btn btn-outline-info mr-2" (click)="validate('true')">
