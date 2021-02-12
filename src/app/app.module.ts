@@ -10,8 +10,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { CategoryComponent } from './category/category.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { GameComponent } from './game/game.component';
-import { ScienceComponent } from './quiz/science/science.component';
-import {GeneralComponent} from './quiz/general/general.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 @NgModule({
     declarations: [
@@ -19,9 +18,8 @@ import {GeneralComponent} from './quiz/general/general.component';
         HomeComponent,
         HeaderComponent,
         CategoryComponent,
-        GeneralComponent,
         GameComponent,
-        ScienceComponent
+        QuizComponent
     ],
     imports: [
         BrowserModule,

@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {QuizModel} from '../model/quiz.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -14,9 +15,8 @@ export class GameComponent {
   result = false;
   answer = false;
   listQuestions: QuizModel[] = [];
-  q: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   startQuiz() {
     for (const questions of this.quiz) {
@@ -52,6 +52,11 @@ export class GameComponent {
 
   displayResult() {
     this.result = true;
+  }
+
+  goToCategories() {
+    sessionStorage.clear();
+    this.router.navigate(['category']).then();
   }
 
   restart() {
