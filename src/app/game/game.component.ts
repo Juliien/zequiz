@@ -33,8 +33,6 @@ export class GameComponent {
 
   validate(res: string) {
     const correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
-    console.log(correctAnswer);
-    console.log(res);
     if (res.toUpperCase() === correctAnswer) {
       this.score++;
     }
