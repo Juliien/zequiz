@@ -1,0 +1,19 @@
+<div class="my-4">
+  <div class="d-flex justify-content-center" [ngClass]="{'row': innerWidth <= 765}">
+    <div *ngFor="let category of categories">
+      <!-- list of categories -->
+      <div class="card" [ngClass]="{'mr-4': innerWidth > 765}" [routerLink]="category.url">
+        <img class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-4">{{category.name}}</h5>
+          <p class="card-text"><strong>Test your knowledge</strong><br/>
+            The questions are displayed in random order. You will make new discoveries every time!
+          </p>
+          <div>
+            <button type="button" class="btn btn-info btn-block" [routerLink]="category.url">Play Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

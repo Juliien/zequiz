@@ -1,0 +1,43 @@
+<div *ngIf="!start">
+  <h5>Are you ready ?</h5>
+  <button class="btn btn-info btn-block mt-4" (click)="startQuiz()">Start Quiz</button>
+</div>
+
+<div class="card" *ngIf="start && !result">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <p class="t-gray">Difficulty : {{listQuestions[index].difficulty}}</p>
+      <p>{{index + 1}}/10</p>
+    </div>
+    <h5>
+      {{listQuestions[index].question}}
+    </h5>
+    <div class="d-flex justify-content-start mt-3" *ngIf="!this.answer">
+      <button type="button" class="btn btn-outline-info mr-2" (click)="validate('true')">
+        True
+      </button>
+      <button type="button" class="btn btn-outline-info" (click)="validate('false')">
+        False
+      </button>
+    </div>
+    <div *ngIf="this.answer" class="my-3">
+      {{listQuestions[index].correct_answer}} is the correct answer.
+    </div>
+    <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
+    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer" (click)="displayResult()">Finish</button>
+
+    <div *ngIf="result">
+      <h3 class="text-center">Score : {{score}}/10</h3>
+      <div class="alert alert-info text-center" role="alert">
+        <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
+        <span *ngIf="score >= 8">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
+        <span *ngIf="score >= 5 && score <= 7">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
+        <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-info" routerLink="/category">View all quizzes</button>
+        <button type="button" class="btn btn-info" (click)="restart()"><i class="fas fa-sync-alt"></i> Restart</button>
+      </div>
+    </div>
+  </div>
+</div>

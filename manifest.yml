@@ -1,0 +1,8 @@
+---
+applications :
+  - name: quizzy
+    path: dist/quizzy
+    memory: 56M
+    instances: 1
+    buildpack: staticfile_buildpack
+    random-route: true
