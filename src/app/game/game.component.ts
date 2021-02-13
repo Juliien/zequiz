@@ -34,7 +34,8 @@ export class GameComponent {
       .replace(/&lt;/g, '<')
       .replace(/&amp;/g, '&')
       .replace(/&deg;/g, '°')
-      .replace(/&#039;/g, '\'');
+      .replace(/&#039;/g, '\'')
+      .replace(/&rsquo;/g, '\'');
   }
 
   nextQuestion() {

@@ -5,4 +5,3 @@ applications :
     memory: 56M
     instances: 1
     buildpack: staticfile_buildpack
-    random-route: true
