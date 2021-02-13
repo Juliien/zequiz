@@ -1,7 +1,8 @@
 ---
 applications :
   - name: quizzy
-    path: dist/quizzy
-    memory: 56M
-    instances: 1
     buildpack: staticfile_buildpack
+    path: dist/quizzy
+    memory: 32M
+    instances: 1
+    routes: quizzy.eu-gb.mybluemix.net
