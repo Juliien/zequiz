@@ -6,23 +6,29 @@
 <div class="card" *ngIf="start && !result">
   <div class="card-body">
     <div class="d-flex justify-content-between">
-      <p class="t-gray">Difficulty : {{listQuestions[index].difficulty}}</p>
+      <p class="text-muted">Difficulty : {{listQuestions[index].difficulty}}</p>
       <p>{{index + 1}}/10</p>
     </div>
     <h5>
       {{parseQuestion(listQuestions[index].question)}}
     </h5>
     <div class="d-flex justify-content-start mt-3" *ngIf="!this.answer">
-      <button type="button" class="btn btn-outline-info mr-2" (click)="validate('true')">
+      <button type="button" class="btn btn-info btn-lg mr-2" (click)="validate('true')">
         True
       </button>
-      <button type="button" class="btn btn-outline-info" (click)="validate('false')">
+      <button type="button" class="btn btn-info btn-lg" (click)="validate('false')">
         False
       </button>
     </div>
     <div *ngIf="this.answer" class="my-3">
-      {{listQuestions[index].correct_answer}} is the correct answer.
+      <p class="text-success" *ngIf="correctAnswer === selectedAnswer">
+        <strong>Bravo! Good answer. The answer is {{listQuestions[index].correct_answer}}.</strong>
+      </p>
+      <p class="text-danger" *ngIf="correctAnswer !== selectedAnswer">
+        <strong>Sorry! Wrong answer. The correct answer is {{listQuestions[index].correct_answer}}.</strong>
+      </p>
     </div>
+
     <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
     <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer" (click)="displayResult()">Finish</button>
   </div>

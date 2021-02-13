@@ -11,6 +11,7 @@ import { CategoryComponent } from './category/category.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { GameComponent } from './game/game.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { QuizComponent } from './quiz/quiz.component';
         HeaderComponent,
         CategoryComponent,
         GameComponent,
-        QuizComponent
+        QuizComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,

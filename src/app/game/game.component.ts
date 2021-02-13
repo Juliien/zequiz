@@ -15,6 +15,8 @@ export class GameComponent {
   result = false;
   answer = false;
   listQuestions: QuizModel[] = [];
+  correctAnswer: string;
+  selectedAnswer: string;
 
   constructor(private router: Router) { }
 
@@ -44,8 +46,9 @@ export class GameComponent {
   }
 
   validate(res: string) {
-    const correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
-    if (res.toUpperCase() === correctAnswer) {
+    this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
+    this.selectedAnswer = res.toUpperCase();
+    if (this.selectedAnswer === this.correctAnswer) {
       this.score++;
     }
     this.answer = true;
