@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {QuizModel} from '../model/quiz.model';
+import {Component, Input, OnInit} from '@angular/core';
+import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
 
 @Component({
@@ -7,9 +7,8 @@ import {Router} from '@angular/router';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   @Input() quiz: any;
-  start = false;
   index: number;
   score: number;
   result = false;
@@ -19,6 +18,9 @@ export class GameComponent {
   selectedAnswer: string;
 
   constructor(private router: Router) { }
+  ngOnInit() {
+    this.startQuiz();
+  }
 
   startQuiz() {
     for (const questions of this.quiz) {
@@ -26,7 +28,6 @@ export class GameComponent {
     }
     this.index = 0;
     this.score = 0;
-    this.start = true;
   }
 
   parseQuestion(res: string) {

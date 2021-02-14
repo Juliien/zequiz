@@ -1,9 +1,4 @@
-<div *ngIf="!start">
-  <h5>Are you ready ?</h5>
-  <button class="btn btn-info btn-block mt-4" (click)="startQuiz()">Start Quiz</button>
-</div>
-
-<div class="card" *ngIf="start && !result">
+<div class="card" *ngIf="!result">
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <p class="text-muted">Difficulty : {{listQuestions[index].difficulty}}</p>

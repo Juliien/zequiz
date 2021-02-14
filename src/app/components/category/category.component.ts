@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import categories from '../../ressources/categories.json';
+import {CategoryModel} from '../../models/category.model';
 
 @Component({
   selector: 'app-category',
@@ -7,19 +9,18 @@ import {Router} from '@angular/router';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-  public innerWidth: number;
-
-  public categories = [
-    {name: 'General Knowledge', num: '9' },
-    {name: 'Science & Nature', num: '17'},
-    {name: 'History', num: '23'},
-    {name: 'Animals', num: '27'}
-    ];
+  innerWidth: number;
+  categories: CategoryModel[];
+  @Input() categoryEnd: number;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.innerWidth = window.innerWidth;
+    this.categories = categories;
+    if (this.categoryEnd === undefined || this.categoryEnd === null) {
+      this.categoryEnd = this.categories.length;
+    }
   }
 
   gotToQuiz(name, num) {

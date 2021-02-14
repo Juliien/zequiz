@@ -1,6 +1,6 @@
 <div class="my-4">
   <div class="d-flex justify-content-center" [ngClass]="{'row': innerWidth <= 765}">
-    <div *ngFor="let category of categories">
+    <div *ngFor="let category of categories | slice:0:categoryEnd">
 
       <!-- list of categories -->
       <div class="card" [ngClass]="{'mr-4': innerWidth > 765}">

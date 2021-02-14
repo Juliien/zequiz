@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {QuizService} from '../ressource/quiz.service';
+import {QuizService} from '../../ressources/quiz.service';
 
 @Component({
   selector: 'app-quiz',
@@ -19,15 +19,8 @@ export class QuizComponent implements OnInit {
     this.num =  sessionStorage.getItem('num');
   }
 
-  getQuiz(difficulty: string) {
-    this.quizService.quizSelect(this.num, difficulty).subscribe(data => {
-      this.quiz.push(data);
-      this.game = true;
-    });
-  }
-
   getQuizAny() {
-    this.quizService.quizSelectAny(this.num).subscribe(data => {
+    this.quizService.quizSelect(this.num).subscribe(data => {
       this.quiz.push(data);
       this.game = true;
     });
