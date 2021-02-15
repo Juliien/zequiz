@@ -10,6 +10,7 @@ import categories from '../../ressources/categories.json';
 export class QuizListComponent implements OnInit {
   categories: CategoryModel[];
   innerWidth: number;
+  item: string;
 
   constructor() { }
 

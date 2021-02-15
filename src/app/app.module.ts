@@ -13,6 +13,8 @@ import { GameComponent } from './components/game/game.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { QuizListComponent } from './components/quiz-list/quiz-list.component';
+import {FormsModule} from "@angular/forms";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 @NgModule({
     declarations: [
@@ -25,12 +27,14 @@ import { QuizListComponent } from './components/quiz-list/quiz-list.component';
         FooterComponent,
         QuizListComponent
     ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        NgxUiLoaderModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgxUiLoaderModule,
+    FormsModule,
+    Ng2SearchPipeModule,
+  ],
     providers: [
         {
             provide: LocationStrategy,
