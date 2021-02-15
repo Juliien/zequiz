@@ -1,10 +1,30 @@
 <div class="card mt-4">
   <div class="card-body d-flex justify-content-between">
     <p class="card-text">Explore category to see the complete list of quizzes !</p>
-    <button type="button" class="btn btn-info" routerLink="/category">View all quizzes</button>
+    <button type="button" class="btn btn-info" routerLink="/all">View all quizzes</button>
   </div>
 </div>
-<h3 class="mt-5">Last release</h3>
-<app-category [categoryEnd]="3"></app-category>
+<div class="my-5">
+  <h3 [ngClass]="{'text-center': innerWidth <= 765}">New quizzes</h3>
+  <div class="card-deck">
+    <div *ngFor="let category of categories | slice:0:3"
+         [ngClass]="{'d-flex justify-content-center': innerWidth <= 765}">
+      <app-category [category]="category"></app-category>
+    </div>
+  </div>
+
+</div>
+
+<div>
+  <h3 [ngClass]="{'text-center': innerWidth <= 765}">Popular quizzes</h3>
+  <div class="card-deck">
+    <div *ngFor="let category of categories.reverse() | slice:0:3"
+         [ngClass]="{'d-flex justify-content-center': innerWidth <= 765}">
+      <app-category [category]="category"></app-category>
+    </div>
+  </div>
+</div>
+
+
 
 

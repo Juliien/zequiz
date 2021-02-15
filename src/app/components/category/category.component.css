@@ -1,0 +1,15 @@
+.card-img {
+  height: 226px;
+  width: 300px;
+  opacity: 0.75;
+  border-radius: 16px;
+}
+.card {
+  width: 300px;
+}
+
+h5 {
+  font-size: 3em;
+  text-shadow: #17a2b8 1px 0 10px;
+}
+

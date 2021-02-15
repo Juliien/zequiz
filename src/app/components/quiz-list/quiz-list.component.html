@@ -1,0 +1,5 @@
+<div class="card-deck">
+  <div *ngFor="let category of categories" [ngClass]="{'d-flex justify-content-center': innerWidth <= 765}">
+    <app-category [category]="category"></app-category>
+  </div>
+</div>

@@ -1,22 +1,27 @@
 [
   {
     "name": "Movies",
-    "num": "11"
+    "num": "11",
+    "url": "https://image.freepik.com/free-vector/yellow-retro-film-poster-with-hand-drawn-clapper_23-2147597445.jpg"
   },
   {
     "name": "History",
-    "num": "23"
+    "num": "23",
+    "url": "https://image.freepik.com/free-vector/candle-book-hand-drawing-illustration_98292-4165.jpg"
   },
   {
     "name": "Animals",
-    "num": "27"
-  },
-  {
-    "name": "General Knowledge",
-    "num": "9"
+    "num": "27",
+    "url": "https://image.freepik.com/free-vector/wild-animal-nature_1308-24911.jpg"
   },
   {
     "name": "Science & Nature",
-    "num": "17"
+    "num": "17",
+    "url": "https://image.freepik.com/free-vector/two-thermometers-hot-cool-water_1308-34017.jpg"
+  },
+  {
+    "name": "General Knowledge",
+    "num": "9",
+    "url": "https://image.freepik.com/free-vector/hand-drawing-illustration-creative-ideas-concept_53876-36765.jpg"
   }
 ]

@@ -11,12 +11,14 @@ export class QuizComponent implements OnInit {
   game = false;
   name: string;
   num: string;
+  url: string;
 
   constructor(private quizService: QuizService) {}
 
   ngOnInit(): void {
     this.name = sessionStorage.getItem('name');
     this.num =  sessionStorage.getItem('num');
+    this.url = sessionStorage.getItem('url');
   }
 
   getQuizAny() {

@@ -3,11 +3,11 @@ import {CategoryModel} from '../../models/category.model';
 import categories from '../../ressources/categories.json';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-quiz-list',
+  templateUrl: './quiz-list.component.html',
+  styleUrls: ['./quiz-list.component.css']
 })
-export class HomeComponent implements OnInit {
+export class QuizListComponent implements OnInit {
   categories: CategoryModel[];
   innerWidth: number;
 

@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import {CategoryComponent} from './components/category/category.component';
 import {QuizComponent} from './components/quiz/quiz.component';
+import {QuizListComponent} from './components/quiz-list/quiz-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'quiz', component: QuizComponent },
-  { path: 'category', component: CategoryComponent },
+  { path: 'all', component: QuizListComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 
