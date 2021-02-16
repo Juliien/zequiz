@@ -1,6 +1,6 @@
 ---
 applications :
-  - name: quizzy
+  - name: zequiz
     buildpack: staticfile_buildpack
     path: dist/quizzy
     memory: 32M
