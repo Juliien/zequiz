@@ -1,7 +1,0 @@
----
-applications :
-  - name: quizzy
-    buildpack: staticfile_buildpack
-    path: dist/quizzy
-    memory: 32M
-    instances: 1
