@@ -15,6 +15,8 @@ import { FooterComponent } from './components/layout/footer/footer.component';
 import { QuizListComponent } from './components/quiz-list/quiz-list.component';
 import {FormsModule} from "@angular/forms";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import { LegalComponent } from './components/legal/legal.component';
+import { DonationComponent } from './components/donation/donation.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +27,9 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
         GameComponent,
         QuizComponent,
         FooterComponent,
-        QuizListComponent
+        QuizListComponent,
+        LegalComponent,
+        DonationComponent
     ],
   imports: [
     BrowserModule,
