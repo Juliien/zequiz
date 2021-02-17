@@ -3,8 +3,10 @@
   <div class="input-group-append"><span class="btn btn-info"><i class="fas fa-search"></i></span>
   </div>
 </div>
+
 <div class="card-deck">
   <div *ngFor="let category of categories | filter:item" [ngClass]="{'d-flex justify-content-center': innerWidth <= 765}">
     <app-category [category]="category"></app-category>
   </div>
 </div>
+
