@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "quizzy": {
+    "zequiz": {
       "projectType": "application",
       "schematics": {},
       "root": "",

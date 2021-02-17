@@ -1,8 +1,10 @@
 footer {
   padding: 2em;
   background-color: #232323;
-  color: #7E7E7E;
-  text-align: center;
   border-top: 2px solid rgba(51, 51, 51, 0.25);
-  margin-top: 9%;
+  margin-top: 10% !important;
+}
+
+p, a {
+  color: #7E7E7E;
 }
