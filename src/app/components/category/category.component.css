@@ -4,8 +4,16 @@
   opacity: 0.75;
   border-radius: 16px;
 }
+
 .card {
   width: 300px;
+  transition: transform 400ms;
+}
+
+.item:hover, .item:focus {
+  cursor: pointer;
+  transform: scale(1.1);
+  z-index: 1;
 }
 
 h5 {

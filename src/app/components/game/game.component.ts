@@ -38,7 +38,8 @@ export class GameComponent implements OnInit {
       .replace(/&amp;/g, '&')
       .replace(/&deg;/g, '°')
       .replace(/&#039;/g, '\'')
-      .replace(/&rsquo;/g, '\'');
+      .replace(/&rsquo;/g, '\'')
+      .replace(/&eacute;/g, 'é');
   }
 
   nextQuestion() {

@@ -5,8 +5,8 @@
 </div>
 
 <div class="card-deck">
-  <div *ngFor="let category of categories | filter:item" [ngClass]="{'d-flex justify-content-center': innerWidth <= 765}">
-    <app-category [category]="category"></app-category>
+  <div *ngFor="let category of categories | filter:item" [ngClass]="{'d-flex justify-content-center': isMobile}">
+    <app-category [category]="category" [isMobile]="isMobile"></app-category>
   </div>
 </div>
 
