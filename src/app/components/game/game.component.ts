@@ -38,7 +38,12 @@ export class GameComponent implements OnInit {
       .replace(/&amp;/g, '&')
       .replace(/&deg;/g, '°')
       .replace(/&#039;/g, '\'')
-      .replace(/&rsquo;/g, '\'');
+      .replace(/&rsquo;/g, '\'')
+      .replace(/&eacute;/g, 'é')
+      .replace(/&agrave;/g, 'à')
+      .replace(/&aelig;/g, 'æ')
+      .replace(/&egrave;/g, 'è')
+      .replace(/&ecirc;/g, 'ê');
   }
 
   nextQuestion() {
@@ -61,7 +66,7 @@ export class GameComponent implements OnInit {
 
   goToCategories() {
     sessionStorage.clear();
-    this.router.navigate(['category']).then();
+    this.router.navigate(['all']).then();
   }
 
   restart() {

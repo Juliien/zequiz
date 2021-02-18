@@ -9,6 +9,7 @@ import {CategoryModel} from '../../models/category.model';
 })
 export class CategoryComponent {
   @Input() category: CategoryModel;
+  @Input() isMobile: boolean;
 
   constructor(private router: Router) { }
 
