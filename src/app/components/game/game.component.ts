@@ -66,7 +66,7 @@ export class GameComponent implements OnInit {
 
   goToCategories() {
     sessionStorage.clear();
-    this.router.navigate(['category']).then();
+    this.router.navigate(['all']).then();
   }
 
   restart() {
