@@ -32,18 +32,21 @@ export class GameComponent implements OnInit {
 
   parseQuestion(res: string) {
     return res.replace(/&apos;/g, '\'')
-      .replace(/&quot;/g, '"')
-      .replace(/&gt;/g, '>')
-      .replace(/&lt;/g, '<')
-      .replace(/&amp;/g, '&')
-      .replace(/&deg;/g, '°')
-      .replace(/&#039;/g, '\'')
-      .replace(/&rsquo;/g, '\'')
-      .replace(/&eacute;/g, 'é')
-      .replace(/&agrave;/g, 'à')
-      .replace(/&aelig;/g, 'æ')
-      .replace(/&egrave;/g, 'è')
-      .replace(/&ecirc;/g, 'ê');
+        .replace(/&quot;/g, '"')
+        .replace(/&gt;/g, '>')
+        .replace(/&lt;/g, '<')
+        .replace(/&amp;/g, '&')
+        .replace(/&deg;/g, '°')
+        .replace(/&#039;/g, '\'')
+        .replace(/&rsquo;/g, '\'')
+        .replace(/&eacute;/g, 'é')
+        .replace(/&agrave;/g, 'à')
+        .replace(/&aelig;/g, 'æ')
+        .replace(/&egrave;/g, 'è')
+        .replace(/&ecirc;/g, 'ê')
+        .replace(/&epsilon;/g, 'ε')
+        .replace(/&Phi;/g, 'Φ')
+        .replace(/&phi;/g, 'φ');
   }
 
   nextQuestion() {

@@ -6,10 +6,10 @@ import {environment} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class QuizService {
+export class CategoryService {
   constructor(private http: HttpClient) { }
 
-  quizSelect(category: string): Observable <any> {
-    return this.http.get<any>(environment.baseQuizUrl + 'amount=10&category=' + category + '&type=boolean');
+  getCategories(): Observable <any> {
+    return this.http.get<any>(environment.baseApiUrl);
   }
 }
