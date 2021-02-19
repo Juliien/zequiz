@@ -10,7 +10,6 @@ import {CategoryService} from '../../ressources/category.service';
 })
 export class HomeComponent implements OnInit {
   categories: CategoryModel[];
-  innerWidth: number;
   isMobile = false;
   text: string;
 
