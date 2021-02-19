@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://opentdb.com/api.php?'
+  baseQuizUrl: 'https://opentdb.com/api.php?',
+  baseApiUrl: 'http://localhost:3001/api/v1/'
 };
 
 /*
