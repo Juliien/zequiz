@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "run-front": "ng serve",
     "run-back": "nodemon ./api/index.js",
-    "heroku-postbuild": "ng build --prod --output-path dist --base-href ./"
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
