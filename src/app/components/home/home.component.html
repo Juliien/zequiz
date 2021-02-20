@@ -21,8 +21,18 @@
 
 </div>
 
+<div class="mb-5">
+  <h3 [ngClass]="{'text-center': isMobile}">Popular quizzes</h3>
+  <div class="card-deck">
+    <div *ngFor="let category of categories.reverse() | slice:0:3"
+         [ngClass]="{'d-flex justify-content-center': isMobile}">
+      <app-category [category]="category" [isMobile]="isMobile"></app-category>
+    </div>
+  </div>
+</div>
+
 <div>
-  <h3 [ngClass]="{'text-center': innerWidth <= 765}">Popular quizzes</h3>
+  <h3 [ngClass]="{'text-center': isMobile}">Top rated quizzes</h3>
   <div class="card-deck">
     <div *ngFor="let category of categories.reverse() | slice:0:3"
          [ngClass]="{'d-flex justify-content-center': isMobile}">

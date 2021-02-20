@@ -18,7 +18,7 @@ export class QuizComponent implements OnInit {
   ngOnInit(): void {
     this.name = sessionStorage.getItem('name');
     this.num =  sessionStorage.getItem('num');
-    this.url = sessionStorage.getItem('url');
+    this.url = sessionStorage.getItem('photoUrl');
   }
 
   getQuizAny() {

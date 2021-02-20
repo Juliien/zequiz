@@ -3,8 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Ranchers&display=swap');
 
 body {
-  font-family: "gt-walsheim", arial, helvetica, sans-serif;
   overflow-x: hidden !important;
+  font-family: "gt-walsheim", arial, helvetica, sans-serif;
   color: #F5F5F5 !important;
   background-color: #17141d !important;
 }
