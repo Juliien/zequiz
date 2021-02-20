@@ -1,3 +1,4 @@
 module.exports = {
-  Room: require('./room.model')
+  Room: require('./room.model'),
+  Category: require('./category.model')
 };

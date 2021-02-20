@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CategoryModel} from '../../models/category.model';
-import categories from '../../ressources/categories.json';
+import {CategoryService} from '../../ressources/category.service';
 
 @Component({
   selector: 'app-quiz-list',
@@ -12,10 +12,10 @@ export class QuizListComponent implements OnInit {
   isMobile = false;
   item: string;
 
-  constructor() { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
-    this.categories = categories;
+    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
   }
 }
