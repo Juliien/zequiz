@@ -21,7 +21,7 @@
 
 </div>
 
-<div>
+<div class="mb-5">
   <h3 [ngClass]="{'text-center': isMobile}">Popular quizzes</h3>
   <div class="card-deck">
     <div *ngFor="let category of categories.reverse() | slice:0:3"

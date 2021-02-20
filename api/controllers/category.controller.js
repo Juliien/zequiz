@@ -17,10 +17,9 @@ class CategoryController {
   }
 
   async insertCategory(req, res) {
-    if (req.body.name && req.body.num && req.body.photoUrl) {
-      try {
-        const category = Category.findOne({num: req.body.num});
-        if(!category) {
+    if (req.body.name && req.body.num && req.body.photoUrl && req.params.key) {
+      if(req.params.key === process.env.ADMIN_KEY) {
+        try {
           const newCategory = new Category({
             name: req.body.name,
             num:req.body.num,
@@ -31,23 +30,28 @@ class CategoryController {
           });
           await newCategory.save();
           return res.status(201).end();
+        } catch (e) {
+          return res.status(500).send("Error Server: " + e);
         }
-        return res.status(401).end();
-      } catch (e) {
-        return res.status(500).json("Error Server: " + e);
       }
+      return  res.status(401).end();
     }
     return res.status(400).end();
   }
 
-  async getCategoryByNumber(req, res) {
-    const number = req.params.num;
-    return res.status(200).end();
-  }
-
   async deleteCategory(req, res) {
-    const id = req.params.id;
-    return res.status(204).end();
+    if(req.params.id && req.params.key) {
+      if(req.params.key === process.env.ADMIN_KEY) {
+        try {
+          await Category.deleteOne({_id: req.params.id});
+          return res.status(204).end();
+        } catch (e) {
+          return res.status(500).send("Error Server: " + e)
+        }
+      }
+      return res.status(401).end();
+    }
+    return res.status(400).end();
   }
 }
 

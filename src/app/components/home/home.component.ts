@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {CategoryModel} from '../../models/category.model';
-import categories from '../../ressources/categories.json';
 import {CategoryService} from '../../ressources/category.service';
 
 @Component({
@@ -11,13 +10,11 @@ import {CategoryService} from '../../ressources/category.service';
 export class HomeComponent implements OnInit {
   categories: CategoryModel[];
   isMobile = false;
-  text: string;
 
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
-    this.categories = categories;
-    this.categoryService.getCategories().subscribe(data => this.text = data.message);
+    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
   }
 }
