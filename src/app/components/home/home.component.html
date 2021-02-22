@@ -16,12 +16,12 @@
   </div>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="categories && viewsList">
+<div class="d-flex justify-content-center" *ngIf="newsList && viewsList">
   <div>
     <div class="my-5">
       <h3 [ngClass]="{'text-center': isMobile}">New quizzes</h3>
       <div class="card-deck">
-        <div *ngFor="let category of categories | slice:0:3"
+        <div *ngFor="let category of newsList"
              [ngClass]="{'d-flex justify-content-center': isMobile}">
           <app-category [category]="category" [isMobile]="isMobile"></app-category>
         </div>
@@ -39,15 +39,15 @@
       </div>
     </div>
 
-    <div>
-      <h3 [ngClass]="{'text-center': isMobile}">Top rated quizzes</h3>
-      <div class="card-deck">
-        <div *ngFor="let category of categories | slice:0:3"
-             [ngClass]="{'d-flex justify-content-center': isMobile}">
-          <app-category [category]="category" [isMobile]="isMobile"></app-category>
-        </div>
-      </div>
-    </div>
+<!--    <div>-->
+<!--      <h3 [ngClass]="{'text-center': isMobile}">Top rated quizzes</h3>-->
+<!--      <div class="card-deck">-->
+<!--        <div *ngFor="let category of categories | slice:0:3"-->
+<!--             [ngClass]="{'d-flex justify-content-center': isMobile}">-->
+<!--          <app-category [category]="category" [isMobile]="isMobile"></app-category>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </div>
 

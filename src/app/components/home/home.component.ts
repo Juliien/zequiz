@@ -8,15 +8,15 @@ import {CategoryService} from '../../ressources/category.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  categories: CategoryModel[];
   viewsList: CategoryModel[];
+  newsList: CategoryModel[];
   isMobile = false;
 
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
-    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
     this.categoryService.getViews().subscribe(categories => this.viewsList = categories);
+    this.categoryService.getNewCategories().subscribe(categories => this.newsList = categories);
   }
 }

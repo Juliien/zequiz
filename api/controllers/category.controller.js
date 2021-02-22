@@ -31,6 +31,18 @@ class CategoryController {
     return res.status(400).end();
   }
 
+  async getNewCategory(req, res) {
+    try {
+      const news = await Category.find().sort({createDate: -1}).limit(3);
+      if(news) {
+        return res.status(200).json(news);
+      }
+      return res.status(404).end();
+    } catch (e) {
+      return res.status(500).send(e);
+    }
+  }
+
   async getViews(req, res) {
     try {
       const views = await Category.find().sort({views: -1}).limit(3);

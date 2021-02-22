@@ -25,4 +25,8 @@ export class CategoryService {
   getViews(): Observable <any> {
     return this.http.get<any>(environment.baseApiUrl + 'category/most/viewed');
   }
+
+  getNewCategories(): Observable <any> {
+    return this.http.get<any>(environment.baseApiUrl + 'category/new');
+  }
 }
