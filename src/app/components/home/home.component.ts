@@ -9,14 +9,14 @@ import {CategoryService} from '../../ressources/category.service';
 })
 export class HomeComponent implements OnInit {
   categories: CategoryModel[];
+  viewsList: CategoryModel[];
   isMobile = false;
-  homeList: string[];
 
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
-    this.homeList = ['New quizzes', 'Popular quizzes', 'Top rated quizzes', 'Random quizzes'];
     this.categoryService.getCategories().subscribe(categories => this.categories = categories);
+    this.categoryService.getViews().subscribe(categories => this.viewsList = categories);
   }
 }

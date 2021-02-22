@@ -31,6 +31,18 @@ class CategoryController {
     return res.status(400).end();
   }
 
+  async getViews(req, res) {
+    try {
+      const views = await Category.find().sort({views: -1}).limit(3);
+      if(views) {
+        return res.status(200).json(views);
+      }
+      return res.status(404).end();
+    } catch (e) {
+      return res.status(500).send(e);
+    }
+  }
+
   async addView(req, res) {
     if(req.body._id && req.body.views >= 0) {
       try {
