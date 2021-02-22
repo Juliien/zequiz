@@ -13,10 +13,8 @@ export class CategoryComponent {
 
   constructor(private router: Router) { }
 
-  gotToQuiz(name: string, num: number, url: string) {
-    sessionStorage.setItem('name', name);
-    sessionStorage.setItem('num', num.toString());
-    sessionStorage.setItem('photoUrl', url);
+  gotToQuiz(id: string) {
+    sessionStorage.setItem('categoryId', id);
     this.router.navigate(['quiz']).then();
   }
 }

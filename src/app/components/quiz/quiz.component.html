@@ -1,15 +1,18 @@
-<div class="row d-flex justify-content-center mt-3">
+<div class="row d-flex justify-content-center mt-3" *ngIf="category">
   <div class="card">
-    <img src="{{url}}" class="card-img">
+    <img src="{{category.photoUrl}}" class="card-img">
     <div class="card-img-overlay">
-      <h5 class="text-center title">{{name}}</h5>
+      <h5 class="text-center title">{{category.name}}</h5>
     </div>
   </div>
   <div class="m-5" *ngIf="!game">
+    <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}
+    </p>
     <h4>Are you ready ?</h4>
-    <button class="btn btn-info btn-block mt-4" (click)="getQuizAny()">Start Quiz</button>
+    <button class="btn bg-gradient btn-block mt-4" (click)="startQuiz()">Start Quiz</button>
   </div>
 </div>
+<!--<i class="fas fa-star fa-pull-right"></i>-->
 
 <div class="d-flex justify-content-center my-5" *ngIf="game">
   <app-game [quiz]="quiz"></app-game>

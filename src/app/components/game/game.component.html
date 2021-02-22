@@ -7,7 +7,7 @@
     <h5>
       {{parseQuestion(listQuestions[index].question)}}
     </h5>
-    <div class="d-flex justify-content-start mt-3" *ngIf="!this.answer">
+    <div class="d-flex justify-content-start mt-3" *ngIf="!answer">
       <button type="button" class="btn btn-info btn-lg mr-2" (click)="validate('true')">
         True
       </button>
@@ -15,7 +15,7 @@
         False
       </button>
     </div>
-    <div *ngIf="this.answer" class="my-3">
+    <div *ngIf="answer" class="my-3">
       <p class="text-success" *ngIf="correctAnswer === selectedAnswer">
         <strong>Bravo! Good answer. The answer is {{listQuestions[index].correct_answer}}.</strong>
       </p>

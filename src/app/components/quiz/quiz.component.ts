@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {QuizService} from '../../ressources/quiz.service';
+import {CategoryService} from '../../ressources/category.service';
+import {CategoryModel} from '../../models/category.model';
 
 @Component({
   selector: 'app-quiz',
@@ -9,20 +11,19 @@ import {QuizService} from '../../ressources/quiz.service';
 export class QuizComponent implements OnInit {
   quiz: Array<object> = [];
   game = false;
-  name: string;
-  num: string;
-  url: string;
+  category: CategoryModel;
 
-  constructor(private quizService: QuizService) {}
+  constructor(private quizService: QuizService,
+              private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.name = sessionStorage.getItem('name');
-    this.num =  sessionStorage.getItem('num');
-    this.url = sessionStorage.getItem('photoUrl');
+    this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
+      .subscribe(category => this.category = category);
   }
 
-  getQuizAny() {
-    this.quizService.quizSelect(this.num).subscribe(data => {
+  startQuiz() {
+    this.categoryService.addView(this.category).subscribe();
+    this.quizService.quizSelect(this.category.num).subscribe(data => {
       this.quiz.push(data);
       this.game = true;
     });
