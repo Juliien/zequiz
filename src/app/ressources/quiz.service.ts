@@ -9,7 +9,7 @@ import {environment} from '../../environments/environment';
 export class QuizService {
   constructor(private http: HttpClient) { }
 
-  quizSelect(category: string): Observable <any> {
+  quizSelect(category: number): Observable <any> {
     return this.http.get<any>(environment.baseQuizUrl + 'amount=10&category=' + category + '&type=boolean');
   }
 }

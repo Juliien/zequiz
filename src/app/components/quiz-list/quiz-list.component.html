@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg sticky-top">
-  <div class="input-group my-2">
+  <div class="input-group my-2 d-flex justify-content-center">
     <input type="text" class="form-control" placeholder="Search a quiz" [(ngModel)]="item">
     <div class="input-group-append">
       <span class="btn btn-info"><i class="fas fa-search"></i></span>
@@ -7,7 +7,7 @@
   </div>
 </nav>
 
-<div class="card-deck">
+<div class="card-deck d-flex justify-content-center row">
   <div *ngFor="let category of categories | filter:item" [ngClass]="{'d-flex justify-content-center': isMobile}">
     <app-category [category]="category" [isMobile]="isMobile"></app-category>
   </div>

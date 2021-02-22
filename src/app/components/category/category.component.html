@@ -1,7 +1,6 @@
-<div class="card my-3"  [ngClass]="{'item': !isMobile}" (click)="gotToQuiz(category.name, category.num, category.photoUrl)">
+<div class="card my-3"  [ngClass]="{'item': !isMobile}" (click)="gotToQuiz(category._id)">
   <img src="{{category.photoUrl}}" class="card-img">
   <div class="card-img-overlay">
     <h5 class="card-title text-center title">{{category.name}}</h5>
   </div>
 </div>
-
