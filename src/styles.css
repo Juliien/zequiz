@@ -6,7 +6,7 @@ body {
   overflow-x: hidden !important;
   font-family: "gt-walsheim", arial, helvetica, sans-serif;
   color: #F5F5F5 !important;
-  background-color: #17141d !important;
+  background-color: #101010 !important;
 }
 
 .title {
@@ -16,9 +16,25 @@ body {
 .card {
   background-color: #343a40;
   border-radius: 16px;
+  border: none;
 }
 
 h3 {
   font-weight: 900;
-  color: #fff !important;
+  color: #F5F5F5 !important;
+}
+
+.bg-gradient {
+  background: rgb(27,85,197);
+  background: linear-gradient(90deg, rgba(27,85,197,1) 0%, rgba(115,46,176,1) 70%);
+  border: none;
+  outline: 0;
+  color: #F5F5F5;
+}
+
+.bg-gradient:hover {
+  background: rgb(115,46,176);
+  background: linear-gradient(90deg, rgba(115,46,176,1) 0%, rgba(27,85,197,1) 70%);
+  cursor: pointer;
+  color: #F5F5F5;
 }

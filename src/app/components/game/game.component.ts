@@ -16,9 +16,11 @@ export class GameComponent implements OnInit {
   listQuestions: QuizModel[] = [];
   correctAnswer: string;
   selectedAnswer: string;
+  isMobile: boolean;
 
   constructor(private router: Router) { }
   ngOnInit() {
+    this.isMobile = window.innerWidth <= 765;
     this.startQuiz();
   }
 

@@ -16,6 +16,36 @@ class CategoryController {
     }
   }
 
+  async getCategoryByID(req, res) {
+    if(req.params.id) {
+      try {
+        const category = await Category.findById(req.params.id);
+        if (category) {
+          return res.status(200).json(category);
+        }
+        return res.status(404).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
+  async addView(req, res) {
+    if(req.body._id && req.body.views >= 0) {
+      try {
+        const updatedViews = await Category.updateOne({_id: req.body._id}, {views: req.body.views + 1});
+        if(updatedViews.nModified === 1) {
+          return res.status(204).end();
+        }
+        return res.status(401).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
   async insertCategory(req, res) {
     if (req.body.name && req.body.num && req.body.photoUrl && req.params.key) {
       if(req.params.key === process.env.ADMIN_KEY) {
@@ -31,7 +61,7 @@ class CategoryController {
           await newCategory.save();
           return res.status(201).end();
         } catch (e) {
-          return res.status(500).send("Error Server: " + e);
+          return res.status(500).send(e);
         }
       }
       return  res.status(401).end();
@@ -46,7 +76,7 @@ class CategoryController {
           await Category.deleteOne({_id: req.params.id});
           return res.status(204).end();
         } catch (e) {
-          return res.status(500).send("Error Server: " + e)
+          return res.status(500).send(e)
         }
       }
       return res.status(401).end();
