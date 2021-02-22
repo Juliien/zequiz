@@ -1,5 +1,5 @@
-<div class="row d-flex justify-content-center mt-3">
-  <div class="card" *ngIf="category">
+<div class="row d-flex justify-content-center mt-3" *ngIf="category">
+  <div class="card">
     <img src="{{category.photoUrl}}" class="card-img">
     <div class="card-img-overlay">
       <h5 class="text-center title">{{category.name}}</h5>
