@@ -21,4 +21,12 @@ export class CategoryService {
   addView(category: CategoryModel) {
     return this.http.post<any>(environment.baseApiUrl + 'category/views', category);
   }
+
+  getViews(): Observable <any> {
+    return this.http.get<any>(environment.baseApiUrl + 'category/most/viewed');
+  }
+
+  getNewCategories(): Observable <any> {
+    return this.http.get<any>(environment.baseApiUrl + 'category/new');
+  }
 }
