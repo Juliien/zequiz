@@ -38,3 +38,8 @@ h3 {
   cursor: pointer;
   color: #F5F5F5;
 }
+
+.spinner-border{
+  width: 4em;
+  height: 4em;
+}

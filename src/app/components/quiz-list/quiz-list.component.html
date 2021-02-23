@@ -7,7 +7,11 @@
   </div>
 </nav>
 
-<div class="card-deck d-flex justify-content-center row">
+<div class="d-flex justify-content-center my-5" *ngIf="!categories">
+  <div class="spinner-border text-info" role="status">
+  </div>
+</div>
+<div class="card-deck d-flex justify-content-center row" *ngIf="categories">
   <div *ngFor="let category of categories | filter:item" [ngClass]="{'d-flex justify-content-center': isMobile}">
     <app-category [category]="category" [isMobile]="isMobile"></app-category>
   </div>

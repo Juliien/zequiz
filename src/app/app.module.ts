@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import { LegalComponent } from './components/legal/legal.component';
 import { DonationComponent } from './components/donation/donation.component';
+import { RoomComponent } from './components/room/room.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { DonationComponent } from './components/donation/donation.component';
         FooterComponent,
         QuizListComponent,
         LegalComponent,
-        DonationComponent
+        DonationComponent,
+        RoomComponent
     ],
   imports: [
     BrowserModule,
