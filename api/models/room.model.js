@@ -8,18 +8,25 @@ const roomSchema = new Schema({
   },
   closeDate: {
     type: Date,
-    required: false,
-    default: null
+    required: false
   },
   players: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: false,
-    default: []
+    ref: 'Player',
+    required: false
   }],
   code: {
     type: Number,
     required: true
+  },
+  quizId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
+  },
+  isStart: {
+    type: Boolean,
+    required: true,
   }
 });
 
