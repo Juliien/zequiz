@@ -11,12 +11,12 @@
     </div>
   </div>
   <div class="m-5" *ngIf="!game">
-    <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}
-    </p>
-    <h4>Alone : Are you ready ?</h4>
-    <button class="btn bg-gradient btn-block mt-4" (click)="startQuiz()">Start Quiz</button>
-    <h4 class="mt-4">VS Mode : Are you ready ?</h4>
-    <button class="btn bg-gradient btn-block mt-4" (click)="goToVS()">Start VS</button>
+    <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}</p>
+    <h4>Play Alone ?</h4>
+    <button class="btn bg-gradient btn-block" (click)="startQuiz()">Start Quiz</button>
+    <hr/>
+    <h4>ZeVersus Mode ?</h4>
+    <button class="btn bg-gradient btn-block" (click)="goToVS()">Start ZeVersus</button>
   </div>
 </div>
 <!--<i class="fas fa-star fa-pull-right"></i>-->
