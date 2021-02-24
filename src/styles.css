@@ -9,6 +9,12 @@ body {
   background-color: #101010 !important;
 }
 
+.modal-content {
+  background-color: #101010 !important;
+  color: #F5F5F5 !important;
+}
+
+
 .title {
   font-family: 'Ranchers', cursive;
 }
@@ -37,4 +43,9 @@ h3 {
   background: linear-gradient(90deg, rgba(115,46,176,1) 0%, rgba(27,85,197,1) 70%);
   cursor: pointer;
   color: #F5F5F5;
+}
+
+.spinner-border{
+  width: 4em;
+  height: 4em;
 }

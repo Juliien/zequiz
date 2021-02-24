@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';;
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './components/layout/header/header.component';
@@ -13,10 +13,12 @@ import { GameComponent } from './components/game/game.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { QuizListComponent } from './components/quiz-list/quiz-list.component';
-import {FormsModule} from "@angular/forms";
-import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {FormsModule} from '@angular/forms';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { LegalComponent } from './components/legal/legal.component';
 import { DonationComponent } from './components/donation/donation.component';
+import { RoomComponent } from './components/room/room.component';
+import {ClipboardModule} from 'ngx-clipboard';
 
 @NgModule({
     declarations: [
@@ -29,16 +31,18 @@ import { DonationComponent } from './components/donation/donation.component';
         FooterComponent,
         QuizListComponent,
         LegalComponent,
-        DonationComponent
+        DonationComponent,
+        RoomComponent
     ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgxUiLoaderModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgxUiLoaderModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        ClipboardModule,
+    ],
     providers: [
         {
             provide: LocationStrategy,

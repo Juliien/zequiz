@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-center my-5" *ngIf="!room && !category">
+  <div class="spinner-border text-info" role="status">
+  </div>
+</div>
+
+<div *ngIf="room && category">
+  <h3 class="text-center mt-5">Code : {{room.code}}
+    <button class="btn btn-info mx-1" *ngIf="categoryId" f ngxClipboard [cbContent]="room.code" (cbOnSuccess)="copied($event)">
+      <i class="far fa-copy fa-lg"></i>
+    </button>
+  </h3>
+  <p class="text-center text-muted" *ngIf="isCopied">Copied !</p>
+  <div class="row d-flex justify-content-center mt-3" *ngIf="category">
+    <div class="card">
+      <img src="{{category.photoUrl}}" class="card-img">
+      <div class="card-img-overlay">
+        <h5 class="text-center title">{{category.name}}</h5>
+      </div>
+    </div>
+  </div>
+  <h4 class="pulse text-center mt-3" *ngIf="!startQuiz && !error ">Waiting for start ...</h4>
+
+  <div class="d-flex justify-content-center mt-3" *ngIf="!startQuiz && error">
+    <div>
+      <p class="text-danger">Ooops! An error occured. You are waiting for more than 5 min !!!</p>
+      <p class="text-muted">This room is closed!</p>
+      <button class="btn bg-gradient" >View all categories</button>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center my-5" *ngIf="startQuiz">
+    <app-game [quiz]="quiz" [vs]="true"></app-game>
+  </div>
+</div>
+
+
+

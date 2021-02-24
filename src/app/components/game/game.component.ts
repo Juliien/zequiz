@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 })
 export class GameComponent implements OnInit {
   @Input() quiz: any;
+  @Input() vs: boolean;
   index: number;
   score: number;
   result = false;
@@ -66,6 +67,12 @@ export class GameComponent implements OnInit {
   }
 
   displayResult() {
+    this.result = true;
+  }
+
+  displayVSResult() {
+    console.log(sessionStorage.getItem('playerId'));
+    //call player stats
     this.result = true;
   }
 
