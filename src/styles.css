@@ -9,6 +9,12 @@ body {
   background-color: #101010 !important;
 }
 
+.modal-content {
+  background-color: #101010 !important;
+  color: #F5F5F5 !important;
+}
+
+
 .title {
   font-family: 'Ranchers', cursive;
 }
