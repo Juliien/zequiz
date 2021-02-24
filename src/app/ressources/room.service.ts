@@ -11,19 +11,19 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   getRoomById(id: string): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + '/room/' + id);
+    return this.http.get<any>(environment.baseApiUrl + 'room/' + id);
   }
 
   createRoom(quizId: string) {
-    return this.http.post<any>(environment.baseApiUrl + '/room/' + quizId, {});
+    return this.http.post<any>(environment.baseApiUrl + 'room/' + quizId, {});
   }
 
   joinRoom(code: number) {
-    return this.http.post<any>(environment.baseApiUrl + '/room/join/' + code, {});
+    return this.http.post<any>(environment.baseApiUrl + 'room/join/' + code, {});
   }
 
   closeRoom(id: string) {
-    return this.http.post<any>(environment.baseApiUrl + '/room/close/' + id, {});
+    return this.http.post<any>(environment.baseApiUrl + 'room/close/' + id, {});
   }
 
 }

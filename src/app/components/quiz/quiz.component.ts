@@ -3,6 +3,7 @@ import {QuizService} from '../../ressources/quiz.service';
 import {CategoryService} from '../../ressources/category.service';
 import {CategoryModel} from '../../models/category.model';
 import {Router} from '@angular/router';
+import {RoomService} from '../../ressources/room.service';
 
 @Component({
   selector: 'app-quiz',
@@ -16,6 +17,7 @@ export class QuizComponent implements OnInit {
 
   constructor(private quizService: QuizService,
               private categoryService: CategoryService,
+              private roomService: RoomService,
               private router: Router) {}
 
   ngOnInit(): void {
@@ -33,7 +35,9 @@ export class QuizComponent implements OnInit {
 
   goToVS() {
     this.categoryService.addView(this.category).subscribe();
-    //get room object
-    this.router.navigate(['/room', this.category._id]);
+    this.roomService.createRoom(this.category._id).subscribe(room => {
+      sessionStorage.setItem('roomId', room._id);
+      this.router.navigate(['/room', room._id]).then();
+    });
   }
 }
