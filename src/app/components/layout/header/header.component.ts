@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  innerWidth: number;
+  isMobile: boolean;
   code: number;
   error: boolean;
 
@@ -17,9 +17,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.error = false;
-    this.innerWidth = window.innerWidth;
+    this.isMobile = window.innerWidth <= 765;
  }
 
+ clear() {
+   sessionStorage.clear();
+ }
   verifyCode() {
     this.roomService.joinRoom(this.code).subscribe(room => {
         sessionStorage.setItem('roomId', room._id);

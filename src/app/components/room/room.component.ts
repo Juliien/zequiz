@@ -42,10 +42,14 @@ export class RoomComponent implements OnInit {
         sessionStorage.setItem('playerId', this.room.players[1]);
         this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
           this.category = cat;
-          this.quizService.quizSelect(this.category.num).subscribe(data => {
-            this.quiz.push(data);
-            this.startQuiz = true;
-          });
+          if (!this.room.closeDate) {
+            this.quizService.quizSelect(this.category.num).subscribe(data => {
+              this.quiz.push(data);
+              this.startQuiz = true;
+            });
+          } else {
+            this.error = true;
+          }
         });
       });
     }
@@ -56,20 +60,17 @@ export class RoomComponent implements OnInit {
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
         if (this.room.isStart) {
-          this.quizService.quizSelect(this.category.num).subscribe(data => {
-            this.quiz.push(data);
-            this.startQuiz = true;
+          if (!this.room.closeDate) {
+            this.quizService.quizSelect(this.category.num).subscribe(data => {
+              this.quiz.push(data);
+              this.startQuiz = true;
+              clearInterval(this.interval);
+            });
+          } else {
+            this.error = true;
             clearInterval(this.interval);
-          });
+          }
         }
-        // else {
-        //   // @ts-ignore
-        //   if ((new Date() - new Date(this.room.createDate)) > 5 * 60 * 1000) {
-        //     clearInterval(this.interval);
-        //     this.roomService.closeRoom(this.room._id).subscribe();
-        //     this.error = true;
-        //   }
-        // }
       });
     }, 3000);
   }
@@ -78,5 +79,8 @@ export class RoomComponent implements OnInit {
     if (event.isSuccess) {
       return this.isCopied = true;
     }
+  }
+  clear() {
+    sessionStorage.clear();
   }
 }

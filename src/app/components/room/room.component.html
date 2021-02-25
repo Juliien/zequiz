@@ -20,16 +20,15 @@
   </div>
   <h4 class="pulse text-center mt-3" *ngIf="!startQuiz && !error ">Waiting for start ...</h4>
 
-  <div class="d-flex justify-content-center mt-3" *ngIf="!startQuiz && error">
+  <div class="d-flex justify-content-center my-4" *ngIf="!startQuiz && error">
     <div>
-      <p class="text-danger">Ooops! An error occured. You are waiting for more than 5 min !!!</p>
-      <p class="text-muted">This room is closed!</p>
-      <button class="btn bg-gradient" >View all categories</button>
+      <p class="text-danger">Ooops! An error occured. This room is closed!</p>
+      <button class="btn bg-gradient" routerLink="/all" (click)="clear()">View all categories</button>
     </div>
   </div>
 
   <div class="d-flex justify-content-center my-5" *ngIf="startQuiz">
-    <app-game [quiz]="quiz" [vs]="true"></app-game>
+    <app-game [quiz]="quiz" [vs]="true" [room]="room"></app-game>
   </div>
 </div>
 
