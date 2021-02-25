@@ -1,6 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
+import {PlayerService} from '../../ressources/player.service';
+import {PlayerModel} from '../../models/player.model';
+import {RoomModel} from '../../models/room.model';
+import {RoomService} from '../../ressources/room.service';
 
 @Component({
   selector: 'app-game',
@@ -9,6 +13,9 @@ import {Router} from '@angular/router';
 })
 export class GameComponent implements OnInit {
   @Input() quiz: any;
+  @Input() vs: boolean;
+  @Input() room: RoomModel;
+
   index: number;
   score: number;
   result = false;
@@ -17,10 +24,17 @@ export class GameComponent implements OnInit {
   correctAnswer: string;
   selectedAnswer: string;
   isMobile: boolean;
+  opponentPlayer: PlayerModel;
+  interval: any;
+  displaySpinner: boolean
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private playerService: PlayerService,
+              private roomService: RoomService) { }
+
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
+    this.displaySpinner = false;
     this.startQuiz();
   }
 
@@ -67,6 +81,35 @@ export class GameComponent implements OnInit {
 
   displayResult() {
     this.result = true;
+  }
+
+  displayVSResult() {
+    this.result = true;
+    this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
+    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
+    this.end();
+  }
+
+  end() {
+    this.displaySpinner = true;
+    this.interval = setInterval(() => {
+      if (this.room.players[0] === sessionStorage.getItem('playerId')) {
+        this.getPlayer(this.room.players[1]);
+      } else {
+        this.getPlayer(this.room.players[0]);
+      }
+    }, 3000);
+  }
+
+  getPlayer(id) {
+    this.playerService.getPlayerById(id).subscribe(player => {
+      this.opponentPlayer = player;
+      if (this.opponentPlayer.isEnd) {
+        this.roomService.closeRoom(this.room._id).subscribe();
+        this.displaySpinner = false;
+        clearInterval(this.interval);
+      }
+    });
   }
 
   goToCategories() {

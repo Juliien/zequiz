@@ -5,11 +5,13 @@ import { HomeComponent } from './components/home/home.component';
 import {QuizComponent} from './components/quiz/quiz.component';
 import {QuizListComponent} from './components/quiz-list/quiz-list.component';
 import {LegalComponent} from './components/legal/legal.component';
+import {RoomComponent} from './components/room/room.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'quiz', component: QuizComponent },
+  { path: 'room/:id', component: RoomComponent },
   { path: 'all', component: QuizListComponent },
   { path: 'legal', component: LegalComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }

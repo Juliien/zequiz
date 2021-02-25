@@ -1,98 +1,105 @@
 const models = require('../models');
 const Room = models.Room;
-const User = models.User;
+const Player = models.Player;
 const date = new Date();
 
 exports.createRoom = async (req, res) => {
-  if (req.body.isCustom) {
+  if (req.params.quizId) {
     try {
       let code = 0;
-      if(req.body.isCustom === "true") {
-        let isCodeExist = true;
-        let room;
-        while(isCodeExist) {
-          code = Math.floor(100000 + Math.random() * 900000);
-          room = await Room.findOne({code: code});
-          if(!room) {
-            isCodeExist = false;
-          }
+      let isCodeExist = true;
+      let r;
+      while(isCodeExist) {
+        code = Math.floor(100000 + Math.random() * 900000);
+        r = await Room.findOne({code: code, closeDate: null});
+        if(!r) {
+          isCodeExist = false;
         }
       }
+      const newPlayer = new Player({
+        score: -1,
+        isEnd: false
+      });
       const room = new Room({
         createDate: date.toISOString(),
-        isCustom: req.body.isCustom,
-        code: code
+        closeDate: null,
+        players: [],
+        code: code,
+        quizId: req.params.quizId,
+        isStart: false
       });
-      await room.save();
-      return res.status(200).json(room);
-    } catch (e) {
-      res.status(500).json("Error Server: " + e);
-    }
-  } else {
-    res.status(400).json("Bad Request");
-  }
-};
+      const player = await newPlayer.save();
+      const newRoom = await room.save();
 
-exports.checkRoom = async (req, res) => {
-  try {
-    const room = await Room.findOne({isCustom: false, code: 0, closeDate: null,
-      players: {$gte: 0, $lte: 99}});
-    if(room) {
-      return res.status(200).json(room);
-    } else {
-      return res.status(204).json();
+      await Room.updateOne({_id: newRoom._id}, {
+        $push: {players: player._id}
+      });
+      return res.status(200).json(newRoom);
+    } catch (e) {
+      return res.status(500).send(e);
     }
-  } catch (e) {
-    return res.status(500).json(e);
   }
+  return res.status(400).end();
 };
 
 exports.getRoomById = async (req, res) => {
   try {
     const room = await Room.findOne({_id: req.params.id});
     if (room) {
-      res.status(200).json(room);
-    } else {
-      res.status(400).json();
+      return res.status(200).json(room);
     }
+    return res.status(400).end();
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).send(e);
   }
 };
 
 exports.joinRoom = async (req, res) => {
   try {
-    const room = await Room.findOne({_id: req.params.id, players: {$gte: 0, $lte: 99}});
-    const user = await User.findOne({_id: req.body.userId});
-    if(room && user && !room.users.includes(user._id)) {
-      await Room.updateOne({_id: room._id}, {
-        players: room.players + 1,
-        $push: {users: user._id}
+    const room = await Room.findOne({code: req.params.code, closeDate: null});
+    if(room) {
+      const newPlayer = new Player({
+        score: -1,
+        isEnd: false
       });
-      return res.status(204).end();
-    } else {
-      return res.status(400).json();
+      const player = await newPlayer.save();
+      if(player && !room.players.includes(player._id)) {
+        await Room.updateOne({_id: room._id}, {
+          isStart: true,
+          $push: {players: player._id}
+        });
     }
-  } catch (e) {
-    return res.status(500).json(e);
-  }
-};
-
-exports.joinCustomRoom = async (req, res) => {
-  try {
-    const room = await Room.findOne({code: req.body.code, players: {$gte: 0, $lte: 99}});
-    const user = await User.findOne({_id: req.body.userId});
-    if(room && user && !room.users.includes(user._id)) {
-      await Room.updateOne({_id: room._id}, {
-        players: room.players + 1,
-        $push: {users: user._id}
-      });
       return res.status(200).json(room);
-    } else {
-      return res.status(400).json();
     }
+      return res.status(404).end();
   } catch (e) {
-    return res.status(500).json(e);
+    return res.status(500).send(e);
   }
 };
 
+exports.closeRoom = async (req, res) => {
+  try {
+    const room = await Room.updateOne({_id: req.params.id}, {closeDate: date.toISOString()});
+    if (room.nModified === 1) {
+      return res.status(204).end();
+    }
+    return res.status(400).end();
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+};
+
+exports.purgeRoom  = async (req, res) => {
+  if(req.params.key) {
+    if(req.params.key === process.env.ADMIN_KEY) {
+      try {
+        await Room.deleteMany({closeDate:{$ne:null}});
+        return res.status(204).end();
+      } catch (e) {
+        return res.status(500).send(e)
+      }
+    }
+    return res.status(401).end();
+  }
+  return res.status(400).end();
+};

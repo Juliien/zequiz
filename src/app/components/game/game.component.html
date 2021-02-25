@@ -25,11 +25,12 @@
     </div>
 
     <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
-    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer" (click)="displayResult()">Finish</button>
+    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && !vs" (click)="displayResult()">Finish</button>
+    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && vs" (click)="displayVSResult()">Result</button>
   </div>
 </div>
 
-<div class="card" *ngIf="result">
+<div class="card" *ngIf="result && !vs">
   <div class="card-body">
     <h3 class="text-center">Score : {{score}}/10</h3>
     <div class="alert alert-info text-center" role="alert">
@@ -39,8 +40,49 @@
       <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
     </div>
     <div class="d-flex justify-content-between">
-      <button type="button" class="btn btn-info mr-3" (click)="goToCategories()">View all quizzes</button>
-      <button type="button" class="btn btn-info" (click)="restart()"><i class="fas fa-sync-alt"></i> Restart</button>
+      <button type="button" class="btn bg-gradient mr-3" (click)="goToCategories()">View all quizzes</button>
+      <button type="button" class="btn btn-outline-light" (click)="restart()"><i class="fas fa-sync-alt"></i> Restart</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="result && vs">
+  <div class="card-body">
+    <div *ngIf="displaySpinner">
+      <h5 class="mb-2 text-center">Waiting for opponent ...</h5>
+      <div class="d-flex justify-content-center my-5">
+        <div class="spinner-border text-info" role="status">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!displaySpinner">
+      <h5 class="card-title text-success text-center"
+          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score < score">
+        YOU WIN
+      </h5>
+      <h5 class="card-title text-danger text-center"
+          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score > score">
+        YOU LOSE
+      </h5>
+      <h5 class="card-title text-info text-center"
+          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score === score">
+        EQUALITY
+      </h5>
+      <h3 class="text-center mt-2">Your Score : {{score}}/10</h3>
+      <div class="alert alert-info text-center" role="alert">
+        <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
+        <span *ngIf="score >= 8">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
+        <span *ngIf="score >= 5 && score <= 7">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
+        <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
+      </div>
+
+      <h5 class="text-center mt-3" *ngIf="!this.opponentPlayer.isEnd">Waiting for opponent score</h5>
+      <h5 class="text-center my-3" *ngIf="this.opponentPlayer.isEnd">Opponent Score : {{this.opponentPlayer.score}}/10</h5>
+      <hr/>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn bg-gradient btn-block" (click)="goToCategories()">View all quizzes</button>
+      </div>
     </div>
   </div>
 </div>
