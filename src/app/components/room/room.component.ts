@@ -4,6 +4,7 @@ import {RoomService} from '../../ressources/room.service';
 import {CategoryModel} from '../../models/category.model';
 import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
+import {PlayerService} from '../../ressources/player.service';
 
 @Component({
   selector: 'app-room',
@@ -22,7 +23,8 @@ export class RoomComponent implements OnInit {
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
-              private roomService: RoomService) { }
+              private roomService: RoomService,
+              private playerService: PlayerService) { }
 
   ngOnInit(): void {
     this.startQuiz = false;
@@ -30,7 +32,7 @@ export class RoomComponent implements OnInit {
     this.error = false;
     if (sessionStorage.getItem('categoryId')) {
       this.categoryId = sessionStorage.getItem('categoryId');
-      this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId')).subscribe(cat => this.category = cat);
+      this.categoryService.getCategoryByID(this.categoryId).subscribe(cat => this.category = cat);
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
         sessionStorage.setItem('playerId', this.room.players[0]);
@@ -77,6 +79,8 @@ export class RoomComponent implements OnInit {
 
   quit() {
     clearInterval(this.interval);
+    this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe();
+    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
   }
 
   copied(event) {
