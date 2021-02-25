@@ -4,8 +4,9 @@
 </div>
 
 <div *ngIf="room && category">
-  <h3 class="text-center mt-5">Code : {{room.code}}
-    <button class="btn btn-info mx-1" *ngIf="categoryId" f ngxClipboard [cbContent]="room.code" (cbOnSuccess)="copied($event)">
+  <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error" routerLink="/all" (click)="quit()">Cancel ZeVersus</button>
+  <h3 class="text-center mt-4">Code : {{room.code}}
+    <button class="btn btn-info mx-1" *ngIf="categoryId" ngxClipboard [cbContent]="room.code" (cbOnSuccess)="copied($event)">
       <i class="far fa-copy fa-lg"></i>
     </button>
   </h3>

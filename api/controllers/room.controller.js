@@ -89,3 +89,17 @@ exports.closeRoom = async (req, res) => {
   }
 };
 
+exports.purgeRoom  = async (req, res) => {
+  if(req.params.key) {
+    if(req.params.key === process.env.ADMIN_KEY) {
+      try {
+        await Room.deleteMany({closeDate:{$ne:null}});
+        return res.status(204).end();
+      } catch (e) {
+        return res.status(500).send(e)
+      }
+    }
+    return res.status(401).end();
+  }
+  return res.status(400).end();
+};

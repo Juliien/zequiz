@@ -75,6 +75,10 @@ export class RoomComponent implements OnInit {
     }, 3000);
   }
 
+  quit() {
+    clearInterval(this.interval);
+  }
+
   copied(event) {
     if (event.isSuccess) {
       return this.isCopied = true;
