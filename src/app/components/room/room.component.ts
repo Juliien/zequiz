@@ -39,7 +39,9 @@ export class RoomComponent implements OnInit {
       });
       this.start();
     } else {
-      this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
+      const id = document.location.href.slice(30);
+      sessionStorage.setItem('roomId', id);
+      this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
         sessionStorage.setItem('playerId', this.room.players[1]);
         this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {

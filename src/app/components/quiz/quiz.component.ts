@@ -41,7 +41,7 @@ export class QuizComponent implements OnInit {
     this.categoryService.addView(this.category).subscribe();
     this.roomService.createRoom(this.category._id).subscribe(room => {
       sessionStorage.setItem('roomId', room._id);
-      this.router.navigate(['/room', room.code]).then();
+      this.router.navigate(['/room', room._id]).then();
     });
   }
 }
