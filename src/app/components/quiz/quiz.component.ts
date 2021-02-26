@@ -21,8 +21,12 @@ export class QuizComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
-      .subscribe(category => this.category = category);
+    if (sessionStorage.getItem('categoryId')) {
+      this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
+        .subscribe(category => this.category = category);
+    } else {
+      this.router.navigate(['/home']).then();
+    }
   }
 
   startQuiz() {
@@ -37,7 +41,7 @@ export class QuizComponent implements OnInit {
     this.categoryService.addView(this.category).subscribe();
     this.roomService.createRoom(this.category._id).subscribe(room => {
       sessionStorage.setItem('roomId', room._id);
-      this.router.navigate(['/room', room._id]).then();
+      this.router.navigate(['/room', room.code]).then();
     });
   }
 }
