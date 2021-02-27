@@ -21,8 +21,12 @@ export class QuizComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
-      .subscribe(category => this.category = category);
+    if (sessionStorage.getItem('categoryId')) {
+      this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
+        .subscribe(category => this.category = category);
+    } else {
+      this.router.navigate(['/home']).then();
+    }
   }
 
   startQuiz() {

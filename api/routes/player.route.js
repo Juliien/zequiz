@@ -8,3 +8,4 @@ module.exports = function (app) {
   app.post(process.env.API_URL + '/player/end/:id', bodyParser.json(), async (req, res) => controller.playerEndQuiz(req, res));
   app.delete(process.env.API_URL + '/player/:key', async (req, res) => controller.purgePlayer(req, res));
 };
+
