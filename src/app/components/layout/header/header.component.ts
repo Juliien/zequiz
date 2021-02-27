@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     if (document.location.href === 'https://www.zequiz.net/#/home') {
       this.active = 0;
     } else if (document.location.href === 'https://www.zequiz.net/#/all') {
-      this.active = 0;
+      this.active = 1;
     } else {
       this.active = -1;
     }
@@ -34,14 +34,12 @@ export class HeaderComponent implements OnInit {
  goToCategories() {
     this.clear();
     this.active = 1;
-    console.log(this.active);
     this.router.navigate(['/all']).then();
  }
 
   goToHome() {
     this.clear();
     this.active = 0;
-    console.log(this.active);
     this.router.navigate(['/home']).then();
   }
 }
