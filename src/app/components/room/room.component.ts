@@ -41,19 +41,21 @@ export class RoomComponent implements OnInit {
     } else {
       const id = document.location.href.slice(30);
       sessionStorage.setItem('roomId', id);
-      this.roomService.getRoomById(id).subscribe(room => {
-        this.room = room;
-        sessionStorage.setItem('playerId', this.room.players[1]);
-        this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
-          this.category = cat;
-          if (!this.room.closeDate) {
-            this.quizService.quizSelect(this.category.num).subscribe(data => {
-              this.quiz.push(data);
-              this.startQuiz = true;
-            });
-          } else {
-            this.error = true;
-          }
+      this.roomService.joinRoom(id).subscribe(() => {
+        this.roomService.getRoomById(id).subscribe(room => {
+          this.room = room;
+          sessionStorage.setItem('playerId', this.room.players[1]);
+          this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
+            this.category = cat;
+            if (!this.room.closeDate) {
+              this.quizService.quizSelect(this.category.num).subscribe(data => {
+                this.quiz.push(data);
+                this.startQuiz = true;
+              });
+            } else {
+              this.error = true;
+            }
+          });
         });
       });
     }
