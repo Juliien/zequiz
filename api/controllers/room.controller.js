@@ -56,7 +56,7 @@ exports.getRoomById = async (req, res) => {
 
 exports.joinRoom = async (req, res) => {
   try {
-    const room = await Room.findOne({_id: req.params._id, closeDate: null});
+    const room = await Room.findOne({_id: req.params.id, closeDate: null});
     if(room) {
       const newPlayer = new Player({
         score: -1,
