@@ -18,8 +18,8 @@ export class RoomService {
     return this.http.post<any>(environment.baseApiUrl + 'room/' + quizId, {});
   }
 
-  joinRoom(code: number) {
-    return this.http.post<any>(environment.baseApiUrl + 'room/join/' + code, {});
+  joinRoom(id: string) {
+    return this.http.post<any>(environment.baseApiUrl + 'room/join/' + id, {});
   }
 
   closeRoom(id: string) {
