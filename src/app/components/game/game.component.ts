@@ -74,7 +74,8 @@ export class GameComponent implements OnInit {
     this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
     this.selectedAnswer = res.toUpperCase();
     if (this.selectedAnswer === this.correctAnswer) {
-      this.score++;
+      // this.score++;
+      this.score = 9;
     }
     this.answer = true;
   }

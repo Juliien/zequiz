@@ -33,10 +33,10 @@
 <div class="card" *ngIf="result && !vs">
   <div class="card-body">
     <h3 class="text-center">Score : {{score}}/10</h3>
-    <div class="alert alert-info text-center" role="alert">
+    <div class="alert alert-info text-center" role="alert" *ngIf="score">
       <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
-      <span *ngIf="score >= 8">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
-      <span *ngIf="score >= 5 && score <= 7">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
+      <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
+      <span *ngIf="score >= 5 && score < 8">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
       <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
     </div>
     <div class="d-flex justify-content-between">
@@ -70,10 +70,10 @@
         EQUALITY
       </h5>
       <h3 class="text-center mt-2">Your Score : {{score}}/10</h3>
-      <div class="alert alert-info text-center" role="alert">
+      <div class="alert alert-info text-center" role="alert" *ngIf="score">
         <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
-        <span *ngIf="score >= 8">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
-        <span *ngIf="score >= 5 && score <= 7">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
+        <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
+        <span *ngIf="score >= 5 && score < 8">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
         <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
       </div>
 
