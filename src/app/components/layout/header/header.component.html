@@ -19,7 +19,7 @@
 
 <!-- Mobile view -->
 <div *ngIf="isMobile">
-  <nav class="navbar navbar-expand-lg bg-dark fixed-bottom mobile-bottom-nav">
+  <nav class="navbar navbar-expand-lg fixed-bottom mobile-bottom-nav">
     <div class="item " [ngClass]="{'active': this.active === 0}">
       <div class="item-content" (click)="goToHome()">
         <i class="fas fa-home fa-2x"></i>
