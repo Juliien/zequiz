@@ -60,7 +60,9 @@ export class GameComponent implements OnInit {
         .replace(/&ecirc;/g, 'ê')
         .replace(/&epsilon;/g, 'ε')
         .replace(/&Phi;/g, 'Φ')
-        .replace(/&phi;/g, 'φ');
+        .replace(/&phi;/g, 'φ')
+        .replace(/&ldquo;/g, '"')
+        .replace(/&rdquo;/g, '"');
   }
 
   nextQuestion() {
