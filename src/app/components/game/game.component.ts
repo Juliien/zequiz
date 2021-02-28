@@ -12,7 +12,7 @@ import {RoomService} from '../../ressources/room.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  @Input() quiz: any;
+  @Input() quiz: Array<object>;
   @Input() vs: boolean;
   @Input() room: RoomModel;
 
@@ -26,7 +26,7 @@ export class GameComponent implements OnInit {
   isMobile: boolean;
   opponentPlayer: PlayerModel;
   interval: any;
-  displaySpinner: boolean
+  displaySpinner: boolean;
 
   constructor(private router: Router,
               private playerService: PlayerService,
@@ -39,9 +39,7 @@ export class GameComponent implements OnInit {
   }
 
   startQuiz() {
-    for (const questions of this.quiz) {
-      this.listQuestions = questions.results;
-    }
+    this.listQuestions = this.quiz['results'];
     this.index = 0;
     this.score = 0;
   }
