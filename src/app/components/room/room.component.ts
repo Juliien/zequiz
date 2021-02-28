@@ -16,7 +16,7 @@ export class RoomComponent implements OnInit {
   room: RoomModel;
   startQuiz: boolean;
   interval: any;
-  quiz: Array<object> = [];
+  quiz: Array<object>;
   isCopied: boolean;
   categoryId: string = null;
   error: boolean;
@@ -39,6 +39,8 @@ export class RoomComponent implements OnInit {
       });
       this.start();
     } else {
+      // Localhost
+      // const id = document.location.href.slice(29);
       const id = document.location.href.slice(30);
       sessionStorage.setItem('roomId', id);
       this.roomService.joinRoom(id).subscribe(() => {
@@ -48,10 +50,8 @@ export class RoomComponent implements OnInit {
           this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
             this.category = cat;
             if (!this.room.closeDate) {
-              this.quizService.quizSelect(this.category.num).subscribe(data => {
-                this.quiz.push(data);
-                this.startQuiz = true;
-              });
+              this.quiz = this.room.quiz[0];
+              this.startQuiz = true;
             } else {
               this.error = true;
             }
@@ -67,11 +67,9 @@ export class RoomComponent implements OnInit {
         this.room = room;
         if (this.room.isStart) {
           if (!this.room.closeDate) {
-            this.quizService.quizSelect(this.category.num).subscribe(data => {
-              this.quiz.push(data);
-              this.startQuiz = true;
-              clearInterval(this.interval);
-            });
+            this.quiz = this.room.quiz[0];
+            this.startQuiz = true;
+            clearInterval(this.interval);
           } else {
             this.error = true;
             clearInterval(this.interval);

@@ -11,7 +11,7 @@ import {RoomService} from '../../ressources/room.service';
   styleUrls: ['./quiz.component.css']
 })
 export class QuizComponent implements OnInit {
-  quiz: Array<object> = [];
+  quiz: Array<object>;
   game = false;
   category: CategoryModel;
 
@@ -32,16 +32,18 @@ export class QuizComponent implements OnInit {
   startQuiz() {
     this.categoryService.addView(this.category).subscribe();
     this.quizService.quizSelect(this.category.num).subscribe(data => {
-      this.quiz.push(data);
+      this.quiz = data;
       this.game = true;
     });
   }
 
   goToVS() {
     this.categoryService.addView(this.category).subscribe();
-    this.roomService.createRoom(this.category._id).subscribe(room => {
-      sessionStorage.setItem('roomId', room._id);
-      this.router.navigate(['/room', room._id]).then();
+    this.quizService.quizSelect(this.category.num).subscribe(quiz => {
+      this.roomService.createRoom(this.category._id, quiz).subscribe(room => {
+        sessionStorage.setItem('roomId', room._id);
+        this.router.navigate(['/room', room._id]).then();
+      });
     });
   }
 }

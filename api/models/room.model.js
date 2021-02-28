@@ -15,15 +15,15 @@ const roomSchema = new Schema({
     ref: 'Player',
     required: false
   }],
-  code: {
-    type: Number,
-    required: true
-  },
   quizId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true
   },
+  quiz: [{
+    type: Object,
+    required: false
+  }],
   isStart: {
     type: Boolean,
     required: true,
