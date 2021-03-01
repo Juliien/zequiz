@@ -24,11 +24,19 @@ const userSchema = new Schema({
   },
   permissionLevel: {
     type: Number,
+    required: true,
+  },
+  token: {
+    type: String,
+    required: false
+  },
+  createDate: {
+    type: Date,
     required: true
   },
-  createDate : {
-    type: Boolean,
-    required: true
+  closeDate: {
+    type: Date,
+    required: false
   }
 });
 
