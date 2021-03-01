@@ -62,7 +62,8 @@ export class GameComponent implements OnInit {
         .replace(/&Phi;/g, 'Φ')
         .replace(/&phi;/g, 'φ')
         .replace(/&ldquo;/g, '"')
-        .replace(/&rdquo;/g, '"');
+        .replace(/&rdquo;/g, '"')
+        .replace(/&ocirc;/g, 'ô');
   }
 
   nextQuestion() {
