@@ -71,39 +71,33 @@ class CategoryController {
   }
 
   async insertCategory(req, res) {
-    if (req.body.name && req.body.num && req.body.photoUrl && req.params.key) {
-      if(req.params.key === process.env.ADMIN_KEY) {
-        try {
-          const newCategory = new Category({
-            name: req.body.name,
-            num:req.body.num,
-            photoUrl: req.body.photoUrl,
-            views: 0,
-            rate: 0,
-            createDate: date.toISOString()
-          });
-          await newCategory.save();
-          return res.status(201).end();
-        } catch (e) {
-          return res.status(500).send(e);
-        }
+    if (req.body.name && req.body.num && req.body.photoUrl) {
+      try {
+        const newCategory = new Category({
+          name: req.body.name,
+          num:req.body.num,
+          photoUrl: req.body.photoUrl,
+          views: 0,
+          rate: 0,
+          createDate: date.toISOString()
+        });
+        await newCategory.save();
+        return res.status(201).end();
+      } catch (e) {
+        return res.status(500).send(e);
       }
-      return  res.status(401).end();
     }
     return res.status(400).end();
   }
 
   async deleteCategory(req, res) {
-    if(req.params.id && req.params.key) {
-      if(req.params.key === process.env.ADMIN_KEY) {
+    if(req.params.id) {
         try {
           await Category.deleteOne({_id: req.params.id});
           return res.status(204).end();
         } catch (e) {
           return res.status(500).send(e)
         }
-      }
-      return res.status(401).end();
     }
     return res.status(400).end();
   }
