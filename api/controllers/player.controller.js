@@ -53,18 +53,12 @@ class PlayerController {
   }
 
   async purgePlayer(req, res) {
-    if(req.params.key) {
-      if(req.params.key === process.env.ADMIN_KEY) {
-        try {
-          await Player.deleteMany({isEnd: true});
-          return res.status(204).end();
-        } catch (e) {
-          return res.status(500).send(e)
-        }
-      }
-      return res.status(401).end();
+    try {
+      await Player.deleteMany({isEnd: true});
+      return res.status(204).end();
+    } catch (e) {
+      return res.status(500).send(e)
     }
-    return res.status(400).end();
   }
 }
 

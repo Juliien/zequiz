@@ -4,6 +4,7 @@ const Player = models.Player;
 const date = new Date();
 
 class RoomController {
+
   async createRoom(req, res) {
     if (req.params.quizId, req.body.quiz) {
       try {
@@ -90,18 +91,12 @@ class RoomController {
   }
 
   async purgeRoom(req, res) {
-    if(req.params.key) {
-      if(req.params.key === process.env.ADMIN_KEY) {
-        try {
-          await Room.deleteMany({closeDate:{$ne:null}});
-          return res.status(204).end();
-        } catch (e) {
-          return res.status(500).send(e)
-        }
-      }
-      return res.status(401).end();
+    try {
+      await Room.deleteMany({closeDate:{$ne:null}});
+      return res.status(204).end();
+    } catch (e) {
+      return res.status(500).send(e);
     }
-    return res.status(400).end();
   }
 }
 
