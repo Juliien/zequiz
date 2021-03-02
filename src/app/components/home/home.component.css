@@ -6,16 +6,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.slides::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-.slides::-webkit-scrollbar-thumb {
-  background: black;
-  border-radius: 16px;
-}
-
 .slides > div {
   scroll-snap-align: start;
   flex-shrink: 0;
