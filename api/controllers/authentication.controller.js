@@ -6,6 +6,7 @@ const User = models.User;
 
 
 class AuthenticationController {
+
   async register(req, res) {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (req.body.email && emailRegex.test(String(req.body.email).toLowerCase()) && req.body.nickname && req.body.password) {

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 class AuthenticationMiddleware {
+
   async verifyToken(req, res, next) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
 
