@@ -64,6 +64,14 @@ class AuthenticationController {
       res.status(500).end();
     }
   }
+  async getUserById(req, res) {
+    try {
+      const user = await User.findOne({_id: req.decoded.id});
+      return res.status(200).json(user);
+    } catch (e) {
+      res.status(500).end();
+    }
+  }
 }
 
 

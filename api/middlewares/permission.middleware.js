@@ -2,7 +2,7 @@ class PermissionMiddleware {
 
   permissionRequire(req, res, next, permissionList) {
     let authorization = false;
-    for(let level in permissionList) {
+    for(let level of permissionList) {
       if (req.decoded.permissionLevel.toString() === level) {
         authorization = true;
       }

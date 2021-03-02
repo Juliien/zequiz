@@ -11,10 +11,17 @@ module.exports = function (app) {
   app.post(process.env.API_URL + '/register', bodyParser.json(), async (req, res) => controller.register(req, res));
   app.post(process.env.API_URL + '/login', bodyParser.json(), async (req, res) => controller.login(req, res));
 
-  app.post(process.env.API_URL + '/logout', bodyParser.json(),
+  app.post(process.env.API_URL + '/logout',
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
     async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,
       [process.env.FREE, process.env.PAID, process.env.ADMIN]),
     async (req, res) => controller.logout(req, res)
+  );
+
+  app.get(process.env.API_URL + '/user',
+    async (req, res, next) => authMiddleware.verifyToken(req, res, next),
+    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,
+      [process.env.FREE, process.env.PAID, process.env.ADMIN]),
+    async (req, res) => controller.getUserById(req, res)
   );
 };
