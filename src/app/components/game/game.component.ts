@@ -97,12 +97,6 @@ export class GameComponent implements OnInit {
   }
 
   displayVSResult() {
-    if(this.authenticationService.isLogged()) {
-      this.calculateZp(true);
-      this.userService.updateScore(this.score, this.opponentPlayer.score,).subscribe(user => {
-        this.userService.currentUser = user;
-      });
-    }
     this.result = true;
     this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
     this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
@@ -124,6 +118,12 @@ export class GameComponent implements OnInit {
     this.playerService.getPlayerById(id).subscribe(player => {
       this.opponentPlayer = player;
       if (this.opponentPlayer.isEnd) {
+        if(this.authenticationService.isLogged()) {
+          this.calculateZp(true);
+          this.userService.updateScore(this.score, this.opponentPlayer.score,).subscribe(user => {
+            this.userService.currentUser = user;
+          });
+        }
         this.roomService.closeRoom(this.room._id).subscribe();
         this.displaySpinner = false;
         clearInterval(this.interval);

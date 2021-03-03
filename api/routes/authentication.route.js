@@ -27,8 +27,6 @@ module.exports = function (app) {
 
   app.post(process.env.API_URL + '/update/score', bodyParser.json(),
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,
-      [process.env.FREE, process.env.PAID, process.env.ADMIN]),
     async (req, res) => controller.updateScore(req, res)
   );
 
