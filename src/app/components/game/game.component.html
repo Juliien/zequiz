@@ -32,7 +32,11 @@
 
 <div class="card" *ngIf="result && !vs">
   <div class="card-body">
-    <h3 class="text-center">Score : {{score}}/10</h3>
+    <div class="d-flex justify-content-between">
+      <h3>Score : {{score}}/10</h3>
+      <h3 *ngIf="score < 5" class="ml-4"> -{{zp}} ZP</h3>
+      <h3 *ngIf="score >= 5" class="ml-4"> +{{zp}} ZP</h3>
+    </div>
     <div class="alert alert-info text-center" role="alert">
       <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
       <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
@@ -57,19 +61,24 @@
     </div>
 
     <div *ngIf="!displaySpinner">
-      <h5 class="card-title text-success text-center"
+      <h4 class="card-title text-success text-center"
           *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score < score">
         YOU WIN
-      </h5>
-      <h5 class="card-title text-danger text-center"
+      </h4>
+      <h4 class="card-title text-danger text-center"
           *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score > score">
         YOU LOSE
-      </h5>
-      <h5 class="card-title text-info text-center"
+      </h4>
+      <h4 class="card-title text-info text-center"
           *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score === score">
         EQUALITY
-      </h5>
-      <h3 class="text-center mt-2">Your Score : {{score}}/10</h3>
+      </h4>
+      <div class="d-flex justify-content-between">
+        <h3 class="mt-2">Your Score : {{score}}/10</h3>
+        <h3 *ngIf="score < 5" class="ml-4 mt-2"> -{{zp}} ZP</h3>
+        <h3 *ngIf="score >= 5" class="ml-4 mt-2"> +{{zp}} ZP</h3>
+      </div>
+
       <div class="alert alert-info text-center" role="alert">
         <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
         <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>

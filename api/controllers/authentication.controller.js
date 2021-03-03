@@ -61,16 +61,71 @@ class AuthenticationController {
         await User.updateOne({_id: req.decoded.id}, {token: null});
         return res.status(204).end();
     } catch (e) {
-      res.status(500).end();
+      return res.status(500).end();
     }
   }
+
   async getUserById(req, res) {
     try {
       const user = await User.findOne({_id: req.decoded.id});
       return res.status(200).json(user);
     } catch (e) {
-      res.status(500).end();
+      return res.status(500).end();
     }
+  }
+
+  async updateScore(req, res) {
+    if(req.body.score) {
+      let score = 0;
+      switch (req.body.score) {
+        case 0:
+          score = -14;
+          break;
+        case 1:
+          score = -12;
+          break;
+        case 2:
+          score = -10;
+          break;
+        case 3:
+          score = -8;
+          break;
+        case 4:
+          score = -6;
+          break;
+        case 5:
+          score = 10;
+          break;
+        case 6:
+          score = 12;
+          break;
+        case 7:
+          score = 14;
+          break;
+        case 8:
+          score = 16;
+          break;
+        case 9:
+          score = 18;
+          break;
+        case 10:
+          score = 20;
+          break;
+      }
+      if(req.body.opponentScore !== -1 && req.body.score > 4 && req.body.score > req.body.opponentScore) {
+        score = score * 2;
+      }
+      try {
+        const currentUser = await User.findOne({_id: req.decoded.id});
+        await User.updateOne({_id: req.decoded.id}, {currentScore: currentUser.currentScore + score});
+        const user = await User.findOne({_id: req.decoded.id});
+
+        return res.status(200).json(user);
+      } catch (e) {
+        return res.status(500).end();
+      }
+    }
+    return res.status(400).end();
   }
 }
 
