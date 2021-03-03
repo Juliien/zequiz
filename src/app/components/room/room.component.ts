@@ -40,8 +40,8 @@ export class RoomComponent implements OnInit {
       this.start();
     } else {
       // Localhost
-      const id = document.location.href.slice(29);
-      // const id = document.location.href.slice(30);
+      // const id = document.location.href.slice(29);
+      const id = document.location.href.slice(30);
       sessionStorage.setItem('roomId', id);
       this.roomService.joinRoom(id).subscribe(() => {
         this.roomService.getRoomById(id).subscribe(room => {
