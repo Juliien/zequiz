@@ -2,14 +2,22 @@
   <div class="card my-5">
     <div class="card-body">
       <h2 class="text-center mb-4">Sign In</h2>
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="nick@exmaple.com">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" formControlName="password" placeholder="Password">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password" placeholder="*******">
         </div>
-        <button type="submit" class="btn btn-info btn-block">Sign In</button>
+
+        <div class="text-danger form-text mb-3" *ngIf="errorMessage">
+          {{errorMessage}}
+        </div>
+
+        <button type="submit" class="btn btn-info btn-block" [disabled]="loginForm.invalid">Sign In</button>
       </form>
     </div>
   </div>

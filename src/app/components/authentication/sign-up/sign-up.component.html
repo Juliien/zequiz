@@ -2,21 +2,29 @@
   <div class="card my-5">
     <div class="card-body">
       <h2 class="text-center mb-4">Sign Up</h2>
-      <form>
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Nickname">
+          <label for="nickname">Nickname</label>
+          <input type="text" class="form-control" id="nickname" formControlName="nickname" placeholder="Ex: John">
         </div>
+
         <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="nick@example.com">
         </div>
+
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="********">
         </div>
-        <div class="form-group">
-          <input type="password" class="form-control" placeholder="Confirm password">
+
+        <div class="text-danger form-text mb-3" *ngIf="errorMessage">
+          {{errorMessage}}
         </div>
-        <button type="submit" class="btn btn-info btn-block">Sign Up</button>
+        <button type="submit" class="btn btn-info btn-block" [disabled]="userForm.invalid">Sign Up</button>
       </form>
+
     </div>
   </div>
 </div>

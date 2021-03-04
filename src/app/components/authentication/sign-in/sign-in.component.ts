@@ -11,10 +11,10 @@ import {UserService} from '../../../ressources/user.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent {
-
   loginForm: FormGroup;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
+  errorMessage: string;
 
   constructor(public  formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -37,6 +37,14 @@ export class SignInComponent {
       localStorage.setItem('user_id', user._id);
       localStorage.setItem('permissions', user.permissionLevel);
       this.router.navigate(['home']).then();
-    })
+    }, (error) => {
+      switch (error.status) {
+        case 401:
+          this.errorMessage = "Email or password is wrong!";
+          break;
+        case 400:
+          this.errorMessage = "Fields can't be empty!";
+      }
+    });
   }
 }

@@ -25,6 +25,8 @@ module.exports = function (app) {
     async (req, res) => controller.getUserById(req, res)
   );
 
+  app.get(process.env.API_URL + '/ranks', async (req, res) => controller.getRanks(req, res));
+
   app.post(process.env.API_URL + '/update/score', bodyParser.json(),
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
     async (req, res) => controller.updateScore(req, res)

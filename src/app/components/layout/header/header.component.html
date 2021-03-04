@@ -12,6 +12,9 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/all" (click)="clear()">Categories</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/ranks" (click)="clear()">Ranking</a>
+      </li>
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item" *ngIf="!authenticationService.isLogged()">
@@ -31,10 +34,10 @@
           <div class="btn-group">
             <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userService.currentUser.nickname}}</a>
             <div class="dropdown-menu dropdown-menu-right">
-              <button class="dropdown-item" type="button">Profile</button>
-              <button class="dropdown-item" type="button">History</button>
-              <button class="dropdown-item" type="button">Statistics</button>
-              <div class="dropdown-divider"></div>
+<!--              <button class="dropdown-item" type="button">Profile</button>-->
+<!--              <button class="dropdown-item" type="button">History</button>-->
+<!--              <button class="dropdown-item" type="button">Statistics</button>-->
+<!--              <div class="dropdown-divider"></div>-->
               <button class="dropdown-item" type="button" (click)="logout()">Logout</button>
             </div>
           </div>

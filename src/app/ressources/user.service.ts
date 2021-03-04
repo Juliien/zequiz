@@ -32,6 +32,16 @@ export class UserService {
     return this.http.get<UserModel>(environment.baseApiUrl + 'user', options);
   }
 
+  getRanks(): Observable<UserModel[]> {
+    const option = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    return this.http.get<UserModel[]>(environment.baseApiUrl + 'ranks', option);
+  }
+
+
   updateScore(score: number, opponentScore: number): Observable<any> {
     return this.http.post<any>(environment.baseApiUrl + 'update/score',{score: score, opponentScore: opponentScore}, options);
   }

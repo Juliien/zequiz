@@ -127,6 +127,18 @@ class AuthenticationController {
     }
     return res.status(400).end();
   }
+
+  async getRanks(req, res) {
+    try {
+      const users = await User.find().sort({currentScore: -1}).limit(20);
+      if(users) {
+        return res.status(200).json(users);
+      }
+      return res.status(404).end();
+    } catch (e) {
+      return res.status(500).send(e);
+    }
+  }
 }
 
 
