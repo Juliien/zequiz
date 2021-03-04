@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {RoomService} from '../../../ressources/room.service';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../../ressources/authentication.service';
+import {UserService} from '../../../ressources/user.service';
+import {RoleModel} from '../../../models/role.model';
 
 @Component({
   selector: 'app-header',
@@ -11,19 +13,18 @@ export class HeaderComponent implements OnInit {
   isMobile: boolean;
   code: number;
   error: boolean;
-  active: number;
+  isAdmin: boolean = false;
+  role = new RoleModel();
 
-  constructor(private router: Router) { }
+  constructor(public authenticationService: AuthenticationService,
+              public userService: UserService) { }
 
   ngOnInit() {
-    this.error = false;
     this.isMobile = window.innerWidth <= 765;
-    if (document.location.href === 'https://www.zequiz.net/#/home') {
-      this.active = 0;
-    } else if (document.location.href === 'https://www.zequiz.net/#/all') {
-      this.active = 1;
-    } else {
-      this.active = -1;
+    if(this.authenticationService.isLogged()) {
+      if(localStorage.getItem('permissions') === this.role.get('ADMIN')){
+        this.isAdmin = true;
+      }
     }
  }
 
@@ -31,15 +32,9 @@ export class HeaderComponent implements OnInit {
    sessionStorage.clear();
  }
 
- goToCategories() {
-    this.clear();
-    this.active = 1;
-    this.router.navigate(['/all']).then();
+ logout() {
+    this.authenticationService.logout().subscribe(() => {
+      localStorage.clear();
+    });
  }
-
-  goToHome() {
-    this.clear();
-    this.active = 0;
-    this.router.navigate(['/home']).then();
-  }
 }

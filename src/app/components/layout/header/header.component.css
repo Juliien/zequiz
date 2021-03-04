@@ -21,3 +21,12 @@
    display:flex;
    flex-direction:column;
  }
+
+.zp {
+  cursor: default;
+  color: #F5F5F5 !important;
+}
+
+.dropdown-menu {
+  z-index: 2000 !important;
+}
