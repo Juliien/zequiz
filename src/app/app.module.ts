@@ -21,6 +21,7 @@ import { RoomComponent } from './components/room/room.component';
 import {ClipboardModule} from 'ngx-clipboard';
 import { SignInComponent } from './components/authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
+import { RankComponent } from './components/rank/rank.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { SignUpComponent } from './components/authentication/sign-up/sign-up.com
         DonationComponent,
         RoomComponent,
         SignInComponent,
-        SignUpComponent
+        SignUpComponent,
+        RankComponent
     ],
     imports: [
         BrowserModule,
