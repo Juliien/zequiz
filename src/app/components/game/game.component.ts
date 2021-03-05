@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
   interval: any;
   displaySpinner: boolean;
   zp: number;
+  errMsg: string;
 
   constructor(private router: Router,
               private playerService: PlayerService,
@@ -91,9 +92,18 @@ export class GameComponent implements OnInit {
       this.calculateZp(false);
       this.userService.updateScore(this.score, -1).subscribe(user => {
         this.userService.currentUser = user;
+      }, (error) => {
+        if(error.status === 401) {
+          this.errMsg = "Your session has expired ! Automatic logout in 3 seconds";
+          this.sleep(3000).then(() => localStorage.clear());
+        }
       });
     }
     this.result = true;
+  }
+
+  sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
   displayVSResult() {

@@ -42,7 +42,7 @@ class AuthenticationController {
         const user = await User.findOne({email: req.body.email});
         if (user && !user.closeDate && bCrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({id: user._id, permissionLevel: user.permissionLevel},
-            process.env.JWT_SECRET, {expiresIn: '2h'});
+            process.env.JWT_SECRET, {expiresIn: '30d'});
 
           await User.updateOne({_id: user.id}, {token: token});
           const loggedUser = await User.findOne({_id: user.id});
