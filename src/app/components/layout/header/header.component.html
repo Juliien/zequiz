@@ -31,10 +31,10 @@
           <div class="btn-group">
             <a class="nav-link profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userService.currentUser.nickname}}</a>
             <div class="dropdown-menu dropdown-menu-right">
-<!--              <button class="dropdown-item" type="button">Profile</button>-->
+              <button class="dropdown-item" type="button" routerLink="/profile">Profile</button>
 <!--              <button class="dropdown-item" type="button">History</button>-->
 <!--              <button class="dropdown-item" type="button">Statistics</button>-->
-<!--              <div class="dropdown-divider"></div>-->
+              <div class="dropdown-divider"></div>
               <button class="dropdown-item" type="button" (click)="logout()">Logout</button>
             </div>
           </div>
@@ -76,8 +76,9 @@
       <img src="../../assets/logo_light.png" width="32" height="32">
     </div>
     <div href="javascript:void(0)" class="close-btn" (click)="closeMenu()">&times;</div>
-    <a class="" routerLink="/all" (click)="closeMenu()">Categories</a>
-    <a class="" routerLink="/ranks" (click)="closeMenu()">Ranking</a>
-    <a  (click)="logout()" *ngIf="authenticationService.isLogged()">Logout</a>
+    <a routerLink="/profile" (click)="closeMenu()" *ngIf="authenticationService.isLogged()">Profile</a>
+    <a routerLink="/all" (click)="closeMenu()">Categories</a>
+    <a routerLink="/ranks" (click)="closeMenu()">Ranking</a>
+    <a (click)="logout()" *ngIf="authenticationService.isLogged()">Logout</a>
 </div>
 
