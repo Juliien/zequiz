@@ -10,11 +10,12 @@ import {UserService} from '../../../ressources/user.service';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
   errorMessage: string;
+  isMobile: boolean;
 
   constructor(public  formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -28,6 +29,13 @@ export class SignInComponent {
       email: this.emailCtrl,
       password: this.passwordCtrl,
     });
+  }
+
+  ngOnInit(): void {
+    this.isMobile = window.innerWidth <= 765;
+    if(this.authenticationService.isLogged()) {
+      this.router.navigate(['home']).then();
+    }
   }
 
   onSubmit() {
