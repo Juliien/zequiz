@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   user: UserModel;
   roles = new RoleModel();
   role: string;
+  errMsg: string;
 
   constructor(private userService: UserService) { }
 
@@ -33,7 +34,16 @@ export class ProfileComponent implements OnInit {
           this.role = 'No plan';
           break;
       }
+    },(error) => {
+      if(error.status === 401) {
+        this.errMsg = "Your session has expired ! Automatic logout in 3 seconds";
+        this.sleep(3000).then(() => localStorage.clear());
+      }
     });
+  }
+
+  sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
 }

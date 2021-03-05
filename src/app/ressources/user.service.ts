@@ -18,6 +18,10 @@ export class UserService {
     if (this.authenticationService.isLogged() && !this.currentUser) {
       this.getUserById().subscribe(user => {
         this.currentUser = user;
+      }, (error) => {
+        if(error.status === 401) {
+          localStorage.clear();
+        }
       })
     }
   }
