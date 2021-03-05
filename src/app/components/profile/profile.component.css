@@ -2,8 +2,12 @@ p {
   margin-bottom: 0;
 }
 
+.card {
+  min-width: 450px;
+}
+
 @media screen and (max-width: 768px) {
   .card {
-    width: 100%!important;
+    min-width: 100%!important;
   }
 }

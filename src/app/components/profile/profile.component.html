@@ -11,6 +11,7 @@
 
 <div class="d-flex justify-content-center" *ngIf="user">
   <div class="card my-3">
+    <img src="assets/avatars/{{userService.currentUser.photoUrl}}" class="mx-auto d-block mt-2" width="250" height="250">
     <div class="card-body">
       <h3 class="text-center mb-4">{{user.nickname}}</h3>
       <p>ZePoints : {{user.currentScore}} ZP</p>
