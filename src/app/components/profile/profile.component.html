@@ -1,8 +1,12 @@
 <h3 class="mt-5 text-center">Personal Profile</h3>
 
 <!-- spinner -->
-<div class="d-flex justify-content-center my-5" *ngIf="!user">
+<div class="d-flex justify-content-center my-5" *ngIf="!user && !errMsg">
   <div class="spinner-border text-info" role="status"></div>
+</div>
+
+<div class="alert alert-info" role="alert" *ngIf="errMsg">
+  {{errMsg}}
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="user">
