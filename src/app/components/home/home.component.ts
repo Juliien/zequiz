@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   viewsList: CategoryModel[];
   newsList: CategoryModel[];
   isMobile = false;
+  // roles = new RoleModel();
 
   constructor(private categoryService: CategoryService) { }
 

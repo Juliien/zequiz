@@ -5,6 +5,8 @@ import {PlayerService} from '../../ressources/player.service';
 import {PlayerModel} from '../../models/player.model';
 import {RoomModel} from '../../models/room.model';
 import {RoomService} from '../../ressources/room.service';
+import {UserService} from '../../ressources/user.service';
+import {AuthenticationService} from '../../ressources/authentication.service';
 
 @Component({
   selector: 'app-game',
@@ -27,10 +29,13 @@ export class GameComponent implements OnInit {
   opponentPlayer: PlayerModel;
   interval: any;
   displaySpinner: boolean;
+  zp: number;
 
   constructor(private router: Router,
               private playerService: PlayerService,
-              private roomService: RoomService) { }
+              private userService: UserService,
+              private roomService: RoomService,
+              public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
@@ -42,6 +47,7 @@ export class GameComponent implements OnInit {
     this.listQuestions = this.quiz['results'];
     this.index = 0;
     this.score = 0;
+    this.zp = 0;
   }
 
   parseQuestion(res: string) {
@@ -81,6 +87,12 @@ export class GameComponent implements OnInit {
   }
 
   displayResult() {
+    if(this.authenticationService.isLogged()) {
+      this.calculateZp(false);
+      this.userService.updateScore(this.score, -1).subscribe(user => {
+        this.userService.currentUser = user;
+      });
+    }
     this.result = true;
   }
 
@@ -106,6 +118,12 @@ export class GameComponent implements OnInit {
     this.playerService.getPlayerById(id).subscribe(player => {
       this.opponentPlayer = player;
       if (this.opponentPlayer.isEnd) {
+        if(this.authenticationService.isLogged()) {
+          this.calculateZp(true);
+          this.userService.updateScore(this.score, this.opponentPlayer.score,).subscribe(user => {
+            this.userService.currentUser = user;
+          });
+        }
         this.roomService.closeRoom(this.room._id).subscribe();
         this.displaySpinner = false;
         clearInterval(this.interval);
@@ -120,5 +138,46 @@ export class GameComponent implements OnInit {
 
   restart() {
     window.location.reload();
+  }
+
+  calculateZp(isVs: boolean){
+    switch (this.score) {
+      case 0:
+        this.zp = 14;
+        break;
+      case 1:
+        this.zp = 12;
+        break;
+      case 2:
+        this.zp = 10;
+        break;
+      case 3:
+        this.zp = 8;
+        break;
+      case 4:
+        this.zp = 6;
+        break;
+      case 5:
+        this.zp = 10;
+        break;
+      case 6:
+        this.zp  = 12;
+        break;
+      case 7:
+        this.zp = 14;
+        break;
+      case 8:
+        this.zp = 16;
+        break;
+      case 9:
+        this.zp = 18;
+        break;
+      case 10:
+        this.zp = 20;
+        break;
+    }
+    if(isVs && this.score > 4 && this.opponentPlayer.score < this.score) {
+      this.zp = this.zp * 2;
+    }
   }
 }

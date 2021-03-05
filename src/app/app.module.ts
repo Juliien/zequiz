@@ -13,12 +13,15 @@ import { GameComponent } from './components/game/game.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { QuizListComponent } from './components/quiz-list/quiz-list.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { LegalComponent } from './components/legal/legal.component';
 import { DonationComponent } from './components/donation/donation.component';
 import { RoomComponent } from './components/room/room.component';
 import {ClipboardModule} from 'ngx-clipboard';
+import { SignInComponent } from './components/authentication/sign-in/sign-in.component';
+import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
+import { RankComponent } from './components/rank/rank.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +35,10 @@ import {ClipboardModule} from 'ngx-clipboard';
         QuizListComponent,
         LegalComponent,
         DonationComponent,
-        RoomComponent
+        RoomComponent,
+        SignInComponent,
+        SignUpComponent,
+        RankComponent
     ],
     imports: [
         BrowserModule,
@@ -42,6 +48,7 @@ import {ClipboardModule} from 'ngx-clipboard';
         FormsModule,
         Ng2SearchPipeModule,
         ClipboardModule,
+        ReactiveFormsModule,
     ],
     providers: [
         {
