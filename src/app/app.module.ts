@@ -22,6 +22,7 @@ import {ClipboardModule} from 'ngx-clipboard';
 import { SignInComponent } from './components/authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
 import { RankComponent } from './components/rank/rank.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { RankComponent } from './components/rank/rank.component';
         RoomComponent,
         SignInComponent,
         SignUpComponent,
-        RankComponent
+        RankComponent,
+        ProfileComponent
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,22 @@
+<h3 class="mt-5 text-center">Personal Profile</h3>
+
+<!-- spinner -->
+<div class="d-flex justify-content-center my-5" *ngIf="!user">
+  <div class="spinner-border text-info" role="status"></div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="user">
+  <div class="card my-3">
+    <div class="card-body">
+      <h3 class="text-center mb-4">{{user.nickname}}</h3>
+      <p>ZePoints : {{user.currentScore}} ZP</p>
+      <hr>
+      <h4 class="mb-3"><b>Personal information</b></h4>
+      <p>Member since {{user.createDate.slice(0, 10)}}</p>
+      <p>Email : {{user.email}}</p>
+      <p>Plan : {{role}}</p>
+    </div>
+  </div>
+</div>
+
+
