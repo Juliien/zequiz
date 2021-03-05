@@ -17,7 +17,8 @@ export class HeaderComponent implements OnInit {
   role = new RoleModel();
 
   constructor(public authenticationService: AuthenticationService,
-              public userService: UserService) { }
+              public userService: UserService,
+              private router: Router) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
@@ -35,6 +36,23 @@ export class HeaderComponent implements OnInit {
  logout() {
     this.authenticationService.logout().subscribe(() => {
       localStorage.clear();
+      if(this.isMobile) {
+          this.closeMenu();
+      }
     });
+ }
+
+ goToHome(){
+      this.clear();
+      this.router.navigate(['home']).then();
+ }
+
+ openMenu() {
+    document.getElementById('sideMenu').style.width = '80%';
+ }
+
+ closeMenu() {
+    document.getElementById('sideMenu').style.width = '0';
+    this.clear();
  }
 }

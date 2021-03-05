@@ -14,6 +14,9 @@ body {
   color: #F5F5F5 !important;
 }
 
+.bg-black {
+  background-color: #101010 !important;
+}
 
 .title {
   font-family: 'Ranchers', cursive;
