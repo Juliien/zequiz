@@ -128,6 +128,19 @@ class AuthenticationController {
     return res.status(400).end();
   }
 
+  async updateAvatar(req, res) {
+    if (req.body.avatar) {
+      try {
+        await User.updateOne({_id: req.decoded.id}, {photoUrl: req.body.avatar});
+        const user = await User.findOne({_id: req.decoded.id});
+        return res.status(200).json(user);
+      } catch (e) {
+        return res.status(500).end();
+      }
+    }
+    return res.status(400).end();
+  }
+
   async getRanks(req, res) {
     try {
       const users = await User.find().sort({currentScore: -1}).limit(20);

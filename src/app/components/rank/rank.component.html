@@ -1,17 +1,28 @@
 <h3 class="my-5 text-center">World Quiz Ranking</h3>
-<table class="table table-dark table-striped">
+
+<div class="d-flex justify-content-center my-5" *ngIf="!users">
+  <div class="spinner-border text-info" role="status"></div>
+</div>
+
+<table class="table table-sm table-striped table-dark" *ngIf="users">
   <thead>
   <tr>
-    <th scope="col">Position</th>
-    <th scope="col">Nickname</th>
+    <th scope="col">#</th>
+    <th scope="col">Player</th>
     <th scope="col">ZePoints (ZP)</th>
   </tr>
   </thead>
   <tbody *ngFor="let user of users; let i = index">
   <tr>
-    <th scope="row">{{i+1}}</th>
-    <td>{{user.nickname}}</td>
-    <td>{{user.currentScore}}</td>
+    <th scope="row" class="align-middle">
+      {{i+1}}.
+    </th>
+    <td class="align-middle">
+      <img class="mr-1" src="assets/avatars/{{user.photoUrl}}"><b>{{user.nickname}}</b>
+    </td>
+    <td class="align-middle">
+      <b>{{user.currentScore}}</b>
+    </td>
   </tr>
   </tbody>
 </table>

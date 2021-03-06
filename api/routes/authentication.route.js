@@ -31,5 +31,8 @@ module.exports = function (app) {
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
     async (req, res) => controller.updateScore(req, res)
   );
-
+  app.post(process.env.API_URL + '/update/avatar', bodyParser.json(),
+    async (req, res, next) => authMiddleware.verifyToken(req, res, next),
+    async (req, res) => controller.updateAvatar(req, res)
+  );
 };
