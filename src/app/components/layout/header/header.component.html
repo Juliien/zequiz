@@ -24,7 +24,7 @@
         <button class="btn btn-outline-light" routerLink="/sign-up">Sign Up</button>
       </li>
 
-      <img src="assets/avatars/{{userService.currentUser.photoUrl}}" class="rounded ml-2"
+      <img src="assets/avatars/{{userService.currentUser.photoUrl}}" class="ml-2"
            width="40" height="40" *ngIf="authenticationService.isLogged() && userService.currentUser">
 
       <li class="nav-item" *ngIf="authenticationService.isLogged() && userService.currentUser && !isMobile">
