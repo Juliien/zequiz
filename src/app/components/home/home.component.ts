@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
               private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Zequiz - Quiz Platform');
+    this.titleService.setTitle('ZeQuiz - Quiz Platform');
     this.meta.addTag({
       name: 'quiz',
       content: 'ZeQuiz is an english quizzes platform'
