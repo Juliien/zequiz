@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './components/layout/header/header.component';
@@ -51,7 +52,12 @@ import { ProfileComponent } from './components/profile/profile.component';
         ClipboardModule,
         ReactiveFormsModule,
     ],
-    providers: [],
+    providers: [
+      {
+        provide: LocationStrategy,
+        useClass: HashLocationStrategy
+      }
+    ],
     exports: [
         HeaderComponent
     ],

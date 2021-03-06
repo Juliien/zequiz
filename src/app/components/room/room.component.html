@@ -6,7 +6,7 @@
 <div *ngIf="room && category">
   <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error" routerLink="/all" (click)="quit()">Cancel ZeVersus</button>
   <h4 class="text-center mt-4" *ngIf="categoryId">Copy game link
-    <button class="btn btn-info mx-1" ngxClipboard [cbContent]="'https://www.zequiz.net/room/' + room._id"
+    <button class="btn btn-info mx-1" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id"
             (cbOnSuccess)="copied($event)">
       <i class="far fa-copy fa-lg"></i>
     </button>
