@@ -14,10 +14,13 @@ export class ProfileComponent implements OnInit {
   roles = new RoleModel();
   role: string;
   errMsg: string;
-
+  images: string[];
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
+      'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
+
     this.userService.getUserById().subscribe(user => {
       this.user = user;
       switch (this.user.permissionLevel.toString()) {
@@ -46,4 +49,7 @@ export class ProfileComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
+  updateAvatar(image: string) {
+    this.userService.updateAvatar(image).subscribe(user => this.userService.currentUser = user);
+  }
 }

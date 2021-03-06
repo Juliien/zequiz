@@ -55,4 +55,14 @@ export class UserService {
     };
     return this.http.post<any>(environment.baseApiUrl + 'update/score',{score: score, opponentScore: opponentScore}, options);
   }
+
+  updateAvatar(avatar: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.post<any>(environment.baseApiUrl + 'update/avatar',{avatar}, options);
+  }
 }
