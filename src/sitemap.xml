@@ -6,7 +6,6 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-
 <url>
   <loc>https://www.zequiz.net/</loc>
   <lastmod>2021-03-06T00:36:22+00:00</lastmod>
@@ -14,31 +13,19 @@
 </url>
 
 <url>
-  <loc>https://www.zequiz.net/home</loc>
+  <loc>https://www.zequiz.net/#/home</loc>
   <lastmod>2021-03-06T00:36:22+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 
 <url>
-  <loc>https://www.zequiz.net/all</loc>
+  <loc>https://www.zequiz.net/#/all</loc>
   <lastmod>2021-03-06T00:36:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
 <url>
-  <loc>https://www.zequiz.net/ranks</loc>
-  <lastmod>2021-03-06T00:36:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-<url>
-  <loc>https://www.zequiz.net/quiz</loc>
-  <lastmod>2021-03-06T00:36:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-<url>
-  <loc>https://www.zequiz.net/profile</loc>
+  <loc>https://www.zequiz.net/#/quiz</loc>
   <lastmod>2021-03-06T00:36:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>

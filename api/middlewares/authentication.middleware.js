@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const ResponseUtil = require("../utils/response.util");
+const response = new ResponseUtil();
 
 class AuthenticationMiddleware {
 
@@ -12,13 +14,13 @@ class AuthenticationMiddleware {
 
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(401).json({message: "Unauthorized token"});
+          return res.status(401).send(response.responseError(401, 'Unauthorized', 'Token invalid or expired.'));
         }
         req.decoded = decoded;
         next();
       });
     } else {
-      return res.status(403).json({message: "No token provided!"});
+      return res.status(403).json(response.responseError(403, 'Forbidden', 'No token provided.'));
     }
   }
 }

@@ -1,5 +1,4 @@
-const models = require('../models');
-const Category = models.Category;
+const Category = require('../models/category.model');
 const date = new Date();
 
 class CategoryController {

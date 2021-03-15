@@ -19,10 +19,7 @@ import { LegalComponent } from './components/legal/legal.component';
 import { DonationComponent } from './components/donation/donation.component';
 import { RoomComponent } from './components/room/room.component';
 import {ClipboardModule} from 'ngx-clipboard';
-import { SignInComponent } from './components/authentication/sign-in/sign-in.component';
-import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
-import { RankComponent } from './components/rank/rank.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import {RoomService} from './ressources/room.service';
 
 @NgModule({
     declarations: [
@@ -37,10 +34,6 @@ import { ProfileComponent } from './components/profile/profile.component';
         LegalComponent,
         DonationComponent,
         RoomComponent,
-        SignInComponent,
-        SignUpComponent,
-        RankComponent,
-        ProfileComponent
     ],
     imports: [
         BrowserModule,
@@ -53,13 +46,15 @@ import { ProfileComponent } from './components/profile/profile.component';
         ReactiveFormsModule,
     ],
     providers: [
+      RoomService,
       {
         provide: LocationStrategy,
         useClass: HashLocationStrategy
       }
     ],
     exports: [
-        HeaderComponent
+        HeaderComponent,
+        CategoryComponent
     ],
     bootstrap: [AppComponent]
 })

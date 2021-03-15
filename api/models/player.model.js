@@ -2,19 +2,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const playerSchema = new Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: false,
-    default: null
+  nickname: {
+    type: String,
+    required: true
+  },
+  photoUrl: {
+    type: String,
+    required: true
+  },
+  isOwner: {
+    type: Boolean,
+    required: true
   },
   score: {
     type: Number,
     required: true
   },
-  isEnd : {
-    type: Boolean,
+  createDate: {
+    type: Date,
     required: true
+  },
+  closeDate: {
+    type: Date,
+    required: false
   }
 });
 

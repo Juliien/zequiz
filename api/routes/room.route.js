@@ -1,8 +1,9 @@
 const bodyParser = require('body-parser');
-const RoomController = require('../controllers').RoomController;
+const RoomController = require('../controllers/room.controller');
+const AuthenticationMiddleware = require('../middlewares/authentication.middleware');
+const PermissionMiddleware = require('../middlewares/permission.middleware');
+
 const controller = new RoomController();
-const AuthenticationMiddleware = require('../middlewares').AuthenticationMiddleware;
-const PermissionMiddleware = require('../middlewares').PermissionMiddleware;
 const authMiddleware = new AuthenticationMiddleware();
 const permissionMiddleware = new PermissionMiddleware();
 
@@ -15,6 +16,6 @@ module.exports = function (app) {
 
   app.delete(process.env.API_URL + '/room',
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,[process.env.ADMIN]),
+    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,process.env.ADMIN),
     async (req, res) => controller.purgeRoom(req, res));
 };

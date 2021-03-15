@@ -1,8 +1,9 @@
 const bodyParser = require('body-parser');
 const CategoryController = require('../controllers').CategoryController;
-const controller = new CategoryController();
 const AuthenticationMiddleware = require('../middlewares').AuthenticationMiddleware;
 const PermissionMiddleware = require('../middlewares').PermissionMiddleware;
+
+const controller = new CategoryController();
 const authMiddleware = new AuthenticationMiddleware();
 const permissionMiddleware = new PermissionMiddleware();
 
@@ -16,11 +17,11 @@ module.exports = function (app) {
 
   app.post(process.env.API_URL + '/category',
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,[process.env.ADMIN]),
+    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,process.env.ADMIN),
     async (req, res) => controller.insertCategory(req, res));
 
   app.delete(process.env.API_URL + '/category/:id', bodyParser.json(),
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,[process.env.ADMIN]),
+    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,process.env.ADMIN),
     async (req, res) => controller.deleteCategory(req, res));
 };
