@@ -1,18 +1,42 @@
+const Player = require('../models/player.model');
+const date = new Date();
 
 class PlayerController {
+
   async createPlayer(req, res) {
-    if(req.body.score) {
+    if (req.body.nickname && req.body.photoUrl) {
       try {
-        const currentUser = await User.findOne({_id: req.decoded.id});
-        await User.updateOne({_id: req.decoded.id}, {currentScore: currentUser.currentScore + score});
-        const user = await User.findOne({_id: req.decoded.id});
-        return res.status(200).json(user);
+        let playerIsOwner = false;
+
+        if(req.body.isOwner) {
+          playerIsOwner = true;
+        }
+
+        const newPlayer = new Player({
+          nickname: req.body.nickname,
+          photoUrl: req.body.photoUrl,
+          isOwner: playerIsOwner,
+          score: 0,
+          createDate: date.toISOString(),
+          closeDate: null
+        });
+
+        const player = await newPlayer.save();
+        if(player) {
+          return res.status(201).json(player);
+        }
+        return res.status(401).end();
       } catch (e) {
-        return res.status(500).end();
+        return res.status(500).send(e);
       }
     }
     return res.status(400).end();
   }
+
+  async getPlayerById(req, res) {
+
+  }
+
 
   calculateScore(score) {
     switch (score) {

@@ -16,7 +16,7 @@ const playerSchema = new Schema({
   },
   score: {
     type: Number,
-    required: false
+    required: true
   },
   createDate: {
     type: Date,

@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const roomSchema = new Schema({
   players: [{
-    type: Object,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Player',
     required: false
   }],
   categoryId: {
