@@ -38,8 +38,6 @@
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h3>Score : {{score}}/10</h3>
-      <h3 *ngIf="score < 5" class="ml-4"> -{{zp}} ZP</h3>
-      <h3 *ngIf="score >= 5" class="ml-4"> +{{zp}} ZP</h3>
     </div>
     <div class="alert alert-info text-center" role="alert">
       <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>

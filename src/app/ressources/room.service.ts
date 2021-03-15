@@ -3,16 +3,17 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {QuizModel} from '../models/quiz.model';
+import {RoomModel} from '../models/room.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getRoomById(id: string): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'room/' + id);
+  getRoomById(id: string): Observable <RoomModel> {
+    return this.http.get<RoomModel>(environment.baseApiUrl + 'room/' + id);
   }
 
   createRoom(quizId: string, quiz: QuizModel[]) {

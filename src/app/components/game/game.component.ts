@@ -5,8 +5,6 @@ import {PlayerService} from '../../ressources/player.service';
 import {PlayerModel} from '../../models/player.model';
 import {RoomModel} from '../../models/room.model';
 import {RoomService} from '../../ressources/room.service';
-import {UserService} from '../../ressources/user.service';
-import {AuthenticationService} from '../../ressources/authentication.service';
 
 @Component({
   selector: 'app-game',
@@ -27,16 +25,13 @@ export class GameComponent implements OnInit {
   selectedAnswer: string;
   isMobile: boolean;
   opponentPlayer: PlayerModel;
-  interval: any;
   displaySpinner: boolean;
   zp: number;
   errMsg: string;
 
   constructor(private router: Router,
               private playerService: PlayerService,
-              private userService: UserService,
-              private roomService: RoomService,
-              public authenticationService: AuthenticationService) { }
+              private roomService: RoomService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
@@ -88,58 +83,17 @@ export class GameComponent implements OnInit {
   }
 
   displayResult() {
-    if(this.authenticationService.isLogged()) {
-      this.calculateZp(false);
-      this.userService.updateScore(this.score, -1).subscribe(user => {
-        this.userService.currentUser = user;
-      }, (error) => {
-        if(error.status === 401) {
-          this.errMsg = "Your session has expired ! Automatic logout in 3 seconds";
-          this.sleep(3000).then(() => localStorage.clear());
-        }
-      });
-    }
+    this.calculateZp(false);
     this.result = true;
   }
 
-  sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
 
   displayVSResult() {
     this.result = true;
     this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
     this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
-    this.end();
   }
 
-  end() {
-    this.displaySpinner = true;
-    this.interval = setInterval(() => {
-      if (this.room.players[0] === sessionStorage.getItem('playerId')) {
-        this.getPlayer(this.room.players[1]);
-      } else {
-        this.getPlayer(this.room.players[0]);
-      }
-    }, 3000);
-  }
-
-  getPlayer(id) {
-    this.playerService.getPlayerById(id).subscribe(player => {
-      this.opponentPlayer = player;
-      if (this.opponentPlayer.isEnd) {
-        if(this.authenticationService.isLogged()) {
-          this.calculateZp(true);
-          this.userService.updateScore(this.score, this.opponentPlayer.score,).subscribe(user => {
-            this.userService.currentUser = user;
-          });
-        }
-        this.roomService.closeRoom(this.room._id).subscribe();
-        this.displaySpinner = false;
-        clearInterval(this.interval);
-      }
-    });
-  }
 
   goToCategories() {
     sessionStorage.clear();

@@ -5,6 +5,7 @@ import {CategoryModel} from '../../models/category.model';
 import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
 import {PlayerService} from '../../ressources/player.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-room',
@@ -16,10 +17,10 @@ export class RoomComponent implements OnInit {
   room: RoomModel;
   startQuiz: boolean;
   interval: any;
-  quiz: Array<object>;
+  copy: boolean = false;
   isCopied: boolean;
-  categoryId: string = null;
   error: boolean;
+  socket: any;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -30,53 +31,37 @@ export class RoomComponent implements OnInit {
     this.startQuiz = false;
     this.isCopied = false;
     this.error = false;
-    if (sessionStorage.getItem('categoryId')) {
-      this.categoryId = sessionStorage.getItem('categoryId');
-      this.categoryService.getCategoryByID(this.categoryId).subscribe(cat => this.category = cat);
+
+    this.socket = io(environment.socketUrl);
+
+    this.socket.on('room-broadcast', (data: string) => {
+      if(data === 'ready') {
+        this.startQuiz = true;
+      }
+    });
+
+    if(sessionStorage.getItem('roomId')) {
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
+        this.copy = true;
         sessionStorage.setItem('playerId', this.room.players[0]);
+        this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => this.category = cat);
       });
-      this.start();
     } else {
       // Localhost
-      // const id = document.location.href.slice(29);
-      const id = document.location.href.slice(30);
-      sessionStorage.setItem('roomId', id);
+      const id = document.location.href.slice(29);
+      // const id = document.location.href.slice(30);
       this.roomService.joinRoom(id).subscribe(() => {
         this.roomService.getRoomById(id).subscribe(room => {
           this.room = room;
           sessionStorage.setItem('playerId', this.room.players[1]);
           this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
             this.category = cat;
-            if (!this.room.closeDate) {
-              this.quiz = this.room.quiz[0];
-              this.startQuiz = true;
-            } else {
-              this.error = true;
-            }
+            this.socket.emit('room', 'ready');
           });
         });
       });
     }
-  }
-
-  start() {
-    this.interval = setInterval(() => {
-      this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
-        this.room = room;
-        if (this.room.isStart) {
-          if (!this.room.closeDate) {
-            this.quiz = this.room.quiz[0];
-            this.startQuiz = true;
-            clearInterval(this.interval);
-          } else {
-            this.error = true;
-            clearInterval(this.interval);
-          }
-        }
-      });
-    }, 3000);
   }
 
   quit() {
@@ -90,7 +75,9 @@ export class RoomComponent implements OnInit {
       return this.isCopied = true;
     }
   }
+
   clear() {
     sessionStorage.clear();
   }
+
 }
