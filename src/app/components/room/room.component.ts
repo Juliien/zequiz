@@ -32,13 +32,11 @@ export class RoomComponent implements OnInit {
     this.isCopied = false;
     this.error = false;
 
-    this.socket = io(environment.socketUrl);
-
-    this.socket.on('room-broadcast', (data: string) => {
-      if(data === 'ready') {
-        this.startQuiz = true;
-      }
-    });
+    // this.socket.on('room-broadcast', (data: string) => {
+    //   if(data === 'ready') {
+    //     this.startQuiz = true;
+    //   }
+    // });
 
     if(sessionStorage.getItem('roomId')) {
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {

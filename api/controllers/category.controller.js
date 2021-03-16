@@ -9,7 +9,7 @@ class CategoryController {
       if (categories) {
         return res.status(200).json(categories);
       }
-      return res.status(400).end();
+      return res.status(404).end();
     } catch (e) {
       return res.status(500).end();
     }

@@ -5,13 +5,6 @@
 
 <div *ngIf="room && category">
   <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error" routerLink="/all" (click)="quit()">Cancel ZeVersus</button>
-  <h4 class="text-center mt-4" *ngIf="copy">Copy game link
-    <button class="btn btn-info mx-1" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id"
-            (cbOnSuccess)="copied($event)">
-      <i class="far fa-copy fa-lg"></i>
-    </button>
-  </h4>
-  <p class="text-center text-muted" *ngIf="isCopied">Copied !</p>
   <div class="row d-flex justify-content-center mt-3" *ngIf="category">
     <div class="card">
       <img src="{{category.photoUrl}}" class="card-img">
@@ -22,6 +15,12 @@
   </div>
   <h4 class="pulse text-center mt-3" *ngIf="!startQuiz && !error ">Waiting for start ...</h4>
 
+
+  <button class="btn btn-info mx-1" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id"
+          (cbOnSuccess)="copied($event)">
+    Game Link <i class="far fa-copy fa-lg"></i>
+  </button>
+  <p class="text-center text-muted" *ngIf="isCopied">Copied !</p>
   <div class="d-flex justify-content-center my-4" *ngIf="!startQuiz && error">
     <div>
       <p class="text-danger">Ooops! An error occured. This room is closed!</p>

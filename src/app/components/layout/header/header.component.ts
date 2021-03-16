@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {RoleModel} from '../../../models/role.model';
 
 @Component({
   selector: 'app-header',
@@ -11,30 +10,29 @@ export class HeaderComponent implements OnInit {
   isMobile: boolean;
   code: number;
   error: boolean;
-  isAdmin: boolean = false;
-  role = new RoleModel();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
- }
+  }
 
- clear() {
-   sessionStorage.clear();
- }
+  clear() {
+    sessionStorage.clear();
+  }
 
- goToHome(){
-      this.clear();
-      this.router.navigate(['home']).then();
- }
+  goToHome() {
+    this.clear();
+    this.router.navigate(['home']).then();
+  }
 
- openMenu() {
+  openMenu() {
     document.getElementById('sideMenu').style.width = '80%';
- }
+  }
 
- closeMenu() {
+  closeMenu() {
     document.getElementById('sideMenu').style.width = '0';
     this.clear();
- }
+  }
 }

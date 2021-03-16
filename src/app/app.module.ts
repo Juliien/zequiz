@@ -16,10 +16,8 @@ import { QuizListComponent } from './components/quiz-list/quiz-list.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { LegalComponent } from './components/legal/legal.component';
-import { DonationComponent } from './components/donation/donation.component';
 import { RoomComponent } from './components/room/room.component';
 import {ClipboardModule} from 'ngx-clipboard';
-import {RoomService} from './ressources/room.service';
 
 @NgModule({
     declarations: [
@@ -32,7 +30,6 @@ import {RoomService} from './ressources/room.service';
         FooterComponent,
         QuizListComponent,
         LegalComponent,
-        DonationComponent,
         RoomComponent,
     ],
     imports: [
@@ -46,7 +43,6 @@ import {RoomService} from './ressources/room.service';
         ReactiveFormsModule,
     ],
     providers: [
-      RoomService,
       {
         provide: LocationStrategy,
         useClass: HashLocationStrategy
