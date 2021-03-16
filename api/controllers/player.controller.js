@@ -34,9 +34,19 @@ class PlayerController {
   }
 
   async getPlayerById(req, res) {
-
+    if(req.params.id) {
+      try {
+        const room = await Player.findOne({_id: req.params.id});
+        if (room) {
+          return res.status(200).json(room);
+        }
+        return res.status(404).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).send();
   }
-
 
   calculateScore(score) {
     switch (score) {

@@ -5,6 +5,7 @@ import {CategoryModel} from '../../models/category.model';
 import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
 import {PlayerService} from '../../ressources/player.service';
+import {PlayerModel} from '../../models/player.model';
 
 @Component({
   selector: 'app-room',
@@ -20,6 +21,7 @@ export class RoomComponent implements OnInit {
   isCopied: boolean;
   error: boolean;
   socket: any;
+  player: PlayerModel;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -42,6 +44,7 @@ export class RoomComponent implements OnInit {
         this.room = room;
         this.copy = true;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
+        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.player = player);
       });
     } else {
       // Localhost
@@ -61,9 +64,7 @@ export class RoomComponent implements OnInit {
   }
 
   quit() {
-    clearInterval(this.interval);
     this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe();
-    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
   }
 
   copied(event) {

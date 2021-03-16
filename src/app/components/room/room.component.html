@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-center my-5" *ngIf="!room && !category">
+<div class="d-flex justify-content-center my-5" *ngIf="!room && !category && !player">
   <div class="spinner-border text-info" role="status">
   </div>
 </div>
 
-<div *ngIf="room && category">
+<div *ngIf="room && category && player">
   <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error" routerLink="/all" (click)="quit()">Cancel</button>
   <div class="row d-flex justify-content-center my-3" *ngIf="category">
     <div>
@@ -27,8 +27,9 @@
       <!-- ng for -->
       <ul>
         <li>
-          <img src="assets/avatars/avatar_1.png" width="70" height="70">
-          Juju
+          <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
+          {{player.nickname}}
+          <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
         </li>
       </ul>
     </div>
