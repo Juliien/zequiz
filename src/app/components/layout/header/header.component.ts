@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openMenu() {
-    document.getElementById('sideMenu').style.width = '80%';
+    document.getElementById('sideMenu').style.width = '100%';
   }
 
   closeMenu() {

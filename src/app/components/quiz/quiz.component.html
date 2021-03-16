@@ -5,22 +5,60 @@
 
 <div class="row d-flex justify-content-center mt-3" *ngIf="category">
   <div class="card">
-    <img src="{{category.photoUrl}}" class="card-img">
+    <img alt="avatar" src="{{category.photoUrl}}" class="card-img">
     <div class="card-img-overlay">
       <h5 class="text-center title">{{category.name}}</h5>
     </div>
   </div>
-  <div class="mt-2 mx-5" *ngIf="!game">
-    <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}</p>
+
+  <div class="mx-5" [ngClass]="{'mt-3': isMobile}" *ngIf="!game && !zequiz">
+    <div class="d-flex justify-content-between">
+      <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}</p>
+      <p><i class="fas fa-star fa-lg mr-1"></i>{{category.rate}}</p>
+    </div>
+
     <h4>Play Alone ?</h4>
     <button class="btn bg-gradient btn-block" (click)="startQuiz()">Start Quiz</button>
     <hr/>
     <h4>ZeVersus Mode ?</h4>
-    <button class="btn bg-gradient btn-block" (click)="goToVS()">Start ZeVersus</button>
+    <button class="btn bg-gradient btn-block" (click)="goToVS()">ZeVersus Lobby</button>
+  </div>
+  <div *ngIf="zequiz" class="mx-5" [ngClass]="{'mt-3': isMobile}">
+    <img alt="avatar" src="assets/avatars/{{currentImage}}" class="mx-auto d-block" width="170" height="170">
+
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#modal">
+        <i class="fas fa-camera fa-lg"></i>
+      </button>
+    </div>
+    <input type="text" class="form-control mb-3 mt-1" placeholder="nickname" [(ngModel)]="nickname">
+    <button type="button" class="btn bg-gradient btn-block" (click)="createRoom()">Create Room</button>
   </div>
 </div>
-<!--<i class="fas fa-star fa-pull-right"></i>-->
+
 
 <div class="d-flex justify-content-center my-5" *ngIf="game">
   <app-game [quiz]="quiz" [vs]="false" [room]="null"></app-game>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modify avatar</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-bod">
+        <div class="d-flex justify-content-center row m-2">
+          <div *ngFor="let img of images">
+            <img alt="avatar" src="assets/avatars/{{img}}" class="mx-auto d-block" width="100" height="100"
+                 (click)="setImage(img)" data-dismiss="modal">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

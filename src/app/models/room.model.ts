@@ -3,8 +3,6 @@ export interface RoomModel {
   createDate: Date;
   closeDate: Date;
   players: string[];
-  code: number;
-  quizId: string;
+  categoryId: string;
   quiz: any;
-  isStart: boolean;
 }

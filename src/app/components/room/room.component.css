@@ -19,21 +19,10 @@ h5 {
   color: gold;
 }
 
-.pulse {
-  animation: pulse 5s infinite;
+ul {
+  list-style: none;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-   opacity: 0.2;
-  }
+.players {
+
 }

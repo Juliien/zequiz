@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-black" *ngIf="!isMobile">
   <a class="navbar-brand title" routerLink="/home" (click)="clear()">
-    <img src="../../assets/logo_light.png" width="32" height="32">ZeQuiz
+    <img alt="ZeQuiz" height="32" width="32" src="assets/logo_light.png">ZeQuiz
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -21,16 +21,16 @@
   <a class="navbar-brand title">
     <i class="fas fa-bars" (click)="openMenu()"></i>
     <span (click)="goToHome()">
-      <img src="/assets/logo_light.png" width="32" height="32" class="mx-2">ZeQuiz
+      <img alt="ZeQuiz" class="mx-2" height="32" width="32" src="assets/logo_light.png">ZeQuiz
     </span>
   </a>
 </nav>
 
 <div id="sideMenu" class="sidenav">
-    <div class="text-center mb-4">
-      <img src="../../assets/logo_light.png" width="32" height="32">
+    <div class="text-center mb-5">
+      <img alt="ZeQuiz" src="assets/logo_light.png" width="32" height="32">
     </div>
-    <div href="javascript:void(0)" class="close-btn" (click)="closeMenu()">&times;</div>
+    <div   href="javascript:void(0)" class="close-btn" (click)="closeMenu()">&times;</div>
     <a routerLink="/all" (click)="closeMenu()">Categories</a>
 </div>
 

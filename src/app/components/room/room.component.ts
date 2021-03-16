@@ -5,7 +5,6 @@ import {CategoryModel} from '../../models/category.model';
 import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
 import {PlayerService} from '../../ressources/player.service';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-room',
@@ -42,8 +41,7 @@ export class RoomComponent implements OnInit {
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
         this.copy = true;
-        sessionStorage.setItem('playerId', this.room.players[0]);
-        this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => this.category = cat);
+        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
       });
     } else {
       // Localhost
@@ -53,7 +51,7 @@ export class RoomComponent implements OnInit {
         this.roomService.getRoomById(id).subscribe(room => {
           this.room = room;
           sessionStorage.setItem('playerId', this.room.players[1]);
-          this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
+          this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
             this.category = cat;
             this.socket.emit('room', 'ready');
           });

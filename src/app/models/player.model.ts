@@ -1,6 +1,9 @@
-
 export interface PlayerModel {
   _id: string;
+  nickname: string;
+  photoUrl: string;
+  isOwner: boolean;
   score: number;
-  isEnd: boolean;
+  createDate: string;
+  closeDate: string;
 }
