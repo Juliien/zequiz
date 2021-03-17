@@ -22,6 +22,7 @@ h5 {
 ul {
   list-style: none;
 }
+
 .slides {
   display: flex;
   overflow-x: auto;
@@ -41,4 +42,25 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.list-players {
+  max-height: 280px!important;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 1em;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+}
+.list-players::-webkit-scrollbar-track {
+  -webkit-box-shadow: none !important;
+  background-color: transparent;
+}
+.list-players::-webkit-scrollbar {
+  width: 3px !important;
+  background-color: transparent;
+}
+.list-players::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }

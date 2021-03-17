@@ -6,6 +6,8 @@ import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
 import {PlayerService} from '../../ressources/player.service';
 import {PlayerModel} from '../../models/player.model';
+import io from 'socket.io-client';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-room',
@@ -18,7 +20,6 @@ export class RoomComponent implements OnInit {
   startQuiz: boolean;
   isCopied: boolean;
   error: boolean;
-  socket: any;
   players: PlayerModel[];
   isOwner = false;
   currentPlayer: PlayerModel = null;
@@ -27,11 +28,14 @@ export class RoomComponent implements OnInit {
   currentImage: string;
   images: string[];
   isReady = false;
+  roomId: string;
+  socket:any;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
               private roomService: RoomService,
-              private playerService: PlayerService) { }
+              private playerService: PlayerService,
+              ) {}
 
   ngOnInit(): void {
     this.startQuiz = false;
@@ -39,7 +43,20 @@ export class RoomComponent implements OnInit {
     this.error = false;
     this.isMobile = window.innerWidth <= 765;
 
+    // websocket
+    this.socket = io(environment.socketUrl);
+    this.socket.on('room', message => {
+      if(message === 'joined') {
+        this.roomService.getRoomById(this.roomId).subscribe(room => {
+          this.room = room;
+          this.players = this.room.players;
+        });
+      }
+    });
+
+
     if(sessionStorage.getItem('roomId')) {
+      this.roomId = sessionStorage.getItem('roomId');
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
         this.players = this.room.players;
@@ -50,6 +67,7 @@ export class RoomComponent implements OnInit {
       // Localhost
       const id = document.location.href.slice(29);
       // const id = document.location.href.slice(30);
+      this.roomId = id;
       this.currentImage ='avatar_1.png';
       this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
         'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
@@ -94,10 +112,7 @@ export class RoomComponent implements OnInit {
         playerId: this.currentPlayer._id
       };
       this.roomService.joinRoom(joinRoom).subscribe(() => {
-        this.roomService.getRoomById(this.room._id).subscribe(room => {
-          this.room = room;
-          this.players = this.room.players;
-        });
+        this.socket.emit('room', 'joined');
       });
     });
   }

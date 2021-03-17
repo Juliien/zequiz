@@ -21,6 +21,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -44,7 +45,7 @@ import { LoginComponent } from './components/login/login.component';
         FormsModule,
         Ng2SearchPipeModule,
         ClipboardModule,
-        ReactiveFormsModule,
+        ReactiveFormsModule
     ],
     providers: [
       {

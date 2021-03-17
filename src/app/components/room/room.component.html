@@ -22,7 +22,7 @@
   </div>
 
   <!-- Category Card -->
-  <div class="row d-flex justify-content-center my-3" *ngIf="category">
+  <div class="row d-flex justify-content-center" *ngIf="category">
     <div>
 
       <div class="card">
@@ -64,8 +64,8 @@
     </div>
 
     <!-- Player List Web -->
-    <div *ngIf="currentPlayer && players && !isMobile">
-      <div class="players" *ngFor="let player of players">
+    <div *ngIf="currentPlayer && players && !isMobile" class="list-players">
+      <div *ngFor="let player of players">
         <ul>
           <li>
             <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
@@ -100,7 +100,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-bod">
+      <div class="modal-body">
         <div class="d-flex justify-content-center row m-2">
           <div *ngFor="let img of images">
             <img alt="avatar" src="assets/avatars/{{img}}" class="mx-auto d-block" width="100" height="100"

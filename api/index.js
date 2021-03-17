@@ -9,9 +9,10 @@ const routes = require('./routes');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-io.on('connection', socket => {
-  socket.on('room', (msg) => {
-    io.emit('room-broadcast', msg);
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.on('room', msg => {
+    io.emit('room', msg);
   });
 
   socket.on('disconnect', () => {});
