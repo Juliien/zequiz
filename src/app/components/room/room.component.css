@@ -22,7 +22,23 @@ h5 {
 ul {
   list-style: none;
 }
+.slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
 
-.players {
-
+.slides > div {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  margin-right: 1em;
+  transform-origin: center center;
+  transform: scale(1);
+  transition: transform 0.5s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

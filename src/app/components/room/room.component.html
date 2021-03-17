@@ -4,6 +4,18 @@
 </div>
 
 <div *ngIf="room && category">
+  <!-- Player List Mobile -->
+  <div *ngIf="currentPlayer && players && isMobile">
+    <div class="slides">
+      <div *ngFor="let player of players" >
+        <div>
+          <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
+          <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
+          <p style="font-size: 12px" class="text-center">{{player.nickname}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div *ngIf="currentPlayer">
     <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">Cancel</button>
@@ -47,18 +59,17 @@
           <i class="fas fa-camera fa-lg"></i>
         </button>
       </div>
-      <input type="text" class="form-control mb-3 mt-1" placeholder="nickname" [(ngModel)]="nickname">
+      <input type="text" class="form-control mb-3 mt-1" placeholder="nickname" [(ngModel)]="nickname" maxlength="12">
       <button type="button" class="btn bg-gradient btn-block" (click)="joinRoom()">Join the room</button>
     </div>
 
-    <!-- Player List -->
-    <div *ngIf="currentPlayer">
+    <!-- Player List Web -->
+    <div *ngIf="currentPlayer && players && !isMobile">
       <div class="players" *ngFor="let player of players">
         <ul>
           <li>
             <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
-            {{player.nickname}}
-            <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
+            {{player.nickname}}<span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
           </li>
         </ul>
       </div>
