@@ -90,8 +90,7 @@ export class GameComponent implements OnInit {
 
   displayVSResult() {
     this.result = true;
-    this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
-    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
+    // this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
   }
 
 

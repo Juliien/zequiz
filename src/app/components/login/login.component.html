@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-center">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-group">
+            <input type="email" id="email" class="form-control" formControlName="email" placeholder="nick@exmaple.com">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="password" id="password" class="form-control" formControlName="password" placeholder="*******">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-danger form-text mb-3 text-center" *ngIf="errorMessage">
+          {{errorMessage}}
+        </div>
+
+        <button type="submit" class="btn btn-info btn-block" [disabled]="loginForm.invalid">Sign In</button>
+
+      </form>
+</div>

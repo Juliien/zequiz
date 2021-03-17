@@ -19,8 +19,8 @@ export class RoomService {
     return this.http.post<any>(environment.baseApiUrl + 'room', room);
   }
 
-  joinRoom(id: string) {
-    return this.http.post<any>(environment.baseApiUrl + 'room/join/' + id, {});
+  joinRoom(data: any) {
+    return this.http.post<any>(environment.baseApiUrl + 'room/join', data);
   }
 
   closeRoom(id: string) {

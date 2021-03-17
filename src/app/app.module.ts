@@ -18,6 +18,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { LegalComponent } from './components/legal/legal.component';
 import { RoomComponent } from './components/room/room.component';
 import {ClipboardModule} from 'ngx-clipboard';
+import { AdminComponent } from './components/admin/admin.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +33,8 @@ import {ClipboardModule} from 'ngx-clipboard';
         QuizListComponent,
         LegalComponent,
         RoomComponent,
+        AdminComponent,
+        LoginComponent,
     ],
     imports: [
         BrowserModule,

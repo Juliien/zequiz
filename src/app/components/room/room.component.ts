@@ -50,14 +50,10 @@ export class RoomComponent implements OnInit {
       // Localhost
       const id = document.location.href.slice(29);
       // const id = document.location.href.slice(30);
-      this.roomService.joinRoom(id).subscribe(() => {
-        this.roomService.getRoomById(id).subscribe(room => {
-          this.room = room;
-          sessionStorage.setItem('playerId', this.room.players[1]);
-          this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
-            this.category = cat;
-            this.socket.emit('room', 'ready');
-          });
+      this.roomService.getRoomById(id).subscribe(room => {
+        this.room = room;
+        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
+          this.category = cat;
         });
       });
     }
@@ -77,4 +73,7 @@ export class RoomComponent implements OnInit {
     sessionStorage.clear();
   }
 
+  joinRoom() {
+
+  }
 }

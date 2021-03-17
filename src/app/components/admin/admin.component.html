@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <h3>ADMIN PANEL</h3>
+    </li>
+  </ul>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <button  class="mx-2 btn btn-outline-light" *ngIf="authentication.isLogged()"
+               (click)="logout()">Sign out</button>
+    </li>
+  </ul>
+</nav>
+<div *ngIf="!authentication.isLogged()">
+  <app-login></app-login>
+</div>
+
+<div *ngIf="authentication.isLogged()">
+  PANEL LIST
+</div>
+
+

@@ -63,18 +63,6 @@
     </div>
 
     <div *ngIf="!displaySpinner">
-      <h4 class="card-title text-success text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score < score">
-        YOU WIN
-      </h4>
-      <h4 class="card-title text-danger text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score > score">
-        YOU LOSE
-      </h4>
-      <h4 class="card-title text-info text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score === score">
-        EQUALITY
-      </h4>
       <div class="d-flex justify-content-between">
         <h3 class="mt-2">Your Score : {{score}}/10</h3>
         <h3 *ngIf="score < 5" class="ml-4 mt-2"> -{{zp}} ZP</h3>
@@ -88,8 +76,6 @@
         <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
       </div>
 
-      <h5 class="text-center mt-3" *ngIf="!this.opponentPlayer.isEnd">Waiting for opponent score</h5>
-      <h5 class="text-center my-3" *ngIf="this.opponentPlayer.isEnd">Opponent Score : {{this.opponentPlayer.score}}/10</h5>
       <hr/>
       <div class="d-flex justify-content-between">
         <button type="button" class="btn bg-gradient btn-block" (click)="goToCategories()">View all quizzes</button>
