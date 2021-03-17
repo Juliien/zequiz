@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   baseQuizUrl: 'https://opentdb.com/api.php?',
   baseApiUrl: 'http://localhost:3001/api/v1/',
-  socketUrl: 'http://localhost:5001/'
+  socketUrl: 'http://localhost:5000/'
 };
 
 /*

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {QuizModel} from '../models/quiz.model';
-import {RoomModel} from '../models/room.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { RoomModel } from '../models/room.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +15,12 @@ export class RoomService {
     return this.http.get<RoomModel>(environment.baseApiUrl + 'room/' + id);
   }
 
-  createRoom(quizId: string, quiz: QuizModel[]) {
-    return this.http.post<any>(environment.baseApiUrl + 'room/' + quizId, {quiz});
+  createRoom(room) {
+    return this.http.post<any>(environment.baseApiUrl + 'room', room);
   }
 
-  joinRoom(id: string) {
-    return this.http.post<any>(environment.baseApiUrl + 'room/join/' + id, {});
+  joinRoom(data: any) {
+    return this.http.post<any>(environment.baseApiUrl + 'room/join', data);
   }
 
   closeRoom(id: string) {

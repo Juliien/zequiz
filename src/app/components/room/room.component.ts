@@ -5,6 +5,8 @@ import {CategoryModel} from '../../models/category.model';
 import {RoomModel} from '../../models/room.model';
 import {QuizService} from '../../ressources/quiz.service';
 import {PlayerService} from '../../ressources/player.service';
+import {PlayerModel} from '../../models/player.model';
+import io from 'socket.io-client';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -16,58 +18,74 @@ export class RoomComponent implements OnInit {
   category: CategoryModel;
   room: RoomModel;
   startQuiz: boolean;
-  interval: any;
-  copy: boolean = false;
   isCopied: boolean;
   error: boolean;
-  socket: any;
+  players: PlayerModel[];
+  isOwner = false;
+  currentPlayer: PlayerModel = null;
+  isMobile: boolean;
+  nickname = '';
+  currentImage: string;
+  images: string[];
+  isReady = false;
+  roomId: string;
+  socket:any;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
               private roomService: RoomService,
-              private playerService: PlayerService) { }
+              private playerService: PlayerService,
+              ) {}
 
   ngOnInit(): void {
     this.startQuiz = false;
     this.isCopied = false;
     this.error = false;
+    this.isMobile = window.innerWidth <= 765;
 
+    // websocket
     this.socket = io(environment.socketUrl);
-
-    this.socket.on('room-broadcast', (data: string) => {
-      if(data === 'ready') {
-        this.startQuiz = true;
+    this.socket.on('room', message => {
+      if(message === 'joined') {
+        this.roomService.getRoomById(this.roomId).subscribe(room => {
+          this.room = room;
+          this.players = this.room.players;
+        });
       }
     });
 
+
     if(sessionStorage.getItem('roomId')) {
+      this.roomId = sessionStorage.getItem('roomId');
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
-        this.copy = true;
-        sessionStorage.setItem('playerId', this.room.players[0]);
-        this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => this.category = cat);
+        this.players = this.room.players;
+        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
+        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
       });
     } else {
       // Localhost
       const id = document.location.href.slice(29);
       // const id = document.location.href.slice(30);
-      this.roomService.joinRoom(id).subscribe(() => {
-        this.roomService.getRoomById(id).subscribe(room => {
-          this.room = room;
-          sessionStorage.setItem('playerId', this.room.players[1]);
-          this.categoryService.getCategoryByID(this.room.quizId).subscribe(cat => {
-            this.category = cat;
-            this.socket.emit('room', 'ready');
-          });
+      this.roomId = id;
+      this.currentImage ='avatar_1.png';
+      this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
+        'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
+      this.roomService.getRoomById(id).subscribe(room => {
+        this.room = room;
+        this.players = this.room.players;
+        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
+          this.category = cat;
         });
       });
+      if(sessionStorage.getItem('playerId')) {
+        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
+      }
     }
   }
 
   quit() {
-    clearInterval(this.interval);
     this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe();
-    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
   }
 
   copied(event) {
@@ -80,4 +98,29 @@ export class RoomComponent implements OnInit {
     sessionStorage.clear();
   }
 
+  joinRoom() {
+    const player = {
+      nickname: this.nickname,
+      photoUrl: this.currentImage,
+      isOwner: false
+    };
+    this.playerService.createPlayer(player).subscribe(currentPlayer => {
+      sessionStorage.setItem('playerId', currentPlayer._id);
+      this.currentPlayer = currentPlayer;
+      const joinRoom = {
+        roomId: this.room._id,
+        playerId: this.currentPlayer._id
+      };
+      this.roomService.joinRoom(joinRoom).subscribe(() => {
+        this.socket.emit('room', 'joined');
+      });
+    });
+  }
+
+  setImage(image) {
+    this.currentImage = image;
+  }
+  setReady() {
+    this.isReady = true;
+  }
 }

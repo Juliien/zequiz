@@ -19,21 +19,48 @@ h5 {
   color: gold;
 }
 
-.pulse {
-  animation: pulse 5s infinite;
+ul {
+  list-style: none;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-   opacity: 0.2;
-  }
+.slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slides > div {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  margin-right: 1em;
+  transform-origin: center center;
+  transform: scale(1);
+  transition: transform 0.5s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-players {
+  max-height: 280px!important;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 1em;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+}
+.list-players::-webkit-scrollbar-track {
+  -webkit-box-shadow: none !important;
+  background-color: transparent;
+}
+.list-players::-webkit-scrollbar {
+  width: 3px !important;
+  background-color: transparent;
+}
+.list-players::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }

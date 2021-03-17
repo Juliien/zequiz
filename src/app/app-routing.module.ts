@@ -6,6 +6,7 @@ import {QuizComponent} from './components/quiz/quiz.component';
 import {QuizListComponent} from './components/quiz-list/quiz-list.component';
 import {LegalComponent} from './components/legal/legal.component';
 import {RoomComponent} from './components/room/room.component';
+import {AdminComponent} from './components/admin/admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'room/:id', component: RoomComponent },
   { path: 'all', component: QuizListComponent },
   { path: 'legal', component: LegalComponent },
+  { path: 'admin/WXbE6VAGk738', component: AdminComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 
