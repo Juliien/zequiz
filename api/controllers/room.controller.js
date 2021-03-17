@@ -28,7 +28,7 @@ class RoomController {
   async getRoomById(req, res) {
     if(req.params.id) {
       try {
-        const room = await Room.findOne({_id: req.params.id});
+        const room = await Room.findOne({_id: req.params.id}).populate('players');
         if (room) {
           return res.status(200).json(room);
         }

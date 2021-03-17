@@ -16,12 +16,17 @@ export class RoomComponent implements OnInit {
   category: CategoryModel;
   room: RoomModel;
   startQuiz: boolean;
-  interval: any;
-  copy: boolean = false;
   isCopied: boolean;
   error: boolean;
   socket: any;
-  player: PlayerModel;
+  players: PlayerModel[];
+  isOwner = false;
+  currentPlayer: PlayerModel = null;
+  isMobile: boolean;
+  nickname = '';
+  currentImage: string;
+  images: string[];
+  isReady = false;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -32,30 +37,32 @@ export class RoomComponent implements OnInit {
     this.startQuiz = false;
     this.isCopied = false;
     this.error = false;
-
-    // this.socket.on('room-broadcast', (data: string) => {
-    //   if(data === 'ready') {
-    //     this.startQuiz = true;
-    //   }
-    // });
+    this.isMobile = window.innerWidth <= 765;
 
     if(sessionStorage.getItem('roomId')) {
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
-        this.copy = true;
+        this.players = this.room.players;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
-        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.player = player);
+        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
       });
     } else {
       // Localhost
       const id = document.location.href.slice(29);
       // const id = document.location.href.slice(30);
+      this.currentImage ='avatar_1.png';
+      this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
+        'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
+        this.players = this.room.players;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
           this.category = cat;
         });
       });
+      if(sessionStorage.getItem('playerId')) {
+        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
+      }
     }
   }
 
@@ -74,6 +81,31 @@ export class RoomComponent implements OnInit {
   }
 
   joinRoom() {
+    const player = {
+      nickname: this.nickname,
+      photoUrl: this.currentImage,
+      isOwner: false
+    };
+    this.playerService.createPlayer(player).subscribe(currentPlayer => {
+      sessionStorage.setItem('playerId', currentPlayer._id);
+      this.currentPlayer = currentPlayer;
+      const joinRoom = {
+        roomId: this.room._id,
+        playerId: this.currentPlayer._id
+      };
+      this.roomService.joinRoom(joinRoom).subscribe(() => {
+        this.roomService.getRoomById(this.room._id).subscribe(room => {
+          this.room = room;
+          this.players = this.room.players;
+        });
+      });
+    });
+  }
 
+  setImage(image) {
+    this.currentImage = image;
+  }
+  setReady() {
+    this.isReady = true;
   }
 }
