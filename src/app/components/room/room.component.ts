@@ -29,7 +29,7 @@ export class RoomComponent implements OnInit {
   images: string[];
   isReady = false;
   roomId: string;
-  socket:any;
+  socket: any;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -53,6 +53,10 @@ export class RoomComponent implements OnInit {
         });
       }
     });
+    this.socket.on('disconnect', playerId => {
+        //delete user from route
+        console.log(playerId);
+      });
 
 
     if(sessionStorage.getItem('roomId')) {
@@ -68,7 +72,7 @@ export class RoomComponent implements OnInit {
       const id = document.location.href.slice(29);
       // const id = document.location.href.slice(30);
       this.roomId = id;
-      this.currentImage ='avatar_1.png';
+      this.currentImage = 'avatar_1.png';
       this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
         'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
       this.roomService.getRoomById(id).subscribe(room => {
