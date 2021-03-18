@@ -3,6 +3,7 @@ export interface PlayerModel {
   nickname: string;
   photoUrl: string;
   isOwner: boolean;
+  isReady: boolean;
   score: number;
   createDate: string;
   closeDate: string;

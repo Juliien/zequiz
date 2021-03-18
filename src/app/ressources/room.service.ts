@@ -15,12 +15,16 @@ export class RoomService {
     return this.http.get<RoomModel>(environment.baseApiUrl + 'room/' + id);
   }
 
-  createRoom(room) {
+  createRoom(room: any) {
     return this.http.post<any>(environment.baseApiUrl + 'room', room);
   }
 
   joinRoom(data: any) {
     return this.http.post<any>(environment.baseApiUrl + 'room/join', data);
+  }
+
+  quitRoom(data: any) {
+    return this.http.post<any>(environment.baseApiUrl + 'room/quit', data);
   }
 
   closeRoom(id: string) {

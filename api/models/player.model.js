@@ -14,6 +14,10 @@ const playerSchema = new Schema({
     type: Boolean,
     required: true
   },
+  isReady: {
+    type: Boolean,
+    required: true
+  },
   score: {
     type: Number,
     required: true

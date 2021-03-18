@@ -6,20 +6,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const routes = require('./routes');
 
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-
-io.on('connection', (socket) => {
-  console.log('user connected');
-  socket.on('room', msg => {
-    io.emit('room', msg);
-  });
-
-  socket.on('disconnect', () => {});
-});
-
-server.listen(5000, () => console.log('Websocket started on port 5000'));
-
 mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,

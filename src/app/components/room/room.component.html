@@ -11,6 +11,7 @@
         <div>
           <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
           <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
+          <span *ngIf="!player.isOwner && player.isReady"><i class="fas fa-check-circle"></i></span>
           <p style="font-size: 12px" class="text-center">{{player.nickname}}</p>
         </div>
       </div>
@@ -69,7 +70,9 @@
         <ul>
           <li>
             <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
-            {{player.nickname}}<span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
+            {{player.nickname}}
+            <span *ngIf="!player.isOwner && player.isReady"><i class="fas fa-check-circle ml-1"></i></span>
+            <span *ngIf="player.isOwner"><i class="fas fa-crown ml-1"></i></span>
           </li>
         </ul>
       </div>

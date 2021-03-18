@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { CategoryComponent } from './components/category/category.component';
-import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { GameComponent } from './components/game/game.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
@@ -41,7 +40,6 @@ import { LoginComponent } from './components/login/login.component';
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        NgxUiLoaderModule,
         FormsModule,
         Ng2SearchPipeModule,
         ClipboardModule,
