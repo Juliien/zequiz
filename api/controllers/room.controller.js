@@ -61,6 +61,27 @@ class RoomController {
     return res.status(400).end();
   }
 
+  async quitRoom(req, res) {
+    if(req.body.roomId && req.body.playerId) {
+      try {
+        const room = await Room.findOne({_id: req.body.roomId, closeDate: null});
+        if(room) {
+          if(room.players.includes(req.body.playerId)) {
+            await Room.updateOne({_id: room._id}, {
+              $pull: {players: req.body.playerId}
+            });
+            return res.status(204).end();
+          }
+          return res.status(409).end();
+        }
+        return res.status(404).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
   async closeRoom(req, res) {
     if(req.params.id) {
       try {

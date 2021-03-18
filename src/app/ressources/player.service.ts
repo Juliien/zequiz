@@ -26,8 +26,8 @@ export class PlayerService {
     return this.http.post<any>(environment.baseApiUrl + 'player', player, options);
   }
 
-  updateScore(id: string, score: number): Observable<any> {
-    return this.http.post<any>(environment.baseApiUrl + 'player/score/' + id, {score}, options);
+  playerIsReady(id: string) {
+    return this.http.post<any>(environment.baseApiUrl + 'player/' + id, {}, options);
   }
 }
 
