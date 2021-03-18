@@ -133,6 +133,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   setImage(image) {
     this.currentImage = image;
   }
+
   setReady() {
     this.isReady = true;
     this.playerService.playerIsReady(this.currentPlayer._id).subscribe(() => {
