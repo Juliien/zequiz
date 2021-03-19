@@ -29,5 +29,9 @@ export class PlayerService {
   playerIsReady(id: string) {
     return this.http.post<any>(environment.baseApiUrl + 'player/' + id, {}, options);
   }
+
+  updatePlayerScore(data: any) {
+    return this.http.post<any>(environment.baseApiUrl + 'player/score', data, options);
+  }
 }
 

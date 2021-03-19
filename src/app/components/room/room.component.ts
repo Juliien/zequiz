@@ -29,6 +29,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   roomId: string;
   socket: any;
   alertOwner: boolean;
+  displayResults = false;
+  playersScores: PlayerModel[] = [];
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -52,6 +54,16 @@ export class RoomComponent implements OnInit, OnDestroy {
       }
       if (message === 'start') {
         this.startQuiz = true;
+      }
+      if (message === 'finished') {
+        this.roomService.getRoomById(this.roomId).subscribe(room => {
+          const playersHaveEnd = room.players.filter(player => player.score !== -1);
+          if (this.room.players.length === playersHaveEnd.length) {
+            this.displayResults = true;
+            this.playersScores = room.players.sort(
+              (a, b) => b.score - a.score);
+          }
+        });
       }
       if (message === 'closed') {
         this.clear();
@@ -144,6 +156,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     if (playersReady.length > 0) {
       this.alertOwner = true;
     } else {
+      this.alertOwner = false;
       this.socket.emit('room', 'start');
       this.startQuiz = true;
     }
