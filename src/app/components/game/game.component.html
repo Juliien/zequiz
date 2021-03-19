@@ -38,8 +38,6 @@
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h3>Score : {{score}}/10</h3>
-      <h3 *ngIf="score < 5" class="ml-4"> -{{zp}} ZP</h3>
-      <h3 *ngIf="score >= 5" class="ml-4"> +{{zp}} ZP</h3>
     </div>
     <div class="alert alert-info text-center" role="alert">
       <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
@@ -49,54 +47,9 @@
     </div>
     <div class="d-flex justify-content-between">
       <button type="button" class="btn bg-gradient mr-3" (click)="goToCategories()">View all quizzes</button>
-      <button type="button" class="btn btn-outline-light" (click)="restart()"><i class="fas fa-sync-alt"></i> Restart</button>
+      <button type="button" class="btn btn-outline-light" (click)="restart()">
+        <i class="fas fa-sync-alt"></i> Restart
+      </button>
     </div>
   </div>
 </div>
-
-<div class="card" *ngIf="result && vs">
-  <div class="card-body">
-    <div *ngIf="displaySpinner">
-      <h5 class="mb-2 text-center">Waiting for opponent ...</h5>
-      <div class="d-flex justify-content-center my-5">
-        <div class="spinner-border text-info" role="status">
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!displaySpinner">
-      <h4 class="card-title text-success text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score < score">
-        YOU WIN
-      </h4>
-      <h4 class="card-title text-danger text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score > score">
-        YOU LOSE
-      </h4>
-      <h4 class="card-title text-info text-center"
-          *ngIf="this.opponentPlayer.isEnd && this.opponentPlayer.score === score">
-        EQUALITY
-      </h4>
-      <div class="d-flex justify-content-between">
-        <h3 class="mt-2">Your Score : {{score}}/10</h3>
-        <h3 *ngIf="score < 5" class="ml-4 mt-2"> -{{zp}} ZP</h3>
-        <h3 *ngIf="score >= 5" class="ml-4 mt-2"> +{{zp}} ZP</h3>
-      </div>
-
-      <div class="alert alert-info text-center" role="alert">
-        <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
-        <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
-        <span *ngIf="score >= 5 && score < 8">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
-        <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
-      </div>
-
-      <h5 class="text-center mt-3" *ngIf="!this.opponentPlayer.isEnd">Waiting for opponent score</h5>
-      <h5 class="text-center my-3" *ngIf="this.opponentPlayer.isEnd">Opponent Score : {{this.opponentPlayer.score}}/10</h5>
-      <hr/>
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn bg-gradient btn-block" (click)="goToCategories()">View all quizzes</button>
-      </div>
-    </div>
-  </div>
-</div>
-

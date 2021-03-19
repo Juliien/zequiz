@@ -5,6 +5,10 @@ footer {
   margin-top: 10% !important;
 }
 
-p, a {
+p, a , span {
   color: #7E7E7E;
+}
+
+ul {
+  list-style: none;
 }

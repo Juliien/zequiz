@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CategoryModel} from '../../models/category.model';
 import {CategoryService} from '../../ressources/category.service';
 import {Meta, Title} from '@angular/platform-browser';
+import io from 'socket.io-client';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +17,11 @@ export class HomeComponent implements OnInit {
 
   constructor(private categoryService: CategoryService,
               private meta: Meta,
-              private titleService: Title) { }
+              private titleService: Title) {
+  }
 
   ngOnInit() {
-    this.titleService.setTitle('Zequiz - Quiz Platform');
+    this.titleService.setTitle('ZeQuiz - Quiz Platform');
     this.meta.addTag({
       name: 'quiz',
       content: 'ZeQuiz is an english quizzes platform'

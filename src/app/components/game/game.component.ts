@@ -2,11 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
 import {PlayerService} from '../../ressources/player.service';
-import {PlayerModel} from '../../models/player.model';
+import io from 'socket.io-client';
 import {RoomModel} from '../../models/room.model';
-import {RoomService} from '../../ressources/room.service';
-import {UserService} from '../../ressources/user.service';
-import {AuthenticationService} from '../../ressources/authentication.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-game',
@@ -14,7 +12,7 @@ import {AuthenticationService} from '../../ressources/authentication.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  @Input() quiz: Array<object>;
+  @Input() quiz: any;
   @Input() vs: boolean;
   @Input() room: RoomModel;
 
@@ -23,32 +21,22 @@ export class GameComponent implements OnInit {
   result = false;
   answer = false;
   listQuestions: QuizModel[] = [];
-  correctAnswer: string;
   selectedAnswer: string;
-  isMobile: boolean;
-  opponentPlayer: PlayerModel;
-  interval: any;
-  displaySpinner: boolean;
-  zp: number;
   errMsg: string;
+  socket: any;
 
   constructor(private router: Router,
-              private playerService: PlayerService,
-              private userService: UserService,
-              private roomService: RoomService,
-              public authenticationService: AuthenticationService) { }
+              private playerService: PlayerService) { }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth <= 765;
-    this.displaySpinner = false;
+    this.socket = io(environment.socketUrl);
     this.startQuiz();
   }
 
   startQuiz() {
-    this.listQuestions = this.quiz['results'];
+    this.listQuestions = this.quiz.results;
     this.index = 0;
     this.score = 0;
-    this.zp = 0;
   }
 
   parseQuestion(res: string) {
@@ -79,67 +67,28 @@ export class GameComponent implements OnInit {
   }
 
   validate(res: string) {
-    this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
+    const correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
     this.selectedAnswer = res.toUpperCase();
-    if (this.selectedAnswer === this.correctAnswer) {
+    if (this.selectedAnswer === correctAnswer) {
       this.score++;
     }
     this.answer = true;
   }
 
   displayResult() {
-    if(this.authenticationService.isLogged()) {
-      this.calculateZp(false);
-      this.userService.updateScore(this.score, -1).subscribe(user => {
-        this.userService.currentUser = user;
-      }, (error) => {
-        if(error.status === 401) {
-          this.errMsg = "Your session has expired ! Automatic logout in 3 seconds";
-          this.sleep(3000).then(() => localStorage.clear());
-        }
-      });
-    }
     this.result = true;
   }
 
-  sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
 
   displayVSResult() {
     this.result = true;
-    this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
-    this.playerService.playerEndQuiz(sessionStorage.getItem('playerId')).subscribe();
-    this.end();
+    const data =  {
+      playerId: sessionStorage.getItem('playerId'),
+      score: this.score
+    };
+    this.playerService.updatePlayerScore(data).subscribe( () => this.socket.emit('room', 'finished'));
   }
 
-  end() {
-    this.displaySpinner = true;
-    this.interval = setInterval(() => {
-      if (this.room.players[0] === sessionStorage.getItem('playerId')) {
-        this.getPlayer(this.room.players[1]);
-      } else {
-        this.getPlayer(this.room.players[0]);
-      }
-    }, 3000);
-  }
-
-  getPlayer(id) {
-    this.playerService.getPlayerById(id).subscribe(player => {
-      this.opponentPlayer = player;
-      if (this.opponentPlayer.isEnd) {
-        if(this.authenticationService.isLogged()) {
-          this.calculateZp(true);
-          this.userService.updateScore(this.score, this.opponentPlayer.score,).subscribe(user => {
-            this.userService.currentUser = user;
-          });
-        }
-        this.roomService.closeRoom(this.room._id).subscribe();
-        this.displaySpinner = false;
-        clearInterval(this.interval);
-      }
-    });
-  }
 
   goToCategories() {
     sessionStorage.clear();
@@ -148,46 +97,5 @@ export class GameComponent implements OnInit {
 
   restart() {
     window.location.reload();
-  }
-
-  calculateZp(isVs: boolean){
-    switch (this.score) {
-      case 0:
-        this.zp = 14;
-        break;
-      case 1:
-        this.zp = 12;
-        break;
-      case 2:
-        this.zp = 10;
-        break;
-      case 3:
-        this.zp = 8;
-        break;
-      case 4:
-        this.zp = 6;
-        break;
-      case 5:
-        this.zp = 10;
-        break;
-      case 6:
-        this.zp  = 12;
-        break;
-      case 7:
-        this.zp = 14;
-        break;
-      case 8:
-        this.zp = 16;
-        break;
-      case 9:
-        this.zp = 18;
-        break;
-      case 10:
-        this.zp = 20;
-        break;
-    }
-    if(isVs && this.score > 4 && this.opponentPlayer.score < this.score) {
-      this.zp = this.zp * 2;
-    }
   }
 }

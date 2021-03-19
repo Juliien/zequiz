@@ -1,34 +1,25 @@
-const models = require('../models');
-const Room = models.Room;
-const Player = models.Player;
+const Room = require('../models/room.model');
+const ResponseUtil = require("../utils/response.util");
+
+const response = new ResponseUtil();
 const date = new Date();
 
 class RoomController {
 
   async createRoom(req, res) {
-    if (req.params.quizId, req.body.quiz) {
+    if (req.body.categoryId && req.body.quiz && req.body.playerId) {
       try {
-        const newPlayer = new Player({
-          score: -1,
-          isEnd: false
-        });
         const room = new Room({
-          createDate: date.toISOString(),
-          closeDate: null,
-          players: [],
-          quizId: req.params.quizId,
+          players: [req.body.playerId],
+          categoryId: req.body.categoryId,
           quiz: req.body.quiz,
-          isStart: false
+          createDate: date.toISOString(),
+          closeDate: null
         });
-        const player = await newPlayer.save();
-        const newRoom = await room.save();
-
-        await Room.updateOne({_id: newRoom._id}, {
-          $push: {players: player._id}
-        });
-        return res.status(200).json(newRoom);
+        await room.save();
+        return res.status(201).json(room);
       } catch (e) {
-        return res.status(500).send(e);
+        return res.status(500).json(e);
       }
     }
     return res.status(400).end();
@@ -37,7 +28,7 @@ class RoomController {
   async getRoomById(req, res) {
     if(req.params.id) {
       try {
-        const room = await Room.findOne({_id: req.params.id});
+        const room = await Room.findOne({_id: req.params.id, closeDate: null}).populate('players');
         if (room) {
           return res.status(200).json(room);
         }
@@ -50,22 +41,38 @@ class RoomController {
   }
 
   async joinRoom(req, res) {
-    if(req.params.id) {
+    if(req.body.roomId && req.body.playerId) {
       try {
-        const room = await Room.findOne({_id: req.params.id, closeDate: null});
+        const room = await Room.findOne({_id: req.body.roomId, closeDate: null});
         if(room) {
-          const newPlayer = new Player({
-            score: -1,
-            isEnd: false
-          });
-          const player = await newPlayer.save();
-          if(player && !room.players.includes(player._id)) {
+          if(!room.players.includes(req.body.playerId)) {
             await Room.updateOne({_id: room._id}, {
-              isStart: true,
-              $push: {players: player._id}
+              $push: {players: req.body.playerId}
             });
+            return res.status(204).end();
           }
-          return res.status(204).end();
+          return res.status(409).end();
+        }
+        return res.status(404).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
+  async quitRoom(req, res) {
+    if(req.body.roomId && req.body.playerId) {
+      try {
+        const room = await Room.findOne({_id: req.body.roomId, closeDate: null});
+        if(room) {
+          if(room.players.includes(req.body.playerId)) {
+            await Room.updateOne({_id: room._id}, {
+              $pull: {players: req.body.playerId}
+            });
+            return res.status(204).end();
+          }
+          return res.status(409).end();
         }
         return res.status(404).end();
       } catch (e) {
@@ -82,7 +89,7 @@ class RoomController {
         if (room.nModified === 1) {
           return res.status(204).end();
         }
-        return res.status(400).end();
+        return res.status(404).end();
       } catch (e) {
         return res.status(500).send(e);
       }

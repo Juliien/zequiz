@@ -2,26 +2,20 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {UserModel} from '../models/user.model';
-
-
-const options = {
-  headers: new HttpHeaders({
-    'Access-Control-Allow-Origin': '*'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
 
-  register(user: any): Observable<UserModel> {
-    return this.http.post<UserModel>(environment.baseApiUrl  + 'register', user, options);
-  }
+  constructor(private http: HttpClient) { }
 
   login(info: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
     return this.http.post<any>(environment.baseApiUrl  + 'login', info, options);
   }
 
@@ -39,4 +33,5 @@ export class AuthenticationService {
     const token = localStorage.getItem('token');
     return token && token.length > 1;
   }
+
 }

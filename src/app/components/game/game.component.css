@@ -1,3 +1,13 @@
 h5 {
   overflow-wrap: anywhere;
 }
+
+.card {
+  width: 650px !important;
+}
+
+@media (max-width: 765px) {
+  .card {
+    width: 100% !important;
+  }
+}

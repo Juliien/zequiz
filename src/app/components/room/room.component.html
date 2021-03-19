@@ -1,38 +1,191 @@
-<div class="d-flex justify-content-center my-5" *ngIf="!room && !category">
+<!-- Spinner -->
+<div class="d-flex justify-content-center my-5" *ngIf="!room && !category && !error">
   <div class="spinner-border text-info" role="status">
   </div>
 </div>
 
-<div *ngIf="room && category">
-  <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error" routerLink="/all" (click)="quit()">Cancel ZeVersus</button>
-  <h4 class="text-center mt-4" *ngIf="categoryId">Copy game link
-    <button class="btn btn-info mx-1" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id"
-            (cbOnSuccess)="copied($event)">
-      <i class="far fa-copy fa-lg"></i>
-    </button>
-  </h4>
-  <p class="text-center text-muted" *ngIf="isCopied">Copied !</p>
-  <div class="row d-flex justify-content-center mt-3" *ngIf="category">
-    <div class="card">
-      <img src="{{category.photoUrl}}" class="card-img">
-      <div class="card-img-overlay">
-        <h5 class="text-center title">{{category.name}}</h5>
+<div *ngIf="room && category && !error">
+
+  <!-- Player List - Mobile version -->
+  <div *ngIf="currentPlayer && isMobile">
+    <div class="slides">
+      <div *ngFor="let player of room.players">
+        <div>
+          <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
+          <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
+          <span *ngIf="!player.isOwner && player.isReady"><i class="fas fa-check-circle"></i></span>
+          <p style="font-size: 12px" class="text-center">{{player.nickname}}</p>
+        </div>
       </div>
     </div>
   </div>
-  <h4 class="pulse text-center mt-3" *ngIf="!startQuiz && !error ">Waiting for start ...</h4>
 
-  <div class="d-flex justify-content-center my-4" *ngIf="!startQuiz && error">
-    <div>
-      <p class="text-danger">Ooops! An error occured. This room is closed!</p>
-      <button class="btn bg-gradient" routerLink="/all" (click)="clear()">View all categories</button>
-    </div>
+  <!-- Cancel Button for Owner -->
+  <div *ngIf="currentPlayer">
+    <button class="btn btn-danger mt-3" [ngClass]="{'mb-3': isMobile}"
+            *ngIf="!startQuiz && !error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">
+      Close the room
+    </button>
   </div>
 
-  <div class="d-flex justify-content-center my-5" *ngIf="startQuiz">
-    <app-game [quiz]="quiz" [vs]="true" [room]="room"></app-game>
+  <!-- Category Card -->
+  <div class="row d-flex justify-content-center" *ngIf="category">
+    <div>
+
+      <!-- Card -->
+      <div class="card">
+        <img src="{{category.photoUrl}}" class="card-img">
+        <div class="card-img-overlay">
+          <h5 class="text-center title">{{category.name}}</h5>
+        </div>
+      </div>
+
+      <!-- Game Options -->
+      <div class="d-flex justify-content-between mt-3" *ngIf="currentPlayer && !startQuiz" >
+        <button class="btn btn-info" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id">
+          Game Link <i class="far fa-copy fa-lg"></i>
+        </button>
+
+        <button type="button" class="btn bg-gradient" (click)="startGame()"
+                data-toggle="modal" data-target="#modalStart" *ngIf="currentPlayer.isOwner">
+          Start Game <i class="far fa-play-circle fa-lg"></i>
+        </button>
+
+        <button class="btn btn-outline-light" (click)="setReady()" *ngIf="!currentPlayer.isOwner && !currentPlayer.isReady">
+          I am ready
+        </button>
+
+        <button class="btn btn-light" *ngIf="!currentPlayer.isOwner && currentPlayer.isReady">
+          READY <i class="fas fa-check-circle fa-lg"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Init Player -->
+    <div *ngIf="!currentPlayer" class="mx-5" [ngClass]="{'mt-3': isMobile}">
+      <img alt="avatar" src="assets/avatars/{{currentImage}}" class="mx-auto d-block" width="170" height="170">
+
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#modalAvatar">
+          <i class="fas fa-camera fa-lg"></i>
+        </button>
+      </div>
+      <label>
+        <input type="text" class="form-control mb-3 mt-1" placeholder="nickname" [(ngModel)]="nickname" maxlength="12">
+      </label>
+      <button type="button" class="btn bg-gradient btn-block" (click)="joinRoom()">Join the room</button>
+    </div>
+
+    <!-- Player List Web -->
+    <div *ngIf="currentPlayer && !isMobile" class="list-players">
+      <div *ngFor="let player of room.players">
+        <ul>
+          <li>
+            <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
+            {{player.nickname}}
+            <span *ngIf="!player.isOwner && player.isReady"><i class="fas fa-check-circle ml-1"></i></span>
+            <span *ngIf="player.isOwner"><i class="fas fa-crown ml-1"></i></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Start Game -->
+  <div class="d-flex justify-content-center my-5" *ngIf="room && startQuiz">
+    <div *ngIf="!displayResults && currentPlayer.score === -1">
+      <app-game [quiz]="room.quiz" [vs]="true" [room]="room"></app-game>
+    </div>
+
+    <div *ngIf="!displayResults && currentPlayer.score !== -1">
+        <h5 class="pulse text-center">Waiting for results ...</h5>
+    </div>
+    <!-- Display Results -->
+    <div *ngIf="displayResults">
+      <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Player</th>
+          <th scope="col">Score</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let player of playersScores; let i = index">
+        <tr>
+          <th scope="row" class="align-middle">
+            {{i+1}}.
+          </th>
+          <td class="align-middle">
+            <img class="mr-1" src="assets/avatars/{{player.photoUrl}}" height="50" width="50">
+            <b>{{player.nickname}}</b>
+          </td>
+          <td class="align-middle">
+            <b>{{player.score}}</b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Error Message for closed rooms -->
+<div class="d-flex justify-content-center my-5" *ngIf="!startQuiz && error">
+  <div>
+    <h3 class="title text-center text-danger">Ooops !</h3>
+    <p class="text-danger text-center">This room is closed!</p>
+    <button class="btn bg-gradient btn-block mt-3" routerLink="/all" (click)="clear()">View all categories</button>
   </div>
 </div>
 
+<!-- Modal Avatar -->
+<div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modify avatar</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center row m-2">
+          <div *ngFor="let img of images">
+            <img alt="avatar" src="assets/avatars/{{img}}" class="mx-auto d-block" width="100" height="100"
+                 (click)="setImage(img)" data-dismiss="modal">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
+<!-- Modal Start -->
+<div class="modal fade" id="modalStart" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="alertOwner">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Oops !</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Some players are not ready!</p>
+        <div *ngFor="let player of room.players">
+          <ul *ngIf="!player.isReady">
+            <li>
+              <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="30" height="30">
+              {{player.nickname}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
