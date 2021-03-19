@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {PlayerService} from '../../ressources/player.service';
 import {PlayerModel} from '../../models/player.model';
 import {RoomModel} from '../../models/room.model';
-import {RoomService} from '../../ressources/room.service';
 
 @Component({
   selector: 'app-game',
@@ -12,7 +11,7 @@ import {RoomService} from '../../ressources/room.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  @Input() quiz: Array<object>;
+  @Input() quiz: any;
   @Input() vs: boolean;
   @Input() room: RoomModel;
 
@@ -25,25 +24,20 @@ export class GameComponent implements OnInit {
   selectedAnswer: string;
   isMobile: boolean;
   opponentPlayer: PlayerModel;
-  displaySpinner: boolean;
-  zp: number;
   errMsg: string;
 
   constructor(private router: Router,
-              private playerService: PlayerService,
-              private roomService: RoomService) { }
+              private playerService: PlayerService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 765;
-    this.displaySpinner = false;
     this.startQuiz();
   }
 
   startQuiz() {
-    this.listQuestions = this.quiz['results'];
+    this.listQuestions = this.quiz.results;
     this.index = 0;
     this.score = 0;
-    this.zp = 0;
   }
 
   parseQuestion(res: string) {
@@ -83,7 +77,6 @@ export class GameComponent implements OnInit {
   }
 
   displayResult() {
-    this.calculateZp(false);
     this.result = true;
   }
 
@@ -101,46 +94,5 @@ export class GameComponent implements OnInit {
 
   restart() {
     window.location.reload();
-  }
-
-  calculateZp(isVs: boolean){
-    switch (this.score) {
-      case 0:
-        this.zp = 14;
-        break;
-      case 1:
-        this.zp = 12;
-        break;
-      case 2:
-        this.zp = 10;
-        break;
-      case 3:
-        this.zp = 8;
-        break;
-      case 4:
-        this.zp = 6;
-        break;
-      case 5:
-        this.zp = 10;
-        break;
-      case 6:
-        this.zp  = 12;
-        break;
-      case 7:
-        this.zp = 14;
-        break;
-      case 8:
-        this.zp = 16;
-        break;
-      case 9:
-        this.zp = 18;
-        break;
-      case 10:
-        this.zp = 20;
-        break;
-    }
-    if(isVs && this.score > 4 && this.opponentPlayer.score < this.score) {
-      this.zp = this.zp * 2;
-    }
   }
 }
