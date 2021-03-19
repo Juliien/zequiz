@@ -17,7 +17,7 @@ class PlayerController {
           photoUrl: req.body.photoUrl,
           isOwner: playerIsOwner,
           isReady: false,
-          score: 0,
+          score: -1,
           createDate: date.toISOString(),
           closeDate: null
         });
@@ -34,8 +34,23 @@ class PlayerController {
     return res.status(400).end();
   }
 
+  async updatePlayerScore(req, res) {
+    if (req.body.playerId && req.body.score) {
+      try {
+        const player = await Player.findOne({_id: req.body.playerId});
+        if(player && player.isReady) {
+          await Player.updateOne({_id: player._id}, {score: req.body.score});
+          return res.status(204).end();
+        }
+        return res.status(409).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+  }
+
   async getPlayerById(req, res) {
-    if(req.params.id) {
+    if (req.params.id) {
       try {
         const player = await Player.findOne({_id: req.params.id});
         if (player) {

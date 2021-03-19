@@ -17,6 +17,6 @@ module.exports = function (app) {
 
   // app.delete(process.env.API_URL + '/room',
   //   async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-  //   async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next,process.env.ADMIN),
+  //   async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next, process.env.ADMIN),
   //   async (req, res) => controller.purgeRoom(req, res));
 };

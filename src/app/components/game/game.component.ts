@@ -2,8 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
 import {PlayerService} from '../../ressources/player.service';
-import {PlayerModel} from '../../models/player.model';
+import io from 'socket.io-client';
 import {RoomModel} from '../../models/room.model';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-game',
@@ -23,13 +24,14 @@ export class GameComponent implements OnInit {
   correctAnswer: string;
   selectedAnswer: string;
   isMobile: boolean;
-  opponentPlayer: PlayerModel;
   errMsg: string;
+  socket: any;
 
   constructor(private router: Router,
               private playerService: PlayerService) { }
 
   ngOnInit() {
+    this.socket = io(environment.socketUrl);
     this.isMobile = window.innerWidth <= 765;
     this.startQuiz();
   }
@@ -83,7 +85,11 @@ export class GameComponent implements OnInit {
 
   displayVSResult() {
     this.result = true;
-    // this.playerService.updateScore(sessionStorage.getItem('playerId'), this.score).subscribe();
+    const data =  {
+      playerId: sessionStorage.getItem('playerId'),
+      score: this.score
+    };
+    this.playerService.updatePlayerScore(data).subscribe( () => this.socket.emit('room', 'finished'));
   }
 
 

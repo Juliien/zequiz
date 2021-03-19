@@ -6,6 +6,7 @@ const controller = new PlayerController();
 
 module.exports = function (app) {
   app.post(process.env.API_URL + '/player', bodyParser.json(), async (req, res) => controller.createPlayer(req, res));
+  app.post(process.env.API_URL + '/player/score', bodyParser.json(), async (req, res) => controller.updatePlayerScore(req, res));
   app.get(process.env.API_URL + '/player/:id', bodyParser.json(), async (req, res) => controller.getPlayerById(req, res));
   app.post(process.env.API_URL + '/player/:id', bodyParser.json(), async (req, res) => controller.playerIsReady(req, res));
 
