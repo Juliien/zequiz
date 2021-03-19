@@ -19,10 +19,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   category: CategoryModel;
   room: RoomModel;
   startQuiz: boolean;
-  isCopied: boolean;
   error: boolean;
-  players: PlayerModel[];
-  isOwner = false;
   currentPlayer: PlayerModel = null;
   isMobile: boolean;
   nickname = '';
@@ -31,6 +28,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   isReady = false;
   roomId: string;
   socket: any;
+  alertOwner: boolean;
 
   constructor(private categoryService: CategoryService,
               private quizService: QuizService,
@@ -40,9 +38,9 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.startQuiz = false;
-    this.isCopied = false;
     this.error = false;
     this.isMobile = window.innerWidth <= 765;
+    this.alertOwner = false;
 
     // websocket
     this.socket = io(environment.socketUrl);
@@ -50,8 +48,10 @@ export class RoomComponent implements OnInit, OnDestroy {
       if (message === 'joined' || message === 'ready' || message === 'leave') {
         this.roomService.getRoomById(this.roomId).subscribe(room => {
           this.room = room;
-          this.players = this.room.players;
         });
+      }
+      if (message === 'start') {
+        this.startQuiz = true;
       }
     });
     this.socket.on('quit-room', playerId => {
@@ -69,7 +69,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.roomId = sessionStorage.getItem('roomId');
       this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
         this.room = room;
-        this.players = this.room.players;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
         this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
       });
@@ -86,7 +85,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
-        this.players = this.room.players;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
           this.category = cat;
         });
@@ -99,12 +97,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   quit() {
     this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe();
-  }
-
-  copied(event) {
-    if (event.isSuccess) {
-      return this.isCopied = true;
-    }
   }
 
   clear() {
@@ -133,6 +125,17 @@ export class RoomComponent implements OnInit, OnDestroy {
   setImage(image) {
     this.currentImage = image;
   }
+
+  startGame() {
+    const playersReady = this.room.players.filter(player => !player.isReady);
+    if (playersReady.length > 0) {
+      this.alertOwner = true;
+    } else {
+      this.socket.emit('room', 'start');
+      this.startQuiz = true;
+    }
+  }
+
   setReady() {
     this.isReady = true;
     this.playerService.playerIsReady(this.currentPlayer._id).subscribe(() => {

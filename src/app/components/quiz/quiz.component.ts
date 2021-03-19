@@ -29,7 +29,7 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobile = window.innerWidth <= 765;
-    this.currentImage ='avatar_1.png';
+    this.currentImage = 'avatar_1.png';
     this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
       'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
     if (sessionStorage.getItem('categoryId')) {
@@ -56,10 +56,11 @@ export class QuizComponent implements OnInit {
     const player = {
       nickname: this.nickname,
       photoUrl: this.currentImage,
-      isOwner: true
+      isOwner: true,
     };
     this.playerService.createPlayer(player).subscribe(currentPlayer => {
       sessionStorage.setItem('playerId', currentPlayer._id);
+      this.playerService.playerIsReady(currentPlayer._id).subscribe();
       const newRoom = {
         categoryId: this.category._id,
         quiz: this.quiz,
@@ -69,7 +70,7 @@ export class QuizComponent implements OnInit {
             sessionStorage.setItem('roomId', room._id);
             this.router.navigate(['/room', room._id]).then();
       });
-    })
+    });
   }
 
   goToVS() {
