@@ -21,9 +21,7 @@ export class GameComponent implements OnInit {
   result = false;
   answer = false;
   listQuestions: QuizModel[] = [];
-  correctAnswer: string;
   selectedAnswer: string;
-  isMobile: boolean;
   errMsg: string;
   socket: any;
 
@@ -32,7 +30,6 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.socket = io(environment.socketUrl);
-    this.isMobile = window.innerWidth <= 765;
     this.startQuiz();
   }
 
@@ -70,9 +67,9 @@ export class GameComponent implements OnInit {
   }
 
   validate(res: string) {
-    this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
+    const correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
     this.selectedAnswer = res.toUpperCase();
-    if (this.selectedAnswer === this.correctAnswer) {
+    if (this.selectedAnswer === correctAnswer) {
       this.score++;
     }
     this.answer = true;

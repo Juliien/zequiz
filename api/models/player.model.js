@@ -25,10 +25,6 @@ const playerSchema = new Schema({
   createDate: {
     type: Date,
     required: true
-  },
-  closeDate: {
-    type: Date,
-    required: false
   }
 });
 

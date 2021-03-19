@@ -4,6 +4,7 @@
   opacity: 0.75;
   border-radius: 16px;
 }
+
 .card {
   height: 226px;
   width: 300px;
@@ -22,6 +23,7 @@ h5 {
 ul {
   list-style: none;
 }
+
 
 .slides {
   display: flex;
@@ -53,14 +55,37 @@ ul {
   -ms-overflow-style: none; /* IE 10+ */
 
 }
+
 .list-players::-webkit-scrollbar-track {
   -webkit-box-shadow: none !important;
   background-color: transparent;
 }
+
 .list-players::-webkit-scrollbar {
   width: 3px !important;
   background-color: transparent;
 }
+
 .list-players::-webkit-scrollbar-thumb {
   background-color: transparent;
+}
+
+.pulse {
+  font-size: 2em !important;
+  animation: pulse 5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
 }
