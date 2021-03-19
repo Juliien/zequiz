@@ -1,9 +1,11 @@
-<div class="d-flex justify-content-center my-5" *ngIf="!room && !category">
+<!-- Spinner -->
+<div class="d-flex justify-content-center my-5" *ngIf="!room && !category && !error">
   <div class="spinner-border text-info" role="status">
   </div>
 </div>
 
-<div *ngIf="room && category">
+<div *ngIf="room && category && !error">
+
   <!-- Player List Mobile -->
   <div *ngIf="currentPlayer && isMobile">
     <div class="slides">
@@ -19,7 +21,8 @@
   </div>
 
   <div *ngIf="currentPlayer">
-    <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">Cancel</button>
+    <button class="btn btn-danger mt-3" *ngIf="!startQuiz && !error && currentPlayer.isOwner"
+            routerLink="/all" (click)="quit()">Close the room</button>
   </div>
 
   <!-- Category Card -->
@@ -82,19 +85,19 @@
 
   </div>
 
-
-  <div class="d-flex justify-content-center my-4" *ngIf="!startQuiz && error">
-    <div>
-      <p class="text-danger">Ooops! An error occured. This room is closed!</p>
-      <button class="btn bg-gradient" routerLink="/all" (click)="clear()">View all categories</button>
-    </div>
-  </div>
-
   <div class="d-flex justify-content-center my-5" *ngIf="room && startQuiz">
     <app-game [quiz]="room.quiz" [vs]="true" [room]="room"></app-game>
   </div>
 </div>
 
+<div class="d-flex justify-content-center my-5" *ngIf="!startQuiz && error">
+  <div>
+    <h3 class="title text-center text-danger">Ooops !</h3>
+    <p class="text-danger text-center">This room is closed!</p>
+    <hr/>
+    <button class="btn bg-gradient btn-block mt-3" routerLink="/all" (click)="clear()">View all categories</button>
+  </div>
+</div>
 <!-- Modal Avatar -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

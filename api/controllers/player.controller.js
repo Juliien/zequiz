@@ -17,7 +17,7 @@ class PlayerController {
           photoUrl: req.body.photoUrl,
           isOwner: playerIsOwner,
           isReady: false,
-          score: 0,
+          score: -1,
           createDate: date.toISOString(),
           closeDate: null
         });

@@ -28,7 +28,7 @@ class RoomController {
   async getRoomById(req, res) {
     if(req.params.id) {
       try {
-        const room = await Room.findOne({_id: req.params.id}).populate('players');
+        const room = await Room.findOne({_id: req.params.id, closeDate: null}).populate('players');
         if (room) {
           return res.status(200).json(room);
         }
@@ -89,7 +89,7 @@ class RoomController {
         if (room.nModified === 1) {
           return res.status(204).end();
         }
-        return res.status(400).end();
+        return res.status(404).end();
       } catch (e) {
         return res.status(500).send(e);
       }

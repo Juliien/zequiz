@@ -23,8 +23,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   currentPlayer: PlayerModel = null;
   isMobile: boolean;
   nickname = '';
-  currentImage: string;
-  images: string[];
+  currentImage = 'avatar_1.png';
+  images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png', 'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
   isReady = false;
   roomId: string;
   socket: any;
@@ -53,12 +53,18 @@ export class RoomComponent implements OnInit, OnDestroy {
       if (message === 'start') {
         this.startQuiz = true;
       }
+      if (message === 'closed') {
+        this.clear();
+        this.error = true;
+      }
     });
+
     this.socket.on('quit-room', playerId => {
       const data = {
         roomId: this.roomId,
         playerId: playerId.toString()
       };
+
       this.roomService.quitRoom(data).subscribe(() => {
         this.socket.emit('room', 'leave');
       });
@@ -71,6 +77,10 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.room = room;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
         this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
+      }, err => {
+        if (err.status === 404) {
+          this.error = true;
+        }
       });
     } else {
       // Localhost
@@ -80,14 +90,15 @@ export class RoomComponent implements OnInit, OnDestroy {
       // const id = document.location.href.slice(30);
 
       this.roomId = id;
-      this.currentImage = 'avatar_1.png';
-      this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
-        'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
         this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
           this.category = cat;
         });
+      }, err => {
+        if (err.status === 404) {
+          this.error = true;
+        }
       });
       if (sessionStorage.getItem('playerId')) {
         this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
@@ -96,7 +107,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   quit() {
-    this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe();
+    this.roomService.closeRoom(sessionStorage.getItem('roomId')).subscribe(() => {
+      this.socket.emit('room', 'closed');
+    });
   }
 
   clear() {
@@ -144,7 +157,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.socket.emit('quit-room', this.currentPlayer._id);
+    if (this.currentPlayer) {
+      this.socket.emit('quit-room', this.currentPlayer._id);
+    }
   }
 
   // @HostListener('window:beforeunload', ['$event'])
