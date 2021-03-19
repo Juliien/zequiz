@@ -18,8 +18,7 @@ class PlayerController {
           isOwner: playerIsOwner,
           isReady: false,
           score: -1,
-          createDate: date.toISOString(),
-          closeDate: null
+          createDate: date.toISOString()
         });
 
         const player = await newPlayer.save();
