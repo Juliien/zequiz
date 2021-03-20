@@ -21,6 +21,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   startQuiz: boolean;
   error: boolean;
   currentPlayer: PlayerModel = null;
+  currentUrl: string;
   isMobile: boolean;
   nickname = '';
   currentImage = 'avatar_1.png';
@@ -29,6 +30,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   socket: any;
   alertOwner: boolean;
   displayResults = false;
+  isCopied = false;
   playersScores: PlayerModel[] = [];
 
   constructor(private categoryService: CategoryService,
@@ -38,6 +40,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.currentUrl = document.location.href;
     this.startQuiz = false;
     this.error = false;
     this.isMobile = window.innerWidth <= 765;
@@ -107,7 +110,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      const id = document.location.href.substring(document.location.href.lastIndexOf('/') + 1);
+      const id = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
       this.roomId = id;
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
@@ -154,6 +157,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  copied(event) {
+    if (event.isSuccess) {
+      this.isCopied = true;
+    }
+  }
   setImage(image) {
     this.currentImage = image;
   }
