@@ -22,6 +22,7 @@ export class GameComponent implements OnInit {
   answer = false;
   listQuestions: QuizModel[] = [];
   selectedAnswer: string;
+  correctAnswer: string;
   errMsg: string;
   socket: any;
 
@@ -67,9 +68,9 @@ export class GameComponent implements OnInit {
   }
 
   validate(res: string) {
-    const correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
+    this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
     this.selectedAnswer = res.toUpperCase();
-    if (this.selectedAnswer === correctAnswer) {
+    if (this.selectedAnswer === this.correctAnswer) {
       this.score++;
     }
     this.answer = true;
