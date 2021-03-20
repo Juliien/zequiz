@@ -23,7 +23,7 @@ export class AuthenticationService {
     const option = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
     return this.http.post<any>(environment.baseApiUrl + 'logout', {}, option);
