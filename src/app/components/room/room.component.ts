@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../ressources/category.service';
 import {RoomService} from '../../ressources/room.service';
 import {CategoryModel} from '../../models/category.model';
@@ -21,6 +21,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   startQuiz: boolean;
   error: boolean;
   currentPlayer: PlayerModel = null;
+  currentUrl: string;
   isMobile: boolean;
   nickname = '';
   currentImage = 'avatar_1.png';
@@ -29,6 +30,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   socket: any;
   alertOwner: boolean;
   displayResults = false;
+  isCopied = false;
   playersScores: PlayerModel[] = [];
 
   constructor(private categoryService: CategoryService,
@@ -38,6 +40,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.currentUrl = document.location.href;
     this.startQuiz = false;
     this.error = false;
     this.isMobile = window.innerWidth <= 765;
@@ -107,13 +110,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      // Localhost
-      // const id = document.location.href.slice(29);
-      // Dev
-      // const id = document.location.href.slice(39);
-      // Prod
-      const id = document.location.href.slice(30);
-
+      const id = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
       this.roomId = id;
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
@@ -160,6 +157,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  copied(event) {
+    if (event.isSuccess) {
+      this.isCopied = true;
+    }
+  }
   setImage(image) {
     this.currentImage = image;
   }

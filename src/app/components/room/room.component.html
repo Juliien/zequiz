@@ -20,11 +20,15 @@
     </div>
   </div>
 
-  <!-- Cancel Button for Owner -->
+  <!-- Cancel Buttons -->
   <div *ngIf="currentPlayer">
     <button class="btn btn-danger mt-3" [ngClass]="{'mb-3': isMobile}"
-            *ngIf="!startQuiz && !error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">
+            *ngIf="!error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">
       Close the room
+    </button>
+    <button class="btn btn-danger mt-3" [ngClass]="{'mb-3': isMobile}"
+            *ngIf="!error && !currentPlayer.isOwner" routerLink="/all">
+      Quit
     </button>
   </div>
 
@@ -34,7 +38,7 @@
 
       <!-- Card -->
       <div class="card">
-        <img src="{{category.photoUrl}}" class="card-img">
+        <img src="{{category.photoUrl}}" class="card-img" alt="category">
         <div class="card-img-overlay">
           <h5 class="text-center title">{{category.name}}</h5>
         </div>
@@ -42,7 +46,7 @@
 
       <!-- Game Options -->
       <div class="d-flex justify-content-between mt-3" *ngIf="currentPlayer && !startQuiz" >
-        <button class="btn btn-info" ngxClipboard [cbContent]="'https://www.zequiz.net/#/room/' + room._id">
+        <button class="btn btn-info" ngxClipboard [cbContent]="currentUrl" (cbOnSuccess)="copied($event)">
           Game Link <i class="far fa-copy fa-lg"></i>
         </button>
 
@@ -59,7 +63,7 @@
           READY <i class="fas fa-check-circle fa-lg"></i>
         </button>
       </div>
-
+      <p class="text-muted" *ngIf="!startQuiz && isCopied">Copied !</p>
     </div>
 
     <!-- Init Player -->
