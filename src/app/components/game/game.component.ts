@@ -80,7 +80,6 @@ export class GameComponent implements OnInit {
         this.result = true;
     }
 
-
     displayVSResult() {
         this.result = true;
         const data =  {
