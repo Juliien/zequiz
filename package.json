@@ -1,6 +1,6 @@
 {
   "name": "zequiz",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "author": "Da Corte Julien",
   "scripts": {
     "ng": "ng",

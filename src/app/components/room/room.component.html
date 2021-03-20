@@ -38,7 +38,7 @@
 
       <!-- Card -->
       <div class="card">
-        <img src="{{category.photoUrl}}" class="card-img">
+        <img src="{{category.photoUrl}}" class="card-img" alt="category">
         <div class="card-img-overlay">
           <h5 class="text-center title">{{category.name}}</h5>
         </div>
@@ -63,7 +63,7 @@
           READY <i class="fas fa-check-circle fa-lg"></i>
         </button>
       </div>
-      <p class="text-muted" *ngIf="isCopied">Copied !</p>
+      <p class="text-muted" *ngIf="!startQuiz && isCopied">Copied !</p>
     </div>
 
     <!-- Init Player -->
