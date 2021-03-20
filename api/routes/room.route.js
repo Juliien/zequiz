@@ -15,8 +15,8 @@ module.exports = function (app) {
   app.post(process.env.API_URL + '/room/quit', bodyParser.json(), async (req, res) => controller.quitRoom(req, res));
   app.post(process.env.API_URL + '/room/close/:id', bodyParser.json(), async (req, res) => controller.closeRoom(req, res));
 
-  // app.delete(process.env.API_URL + '/room',
-  //   async (req, res, next) => authMiddleware.verifyToken(req, res, next),
-  //   async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next, process.env.ADMIN),
-  //   async (req, res) => controller.purgeRoom(req, res));
+  app.delete(process.env.API_URL + '/room',
+    async (req, res, next) => authMiddleware.verifyToken(req, res, next),
+    async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next, process.env.ADMIN),
+    async (req, res) => controller.purgeRoom(req, res));
 };
