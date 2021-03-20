@@ -94,41 +94,39 @@
   </div>
 
   <!-- Start Game -->
-  <div class="d-flex justify-content-center my-5" *ngIf="room && startQuiz">
+  <div class="d-flex justify-content-center my-3" *ngIf="room && startQuiz">
     <div *ngIf="!displayResults && currentPlayer.score === -1">
       <app-game [quiz]="room.quiz" [vs]="true" [room]="room"></app-game>
     </div>
 
+    <!-- Waiting for results -->
     <div *ngIf="!displayResults && currentPlayer.score !== -1">
         <h5 class="pulse text-center">Waiting for results ...</h5>
     </div>
+
     <!-- Display Results -->
-    <div *ngIf="displayResults">
-      <table class="table table-striped table-dark">
-        <thead>
+    <table class="table table-dark table-striped" *ngIf="displayResults">
+      <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col"><i class="fas fa-trophy fa-lg"></i></th>
           <th scope="col">Player</th>
           <th scope="col">Score</th>
         </tr>
-        </thead>
-        <tbody *ngFor="let player of playersScores; let i = index">
+      </thead>
+      <tbody *ngFor="let player of playersScores; let i = index">
         <tr>
-          <th scope="row" class="align-middle">
-            {{i+1}}.
-          </th>
+          <th scope="row" class="align-middle">{{i+1}}.</th>
           <td class="align-middle">
-            <img class="mr-1" src="assets/avatars/{{player.photoUrl}}" height="50" width="50">
+            <img class="mr-1" src="assets/avatars/{{player.photoUrl}}" height="50" width="50" alt="avatar">
             <b>{{player.nickname}}</b>
+            <span *ngIf="player.isOwner"><i class="fas fa-crown ml-1"></i></span>
           </td>
           <td class="align-middle">
             <b>{{player.score}}</b>
           </td>
         </tr>
-        </tbody>
-      </table>
-    </div>
-
+      </tbody>
+    </table>
   </div>
 
 </div>
