@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../ressources/category.service';
 import {RoomService} from '../../ressources/room.service';
 import {CategoryModel} from '../../models/category.model';
@@ -107,13 +107,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      // Localhost
-      // const id = document.location.href.slice(29);
-      // Dev
-      // const id = document.location.href.slice(39);
-      // Prod
-      const id = document.location.href.slice(30);
-
+      const id = document.location.href.substring(document.location.href.lastIndexOf('/') + 1);
       this.roomId = id;
       this.roomService.getRoomById(id).subscribe(room => {
         this.room = room;
