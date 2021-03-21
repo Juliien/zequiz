@@ -65,6 +65,15 @@ class AuthenticationController {
       return res.status(500).json(response.responseError(500, 'Internal Server Error', 'error: ' + e));
     }
   }
+
+  async getUserById(req, res) {
+    try {
+      const user = await User.findOne({_id: req.decoded.id});
+      return res.status(200).json(user);
+    } catch (e) {
+      return res.status(500).end();
+    }
+  }
 }
 
 module.exports = AuthenticationController;
