@@ -22,3 +22,9 @@ h5 {
 hr {
   background-color: #343a40;
 }
+
+@media (max-width: 765px) {
+  .card {
+    margin: 1rem 0 0 0!important;
+  }
+}

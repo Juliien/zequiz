@@ -14,4 +14,8 @@ module.exports = function (app) {
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
     async (req, res) => controller.logout(req, res)
   );
+  app.get(process.env.API_URL + '/user',
+    async (req, res, next) => authMiddleware.verifyToken(req, res, next),
+    async (req, res) => controller.getUserById(req, res)
+  );
 };
