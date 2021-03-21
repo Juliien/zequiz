@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(public  formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private router: Router)
-  {
+              private router: Router) {
     this.emailCtrl = formBuilder.control('', Validators.required);
     this.passwordCtrl = formBuilder.control('', Validators.required);
 
@@ -28,21 +27,22 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.authenticationService.isLogged()) {
+    if (this.authenticationService.isLogged()) {
       this.router.navigate(['home']).then();
     }
   }
 
   onSubmit() {
     this.authenticationService.login(this.loginForm.value).subscribe(user => {
+      this.authenticationService.user = user;
       localStorage.setItem('token', user.token);
     }, (error) => {
       switch (error.status) {
         case 401:
-          this.errorMessage = "Email or password is wrong!";
+          this.errorMessage = 'Email or password is wrong!';
           break;
         case 400:
-          this.errorMessage = "Fields can't be empty!";
+          this.errorMessage = 'Fields can\'t be empty!';
       }
     });
   }
