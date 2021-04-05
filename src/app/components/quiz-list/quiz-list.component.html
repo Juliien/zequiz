@@ -17,8 +17,9 @@
     <app-category [category]="category" [isMobile]="isMobile"></app-category>
   </div>
   <div class="my-5" *ngIf="(categories | filter: item).length === 0">
-    <h5>Could not find "{{item}}" category.</h5>
+    <h5>Could not find category "{{item}}".</h5>
     <p class="text-muted">Check spelling or use other keywords.</p>
   </div>
 </div>
 
+<ng-adsense [adClient] = "'ca-pub-8378107448779482'" [pageLevelAds] = "true"> </ng-adsense>
