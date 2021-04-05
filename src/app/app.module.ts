@@ -19,6 +19,7 @@ import { RoomComponent } from './components/room/room.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
+import { AdsenseModule } from 'ng2-adsense';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { LoginComponent } from './components/login/login.component';
         FormsModule,
         Ng2SearchPipeModule,
         ClipboardModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AdsenseModule.forRoot()
     ],
     providers: [
       {
