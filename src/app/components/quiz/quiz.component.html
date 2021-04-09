@@ -9,17 +9,20 @@
     <div class="card-img-overlay">
       <h5 class="text-center title">{{category.name}}</h5>
     </div>
+    <div class="d-flex justify-content-between my-2">
+      <p><i class="fas fa-star fa-lg mr-1"></i>{{category.rate}}</p>
+      <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}</p>
+    </div>
   </div>
 
   <div class="mx-5" [ngClass]="{'card': isMobile}" *ngIf="!game && !zequiz">
-    <div class="d-flex justify-content-between">
-      <p><i class="far fa-eye fa-lg mr-1"></i>{{category.views}}</p>
-<!--      <p><i class="fas fa-star fa-lg mr-1"></i>{{category.rate}}</p>-->
-    </div>
-
     <h4>Play Alone ?</h4>
     <button class="btn bg-gradient btn-block" (click)="startQuiz()">Start Quiz</button>
-    <hr/>
+
+    <div class="my-4">
+      <span class="or"><span class="orInner">or</span></span>
+    </div>
+
     <h4>ZeVersus Mode ?</h4>
     <button class="btn bg-gradient btn-block" (click)="goToVS()">ZeVersus Lobby</button>
   </div>

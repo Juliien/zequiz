@@ -16,7 +16,6 @@ class PlayerController {
           nickname: req.body.nickname,
           photoUrl: req.body.photoUrl,
           isOwner: playerIsOwner,
-          isReady: false,
           score: -1,
           createDate: date.toISOString()
         });
@@ -63,18 +62,12 @@ class PlayerController {
     return res.status(400).send();
   }
 
-  async playerIsReady(req, res) {
-    if(req.params.id) {
-      try {
-        const player = await Player.findOne({_id: req.params.id});
-        if(player && !player.isReady) {
-          await Player.updateOne({_id: player._id}, {isReady: true});
-          return res.status(204).end();
-        }
-        return res.status(409).end();
-      } catch (e) {
-          return res.status(500).send(e);
-      }
+  async purgePlayers(req, res) {
+    try {
+      await Player.deleteMany({closeDate:{$ne:null}});
+      return res.status(204).end();
+    } catch (e) {
+      return res.status(500).send(e);
     }
   }
 

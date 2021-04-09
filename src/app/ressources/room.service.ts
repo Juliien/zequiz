@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { RoomModel } from '../models/room.model';
@@ -31,4 +31,13 @@ export class RoomService {
     return this.http.post<any>(environment.baseApiUrl + 'room/close/' + id, {});
   }
 
+  purgeRooms() {
+    const options = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.delete(environment.baseApiUrl + 'room', options);
+  }
 }

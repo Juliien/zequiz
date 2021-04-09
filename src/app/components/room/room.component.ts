@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../ressources/category.service';
 import {RoomService} from '../../ressources/room.service';
 import {CategoryModel} from '../../models/category.model';
@@ -18,17 +18,16 @@ import {environment} from '../../../environments/environment';
 export class RoomComponent implements OnInit, OnDestroy {
   category: CategoryModel;
   room: RoomModel;
-  startQuiz: boolean;
-  error: boolean;
+  startQuiz = false;
+  error = false;
   currentPlayer: PlayerModel = null;
   currentUrl: string;
   isMobile: boolean;
   nickname = '';
-  currentImage = 'avatar_1.png';
+  currentImage: string;
   images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png', 'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
   roomId: string;
   socket: any;
-  alertOwner: boolean;
   displayResults = false;
   isCopied = false;
   playersScores: PlayerModel[] = [];
@@ -40,16 +39,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.currentImage = this.images[Math.floor(Math.random() * this.images.length)];
     this.currentUrl = document.location.href;
-    this.startQuiz = false;
-    this.error = false;
     this.isMobile = window.innerWidth <= 765;
-    this.alertOwner = false;
 
     // websocket
     this.socket = io(environment.socketUrl);
     this.socket.on('room', message => {
-      if (message === 'joined' || message === 'ready' || message === 'leave') {
+      if (message === 'refresh') {
         this.roomService.getRoomById(this.roomId).subscribe(room => {
           this.room = room;
         });
@@ -74,20 +71,21 @@ export class RoomComponent implements OnInit, OnDestroy {
         });
       }
       if (message === 'closed') {
-        this.clear();
         this.error = true;
       }
     });
 
     this.socket.on('quit-room', playerId => {
+      if (playerId === this.currentPlayer._id) {
+        this.error = true;
+      }
       const data = {
         roomId: this.roomId,
         playerId: playerId.toString()
       };
 
       this.roomService.quitRoom(data).subscribe(() => {
-        this.clear();
-        this.socket.emit('room', 'leave');
+        this.socket.emit('room', 'refresh');
       });
     });
 
@@ -129,9 +127,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   quit() {
-    this.roomService.closeRoom(this.room._id).subscribe(() => {
-      this.socket.emit('room', 'closed');
-    });
+    this.roomService.closeRoom(this.room._id).subscribe();
+    this.socket.emit('room', 'closed');
   }
 
   clear() {
@@ -152,7 +149,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         playerId: this.currentPlayer._id
       };
       this.roomService.joinRoom(joinRoom).subscribe(() => {
-        this.socket.emit('room', 'joined');
+        this.socket.emit('room', 'refresh');
       });
     });
   }
@@ -167,21 +164,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   startGame() {
-    const playersReady = this.room.players.filter(player => !player.isReady);
-    if (playersReady.length > 0) {
-      this.alertOwner = true;
-    } else {
-      this.alertOwner = false;
-      this.socket.emit('room', 'start');
-      this.startQuiz = true;
-    }
-  }
-
-  setReady() {
-    this.playerService.playerIsReady(this.currentPlayer._id).subscribe(() => {
-      this.playerService.getPlayerById(this.currentPlayer._id).subscribe(player => this.currentPlayer = player);
-      this.socket.emit('room', 'ready');
-    });
+    this.socket.emit('room', 'start');
+    this.startQuiz = true;
   }
 
   ngOnDestroy() {
@@ -190,6 +174,19 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.quit();
       }
       this.socket.emit('quit-room', this.currentPlayer._id);
+    }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler() {
+    if (this.currentPlayer) {
+      if (this.currentPlayer.isOwner) {
+        this.quit();
+        this.clear();
+      } else {
+        this.clear();
+        this.socket.emit('quit-room', this.currentPlayer._id);
+      }
     }
   }
 }

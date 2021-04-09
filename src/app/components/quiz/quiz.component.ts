@@ -19,7 +19,7 @@ export class QuizComponent implements OnInit {
   isMobile: boolean;
   nickname = '';
   currentImage: string;
-  images: string[];
+  images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png', 'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
 
   constructor(private quizService: QuizService,
               private categoryService: CategoryService,
@@ -29,9 +29,8 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobile = window.innerWidth <= 765;
-    this.currentImage = 'avatar_1.png';
-    this.images = ['avatar_1.png', 'avatar_2.png', 'avatar_3.png', 'avatar_4.png',
-      'avatar_5.png', 'avatar_6.png', 'avatar_7.png', 'avatar_8.png'];
+    this.currentImage = this.images[Math.floor(Math.random() * this.images.length)];
+
     if (sessionStorage.getItem('categoryId')) {
       this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
         .subscribe(category => this.category = category);
@@ -53,18 +52,17 @@ export class QuizComponent implements OnInit {
   }
 
   createRoom() {
-    const player = {
+    const owner = {
       nickname: this.nickname,
       photoUrl: this.currentImage,
-      isOwner: true,
+      isOwner: true
     };
-    this.playerService.createPlayer(player).subscribe(currentPlayer => {
-      sessionStorage.setItem('playerId', currentPlayer._id);
-      this.playerService.playerIsReady(currentPlayer._id).subscribe();
+    this.playerService.createPlayer(owner).subscribe(player => {
+      sessionStorage.setItem('playerId', player._id);
       const newRoom = {
         categoryId: this.category._id,
         quiz: this.quiz,
-        playerId: currentPlayer._id
+        playerId: player._id
       };
       this.roomService.createRoom(newRoom).subscribe(room => {
             sessionStorage.setItem('roomId', room._id);
