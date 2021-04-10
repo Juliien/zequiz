@@ -18,7 +18,6 @@ import {environment} from '../../../environments/environment';
 export class RoomComponent implements OnInit, OnDestroy {
   category: CategoryModel;
   room: RoomModel;
-  startQuiz = false;
   error = false;
   currentPlayer: PlayerModel = null;
   currentUrl: string;
@@ -45,22 +44,19 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     // websocket
     this.socket = io(environment.socketUrl);
+
     this.socket.on('room', message => {
       if (message === 'refresh') {
         this.roomService.getRoomById(this.roomId).subscribe(room => {
           this.room = room;
         });
       }
-      if (message === 'start') {
-        this.startQuiz = true;
-      }
       if (message === 'finished') {
         this.roomService.getRoomById(this.roomId).subscribe(room => {
           const playersHaveEnd = room.players.filter(player => player.score !== -1);
           if (this.room.players.length === playersHaveEnd.length) {
             this.displayResults = true;
-            this.playersScores = room.players.sort(
-              (a, b) => b.score - a.score);
+            this.playersScores = room.players.sort((a, b) => b.score - a.score);
           } else {
             for (const player of playersHaveEnd) {
               if (player._id === this.currentPlayer._id) {
@@ -70,6 +66,7 @@ export class RoomComponent implements OnInit, OnDestroy {
           }
         });
       }
+
       if (message === 'closed') {
         this.error = true;
       }
@@ -83,75 +80,49 @@ export class RoomComponent implements OnInit, OnDestroy {
         roomId: this.roomId,
         playerId: playerId.toString()
       };
-
       this.roomService.quitRoom(data).subscribe(() => {
         this.socket.emit('room', 'refresh');
       });
     });
 
-
-    if (sessionStorage.getItem('roomId')) {
-      this.roomId = sessionStorage.getItem('roomId');
-      this.roomService.getRoomById(sessionStorage.getItem('roomId')).subscribe(room => {
-        this.room = room;
-        const playersHaveEnd = room.players.filter(player => player.score !== -1);
-        if (this.room.players.length === playersHaveEnd.length) {
-          this.displayResults = true;
-          this.playersScores = room.players.sort(
-            (a, b) => b.score - a.score);
-        }
-        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => this.category = cat);
-        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
-      }, err => {
-        if (err.status === 404) {
-          this.error = true;
-        }
-      });
-    } else {
-      const id = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
-      this.roomId = id;
-      this.roomService.getRoomById(id).subscribe(room => {
-        this.room = room;
-        this.categoryService.getCategoryByID(this.room.categoryId).subscribe(cat => {
-          this.category = cat;
-        });
-      }, err => {
-        if (err.status === 404) {
-          this.error = true;
-        }
-      });
-      if (sessionStorage.getItem('playerId')) {
-        this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
-      }
+    if (sessionStorage.getItem('playerId')) {
+      this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
     }
-  }
 
-  quit() {
-    this.roomService.closeRoom(this.room._id).subscribe();
-    this.socket.emit('room', 'closed');
-  }
-
-  clear() {
-    sessionStorage.clear();
+    this.roomId = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
+    this.roomService.getRoomById(this.roomId).subscribe(room => {
+      this.room = room;
+      this.categoryService.getCategoryByID(this.room.categoryId).subscribe(category => {
+        this.category = category;
+      });
+    }, err => {
+      if (err.status === 404) {
+        this.error = true;
+      }
+    });
   }
 
   joinRoom() {
-    const player = {
-      nickname: this.nickname,
-      photoUrl: this.currentImage,
-      isOwner: false
-    };
-    this.playerService.createPlayer(player).subscribe(currentPlayer => {
-      sessionStorage.setItem('playerId', currentPlayer._id);
-      this.currentPlayer = currentPlayer;
-      const joinRoom = {
-        roomId: this.room._id,
-        playerId: this.currentPlayer._id
+    if (this.room.isStart) {
+      this.error = true;
+    } else {
+      const player = {
+        nickname: this.nickname,
+        photoUrl: this.currentImage,
+        isOwner: false
       };
-      this.roomService.joinRoom(joinRoom).subscribe(() => {
-        this.socket.emit('room', 'refresh');
+      this.playerService.createPlayer(player).subscribe(currentPlayer => {
+        sessionStorage.setItem('playerId', currentPlayer._id);
+        this.currentPlayer = currentPlayer;
+        const joinRoom = {
+          roomId: this.room._id,
+          playerId: this.currentPlayer._id
+        };
+        this.roomService.joinRoom(joinRoom).subscribe(() => {
+          this.socket.emit('room', 'refresh');
+        });
       });
-    });
+    }
   }
 
   copied(event) {
@@ -159,34 +130,36 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.isCopied = true;
     }
   }
+
+  clear() {
+    sessionStorage.clear();
+  }
+
   setImage(image) {
     this.currentImage = image;
   }
 
   startGame() {
-    this.socket.emit('room', 'start');
-    this.startQuiz = true;
+    this.roomService.startRoom(this.roomId).subscribe(() => this.socket.emit('room', 'refresh'));
+  }
+
+  quitRoom() {
+    if (this.currentPlayer) {
+      this.clear();
+      if (this.currentPlayer.isOwner) {
+        this.roomService.closeRoom(this.room._id).subscribe(() => this.socket.emit('room', 'closed'));
+      } else {
+        this.socket.emit('quit-room', this.currentPlayer._id);
+      }
+    }
   }
 
   ngOnDestroy() {
-    if (this.currentPlayer) {
-      if (this.currentPlayer.isOwner) {
-        this.quit();
-      }
-      this.socket.emit('quit-room', this.currentPlayer._id);
-    }
+    this.quitRoom();
   }
 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler() {
-    if (this.currentPlayer) {
-      if (this.currentPlayer.isOwner) {
-        this.quit();
-        this.clear();
-      } else {
-        this.clear();
-        this.socket.emit('quit-room', this.currentPlayer._id);
-      }
-    }
+    this.quitRoom();
   }
 }

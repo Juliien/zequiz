@@ -13,7 +13,7 @@
         <div>
           <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
           <span *ngIf="player.isOwner"><i class="fas fa-crown"></i></span>
-          <span *ngIf="!player.isOwner && currentPlayer.isOwner"
+          <span *ngIf="!player.isOwner && currentPlayer.isOwner && !room.isStart"
                 (click)="socket.emit('quit-room', player._id)">
               <i class="far fa-times-circle ml-1"></i>
           </span>
@@ -26,7 +26,7 @@
   <!-- Cancel Buttons -->
   <div *ngIf="currentPlayer">
     <button class="btn btn-danger mt-3" [ngClass]="{'mb-3': isMobile}"
-            *ngIf="!error && currentPlayer.isOwner" routerLink="/all" (click)="quit()">
+            *ngIf="!error && currentPlayer.isOwner" routerLink="/all">
       Close the room
     </button>
     <button class="btn btn-danger mt-3" [ngClass]="{'mb-3': isMobile}"
@@ -48,7 +48,7 @@
       </div>
 
       <!-- Game Options -->
-      <div class="d-flex justify-content-between mt-3" *ngIf="currentPlayer && currentPlayer.isOwner && !startQuiz">
+      <div class="d-flex justify-content-between mt-3" *ngIf="currentPlayer && currentPlayer.isOwner && room && !room.isStart">
         <button class="btn btn-info" ngxClipboard [cbContent]="currentUrl" (cbOnSuccess)="copied($event)">
           Game Link <i class="far fa-copy fa-lg"></i>
         </button>
@@ -56,7 +56,7 @@
           Start Game <i class="far fa-play-circle fa-lg"></i>
         </button>
       </div>
-      <p class="text-muted" *ngIf="!startQuiz && isCopied">Copied !</p>
+      <p class="text-muted" *ngIf="!room.isStart && isCopied">Copied !</p>
     </div>
 
     <!-- Init Player -->
@@ -82,7 +82,7 @@
             <img alt="avatar" src="assets/avatars/{{player.photoUrl}}" width="70" height="70">
             {{player.nickname}}
             <span *ngIf="player.isOwner"><i class="fas fa-crown ml-1"></i></span>
-            <span *ngIf="!player.isOwner && currentPlayer.isOwner"
+            <span *ngIf="!player.isOwner && currentPlayer.isOwner && !room.isStart"
                   (click)="socket.emit('quit-room', player._id)">
               <i class="far fa-times-circle ml-1"></i>
             </span>
@@ -93,14 +93,14 @@
   </div>
 
   <!-- Waiting for starting -->
-  <div *ngIf="currentPlayer && !currentPlayer.isOwner && !startQuiz" class="mt-3">
+  <div *ngIf="currentPlayer && !currentPlayer.isOwner && !room.isStart" class="mt-3">
     <p class="pulse text-center">Waiting for quiz to start ...</p>
   </div>
 
   <!-- Start Game -->
-  <div class="d-flex justify-content-center my-3" *ngIf="room && startQuiz">
+  <div class="d-flex justify-content-center my-3" *ngIf="room && room.isStart">
     <div *ngIf="!displayResults && currentPlayer.score === -1">
-      <app-game [quiz]="room.quiz" [vs]="true" [room]="room"></app-game>
+      <app-game [quiz]="room.quiz" [room]="room"></app-game>
     </div>
 
     <!-- Waiting for results -->
@@ -136,7 +136,7 @@
 </div>
 
 <!-- Error Message for closed rooms -->
-<div class="d-flex justify-content-center my-5" *ngIf="!startQuiz && error">
+<div class="d-flex justify-content-center my-5" *ngIf="error">
   <div>
     <h3 class="title text-center text-danger">Ooops !</h3>
     <p class="text-danger text-center">This room is closed!</p>

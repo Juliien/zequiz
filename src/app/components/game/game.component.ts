@@ -13,7 +13,6 @@ import {environment} from '../../../environments/environment';
 })
 export class GameComponent implements OnInit {
     @Input() quiz: any;
-    @Input() vs: boolean;
     @Input() room: RoomModel;
 
     index: number;
@@ -30,14 +29,10 @@ export class GameComponent implements OnInit {
                 private playerService: PlayerService) { }
 
     ngOnInit() {
-        this.socket = io(environment.socketUrl);
-        this.startQuiz();
-    }
-
-    startQuiz() {
-        this.listQuestions = this.quiz.results;
-        this.index = 0;
-        this.score = 0;
+      this.socket = io(environment.socketUrl);
+      this.listQuestions = this.quiz.results;
+      this.index = 0;
+      this.score = 0;
     }
 
     parseQuestion(res: string) {

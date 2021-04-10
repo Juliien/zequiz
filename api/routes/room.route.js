@@ -10,9 +10,10 @@ const permissionMiddleware = new PermissionMiddleware();
 
 module.exports = function (app) {
   app.post(process.env.API_URL + '/room', bodyParser.json(), async (req, res) => controller.createRoom(req, res));
-  app.get(process.env.API_URL + '/room/:id', bodyParser.json(), async (req, res) => controller.getRoomById(req, res));
   app.post(process.env.API_URL + '/room/join', bodyParser.json(),async (req, res) => controller.joinRoom(req, res));
   app.post(process.env.API_URL + '/room/quit', bodyParser.json(), async (req, res) => controller.quitRoom(req, res));
+  app.get(process.env.API_URL + '/room/:id', bodyParser.json(), async (req, res) => controller.getRoomById(req, res));
+  app.post(process.env.API_URL + '/room/:id', bodyParser.json(), async (req, res) => controller.startRoom(req, res));
   app.post(process.env.API_URL + '/room/close/:id', bodyParser.json(), async (req, res) => controller.closeRoom(req, res));
 
   app.delete(process.env.API_URL + '/room',

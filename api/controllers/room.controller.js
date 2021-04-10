@@ -13,6 +13,7 @@ class RoomController {
           players: [req.body.playerId],
           categoryId: req.body.categoryId,
           quiz: req.body.quiz,
+          isStart: false,
           createDate: date.toISOString(),
           closeDate: null
         });
@@ -55,6 +56,22 @@ class RoomController {
         }
         return res.status(404).end();
       } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
+  async startRoom(req, res) {
+    if(req.params.id) {
+      try {
+        const room = await Room.findOne({_id: req.params.id, closeDate: null});
+        if(room) {
+          await Room.updateOne({_id: room._id}, {isStart: true});
+            return res.status(204).end();
+          }
+          return res.status(409).end();
+        } catch (e) {
         return res.status(500).send(e);
       }
     }

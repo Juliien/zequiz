@@ -27,6 +27,10 @@ export class RoomService {
     return this.http.post<any>(environment.baseApiUrl + 'room/quit', data);
   }
 
+  startRoom(id: string) {
+    return this.http.post<any>(environment.baseApiUrl + 'room/' + id, {});
+  }
+
   closeRoom(id: string) {
     return this.http.post<any>(environment.baseApiUrl + 'room/close/' + id, {});
   }

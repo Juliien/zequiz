@@ -14,6 +14,10 @@ const roomSchema = new Schema({
   },
   quiz: {
     type: Object,
+    required: true
+  },
+  isStart: {
+    type: Boolean,
     required: false
   },
   createDate: {

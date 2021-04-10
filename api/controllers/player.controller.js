@@ -36,7 +36,7 @@ class PlayerController {
     if (req.body.playerId && req.body.score) {
       try {
         const player = await Player.findOne({_id: req.body.playerId});
-        if(player && player.isReady) {
+        if(player) {
           await Player.updateOne({_id: player._id}, {score: req.body.score});
           return res.status(204).end();
         }
