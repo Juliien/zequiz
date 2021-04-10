@@ -1,10 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
 import {PlayerService} from '../../ressources/player.service';
-import io from 'socket.io-client';
 import {RoomModel} from '../../models/room.model';
-import {environment} from '../../../environments/environment';
+
 
 @Component({
     selector: 'app-game',
@@ -13,7 +12,8 @@ import {environment} from '../../../environments/environment';
 })
 export class GameComponent implements OnInit {
     @Input() quiz: any;
-    @Input() room: RoomModel;
+    @Input() isVersus: boolean;
+    @Output() isFinish: EventEmitter<string> = new EventEmitter();
 
     index: number;
     score: number;
@@ -23,13 +23,11 @@ export class GameComponent implements OnInit {
     selectedAnswer: string;
     correctAnswer: string;
     errMsg: string;
-    socket: any;
 
     constructor(private router: Router,
                 private playerService: PlayerService) { }
 
     ngOnInit() {
-      this.socket = io(environment.socketUrl);
       this.listQuestions = this.quiz.results;
       this.index = 0;
       this.score = 0;
@@ -76,12 +74,12 @@ export class GameComponent implements OnInit {
     }
 
     displayVSResult() {
-        this.result = true;
-        const data =  {
-            playerId: sessionStorage.getItem('playerId'),
-            score: this.score
-        };
-        this.playerService.updatePlayerScore(data).subscribe( () => this.socket.emit('room', 'finished'));
+      this.result = true;
+      const data =  {
+          playerId: sessionStorage.getItem('playerId'),
+          score: this.score
+      };
+      this.playerService.updatePlayerScore(data).subscribe( () => this.isFinish.emit('finished'));
     }
 
 

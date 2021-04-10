@@ -29,12 +29,12 @@
     </div>
 
     <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
-    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && !room" (click)="displayResult()">Finish</button>
-    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && room" (click)="displayVSResult()">Result</button>
+    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && !isVersus" (click)="displayResult()">Finish</button>
+    <button class="btn btn-info btn-block" *ngIf="index === 9 && this.answer && isVersus" (click)="displayVSResult()">Result</button>
   </div>
 </div>
 
-<div class="card" *ngIf="result && !room">
+<div class="card" *ngIf="result && !isVersus">
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h3>Score : {{score}}/10</h3>

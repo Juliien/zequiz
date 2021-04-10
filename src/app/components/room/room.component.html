@@ -100,7 +100,7 @@
   <!-- Start Game -->
   <div class="d-flex justify-content-center my-3" *ngIf="room && room.isStart">
     <div *ngIf="!displayResults && currentPlayer.score === -1">
-      <app-game [quiz]="room.quiz" [room]="room"></app-game>
+      <app-game [quiz]="room.quiz" [isVersus]="true" (isFinish)="playerEnd($event)"></app-game>
     </div>
 
     <!-- Waiting for results -->

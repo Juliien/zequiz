@@ -143,6 +143,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.roomService.startRoom(this.roomId).subscribe(() => this.socket.emit('room', 'refresh'));
   }
 
+  playerEnd(message) {
+    this.socket.emit('room', message);
+  }
   quitRoom() {
     if (this.currentPlayer) {
       this.clear();
