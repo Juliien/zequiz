@@ -1,0 +1,17 @@
+<p>Did you like the quiz ?</p>
+<div class="container">
+  <div class="row" *ngIf="index == 0">
+    <div *ngFor="let i of rateArray">
+      <span (click)="rated(i)"><i class="far fa-star fa-lg mr-1"></i></span>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="index > 0">
+    <div *ngFor="let i of rateArray">
+      <i class="fas fa-star fa-lg mr-1" *ngIf="i <= index"></i>
+      <i class="far fa-star fa-lg mr-1" *ngIf="i > index"></i>
+    </div>
+  </div>
+</div>
+
+

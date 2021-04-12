@@ -20,6 +20,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdsenseModule } from 'ng2-adsense';
+import { RateComponent } from './components/rate/rate.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { AdsenseModule } from 'ng2-adsense';
         RoomComponent,
         AdminComponent,
         LoginComponent,
+        RateComponent,
     ],
     imports: [
         BrowserModule,

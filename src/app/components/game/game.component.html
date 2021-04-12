@@ -45,6 +45,10 @@
       <span *ngIf="score >= 5 && score < 8">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
       <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
     </div>
+    <div class="mb-3">
+      <app-rate></app-rate>
+    </div>
+
     <div class="d-flex justify-content-between">
       <button type="button" class="btn bg-gradient mr-3" (click)="goToCategories()">View all quizzes</button>
       <button type="button" class="btn btn-outline-light" (click)="restart()">

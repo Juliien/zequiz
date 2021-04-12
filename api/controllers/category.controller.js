@@ -69,6 +69,25 @@ class CategoryController {
     return res.status(400).end();
   }
 
+  async addRate(req, res) {
+    if(req.body._id && req.body.rate >= 0) {
+      try {
+        const category = await Category.findOne({_id: req.body._id});
+        const updatedViews = await Category.updateOne({_id: req.body._id}, {
+          $push: {rate: req.body.rate},
+          rateNumber: category.rateNumber + 1
+        });
+        if(updatedViews.nModified === 1) {
+          return res.status(204).end();
+        }
+        return res.status(401).end();
+      } catch (e) {
+        return res.status(500).send(e);
+      }
+    }
+    return res.status(400).end();
+  }
+
   async insertCategory(req, res) {
     if (req.body.name && req.body.num && req.body.photoUrl) {
       try {
@@ -77,7 +96,8 @@ class CategoryController {
           num:req.body.num,
           photoUrl: req.body.photoUrl,
           views: 0,
-          rate: 0,
+          rate: [],
+          rateNumber: 0,
           createDate: date.toISOString()
         });
         await newCategory.save();

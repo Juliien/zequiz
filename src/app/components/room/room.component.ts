@@ -113,6 +113,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       };
       this.playerService.createPlayer(player).subscribe(currentPlayer => {
         sessionStorage.setItem('playerId', currentPlayer._id);
+        sessionStorage.setItem('categoryId', this.room.categoryId);
         this.currentPlayer = currentPlayer;
         const joinRoom = {
           roomId: this.room._id,
@@ -146,6 +147,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   playerEnd(message) {
     this.socket.emit('room', message);
   }
+
   quitRoom() {
     if (this.currentPlayer) {
       this.clear();

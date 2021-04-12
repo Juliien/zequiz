@@ -29,6 +29,10 @@ export class CategoryService {
     return this.http.post<any>(environment.baseApiUrl + 'category/views', category, options);
   }
 
+  addRate(rate: any) {
+    return this.http.post<any>(environment.baseApiUrl + 'category/rate', rate, options);
+  }
+
   getViews(): Observable <any> {
     return this.http.get<any>(environment.baseApiUrl + 'category/most/viewed', options);
   }

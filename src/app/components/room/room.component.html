@@ -97,6 +97,11 @@
     <p class="pulse text-center">Waiting for quiz to start ...</p>
   </div>
 
+  <!-- Display Rating -->
+  <div *ngIf="displayResults">
+    <app-rate></app-rate>
+  </div>
+
   <!-- Start Game -->
   <div class="d-flex justify-content-center my-3" *ngIf="room && room.isStart">
     <div *ngIf="!displayResults && currentPlayer.score === -1">

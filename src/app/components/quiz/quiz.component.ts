@@ -15,6 +15,7 @@ export class QuizComponent implements OnInit {
   quiz: Array<object>;
   game = false;
   category: CategoryModel;
+  categoryRate = 0;
   zequiz = false;
   isMobile: boolean;
   nickname = '';
@@ -33,7 +34,12 @@ export class QuizComponent implements OnInit {
 
     if (sessionStorage.getItem('categoryId')) {
       this.categoryService.getCategoryByID(sessionStorage.getItem('categoryId'))
-        .subscribe(category => this.category = category);
+        .subscribe(category => {
+          this.category = category;
+          if (this.category.rate.length > 0) {
+            this.categoryRate = this.category.rate.reduce((a, b) => (a + b)) / this.category.rate.length;
+          }
+        });
     } else {
       this.router.navigate(['/home']).then();
     }

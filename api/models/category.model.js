@@ -18,7 +18,11 @@ const categorySchema = new Schema({
     type: Number,
     required: true
   },
-  rate: {
+  rate: [{
+    type: Number,
+    required: true
+  }],
+  rateNumber: {
     type: Number,
     required: true
   },
