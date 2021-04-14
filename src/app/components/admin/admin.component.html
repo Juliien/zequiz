@@ -27,7 +27,7 @@
       <button class="btn btn-danger mx-3" (click)="purgeClosedRooms()">
         Purge Rooms
       </button >
-      <button class="btn btn-danger">
+      <button class="btn btn-danger" (click)="purgePlayers()">
         Purge Players
       </button>
     </div>
@@ -57,7 +57,7 @@
           <button class="btn btn-outline-light" (click)="showPreview()">
             Preview
           </button>
-          <button class="btn btn-info">
+          <button class="btn btn-info" (click)="addToProduction()">
             Add to production
           </button>
         </div>
@@ -78,7 +78,7 @@
             <i class="fas fa-caret-down"></i>
           </button>
         </div>
-        <div class="collapse" id="collapseList">
+        <div class="collapse" id="collapseList" *ngIf="categories">
           <p>Total of categories : {{categories.length}}</p>
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search a quiz" [(ngModel)]="item">
@@ -94,8 +94,8 @@
               <th scope="col">Category Number</th>
               <th scope="col">Views</th>
               <th scope="col">Rate</th>
-              <th scope="col">Manage</th>
-              <th scope="col"></th>
+              <th scope="col">Rate number</th>
+<!--              <th scope="col">Manage</th>-->
             </tr>
             </thead>
             <tbody>
@@ -107,9 +107,10 @@
               <td>{{category.num}}</td>
               <td>{{category.views}} </td>
               <td>{{category.rate}}</td>
-              <td>
-                <button class="btn btn-danger">Delete</button>
-              </td>
+              <td>{{category.rateNumber}}</td>
+<!--              <td>-->
+<!--                <button class="btn btn-danger">Delete</button>-->
+<!--              </td>-->
             </tr>
             </tbody>
           </table>

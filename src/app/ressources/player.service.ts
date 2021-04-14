@@ -29,5 +29,15 @@ export class PlayerService {
   updatePlayerScore(data: any) {
     return this.http.post<any>(environment.baseApiUrl + 'player/score', data, options);
   }
+
+  deletePlayers() {
+    const option = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.delete(environment.baseApiUrl + 'players', option);
+  }
 }
 

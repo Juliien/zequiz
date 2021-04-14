@@ -64,7 +64,7 @@ class PlayerController {
 
   async purgePlayers(req, res) {
     try {
-      await Player.deleteMany({closeDate:{$ne:null}});
+      await Player.deleteMany({createDate:{$ne: date.toISOString()}, score:{$ne: -1}});
       return res.status(204).end();
     } catch (e) {
       return res.status(500).send(e);

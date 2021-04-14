@@ -13,7 +13,7 @@ module.exports = function (app) {
   app.post(process.env.API_URL + '/player/score', bodyParser.json(), async (req, res) => controller.updatePlayerScore(req, res));
   app.get(process.env.API_URL + '/player/:id', bodyParser.json(), async (req, res) => controller.getPlayerById(req, res));
 
-  app.delete(process.env.API_URL + '/player',
+  app.delete(process.env.API_URL + '/players',
     async (req, res, next) => authMiddleware.verifyToken(req, res, next),
     async (req, res, next) => permissionMiddleware.permissionRequire(req, res, next, process.env.ADMIN),
     async (req, res) => controller.purgePlayers(req, res));

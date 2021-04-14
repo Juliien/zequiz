@@ -3,7 +3,8 @@ import {AuthenticationService} from '../../ressources/authentication.service';
 import {RoleModel} from '../../models/role.model';
 import {CategoryService} from '../../ressources/category.service';
 import {CategoryModel} from '../../models/category.model';
-import {RoomService} from "../../ressources/room.service";
+import {RoomService} from '../../ressources/room.service';
+import {PlayerService} from "../../ressources/player.service";
 
 @Component({
   selector: 'app-admin',
@@ -22,6 +23,7 @@ export class AdminComponent implements OnInit {
 
   constructor(public authentication: AuthenticationService,
               private categoryService: CategoryService,
+              private playerService: PlayerService,
               private roomService: RoomService) { }
 
   ngOnInit(): void {
@@ -41,7 +43,14 @@ export class AdminComponent implements OnInit {
     this.preview = true;
   }
 
+  addToProduction() {
+    this.categoryService.insertCategory(this.newCategory).subscribe(() => alert('category added.'));
+  }
   purgeClosedRooms() {
     this.roomService.purgeRooms().subscribe(() => alert('rooms are well purged.'));
+  }
+
+  purgePlayers() {
+    this.playerService.deletePlayers().subscribe(() => alert('players are well purged.'));
   }
 }

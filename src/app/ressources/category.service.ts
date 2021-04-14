@@ -17,6 +17,16 @@ const options = {
 export class CategoryService {
   constructor(private http: HttpClient) { }
 
+  insertCategory(category: any) {
+    const option = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.post<any>(environment.baseApiUrl + 'category', category, option);
+  }
+
   getCategories(): Observable <any> {
     return this.http.get<any>(environment.baseApiUrl + 'categories', options);
   }
@@ -31,6 +41,10 @@ export class CategoryService {
 
   addRate(rate: any) {
     return this.http.post<any>(environment.baseApiUrl + 'category/rate', rate, options);
+  }
+
+  getRatedCategories(): Observable <any> {
+    return this.http.get<any>(environment.baseApiUrl + 'category/rate', options);
   }
 
   getViews(): Observable <any> {

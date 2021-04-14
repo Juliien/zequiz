@@ -42,6 +42,19 @@ class CategoryController {
     }
   }
 
+  async getBestRated(req, res) {
+    try {
+      const news = await Category.find({rate: {$in: 5}}).sort({rateNumber: -1}).limit(3);
+      if(news) {
+        return res.status(200).json(news);
+      }
+      return res.status(404).end();
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send(e);
+    }
+  }
+
   async getViews(req, res) {
     try {
       const views = await Category.find().sort({views: -1}).limit(3);
@@ -89,11 +102,12 @@ class CategoryController {
   }
 
   async insertCategory(req, res) {
+    console.log(req.body);
     if (req.body.name && req.body.num && req.body.photoUrl) {
       try {
         const newCategory = new Category({
           name: req.body.name,
-          num:req.body.num,
+          num: req.body.num,
           photoUrl: req.body.photoUrl,
           views: 0,
           rate: [],

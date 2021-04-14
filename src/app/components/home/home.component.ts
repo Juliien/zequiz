@@ -11,6 +11,7 @@ import {CategoryService} from '../../ressources/category.service';
 export class HomeComponent implements OnInit {
   viewsList: CategoryModel[];
   newsList: CategoryModel[];
+  ratedCategories: CategoryModel[];
   isMobile = false;
 
   constructor(private categoryService: CategoryService) {
@@ -20,5 +21,6 @@ export class HomeComponent implements OnInit {
     this.isMobile = window.innerWidth <= 765;
     this.categoryService.getViews().subscribe(categories => this.viewsList = categories);
     this.categoryService.getNewCategories().subscribe(categories => this.newsList = categories);
+    this.categoryService.getRatedCategories().subscribe(categories => this.ratedCategories = categories);
   }
 }

@@ -36,16 +36,13 @@
         <app-category [category]="category" [isMobile]="isMobile"></app-category>
       </div>
     </div>
-
-<!--    <div>-->
-<!--      <h3 [ngClass]="{'text-center': isMobile}">Top rated quizzes</h3>-->
-<!--      <div class="card-deck">-->
-<!--        <div *ngFor="let category of categories | slice:0:3"-->
-<!--             [ngClass]="{'d-flex justify-content-center': isMobile}">-->
-<!--          <app-category [category]="category" [isMobile]="isMobile"></app-category>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <h3 class="mt-5">Most rated quizzes</h3>
+    <div class="card-deck">
+      <div *ngFor="let category of ratedCategories"
+           [ngClass]="{'d-flex justify-content-center': isMobile}">
+        <app-category [category]="category" [isMobile]="isMobile"></app-category>
+      </div>
+    </div>
   </div>
 </div>
 
