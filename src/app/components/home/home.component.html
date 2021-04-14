@@ -48,7 +48,7 @@
 
 
 <div *ngIf="newsList && viewsList && isMobile">
-  <h3 class="mt-5 text-center">New quizzes</h3>
+  <h3 class="mt-5">New quizzes</h3>
   <div class="slides">
     <div>
       <app-category [category]="newsList[0]" [isMobile]="isMobile"></app-category>
@@ -60,7 +60,7 @@
       <app-category [category]="newsList[2]" [isMobile]="isMobile"></app-category>
     </div>
   </div>
-  <h3 class="text-center mt-3">Popular quizzes</h3>
+  <h3 class="mt-3">Popular quizzes</h3>
   <div class="slides">
     <div>
       <app-category [category]="viewsList[0]" [isMobile]="isMobile"></app-category>
@@ -70,6 +70,18 @@
     </div>
     <div>
       <app-category [category]="viewsList[2]" [isMobile]="isMobile"></app-category>
+    </div>
+  </div>
+  <h3 class="mt-3">Most rated quizzes</h3>
+  <div class="slides">
+    <div>
+      <app-category [category]="ratedCategories[0]" [isMobile]="isMobile"></app-category>
+    </div>
+    <div>
+      <app-category [category]="ratedCategories[1]" [isMobile]="isMobile"></app-category>
+    </div>
+    <div>
+      <app-category [category]="ratedCategories[2]" [isMobile]="isMobile"></app-category>
     </div>
   </div>
 </div>
