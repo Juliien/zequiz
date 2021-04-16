@@ -5,6 +5,8 @@ import {CategoryModel} from '../../models/category.model';
 import {Router} from '@angular/router';
 import {RoomService} from '../../ressources/room.service';
 import {PlayerService} from '../../ressources/player.service';
+import cryptoJS from 'crypto-js';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-quiz',
@@ -12,7 +14,7 @@ import {PlayerService} from '../../ressources/player.service';
   styleUrls: ['./quiz.component.css']
 })
 export class QuizComponent implements OnInit {
-  quiz: Array<object>;
+  quiz: any[];
   game = false;
   category: CategoryModel;
   categoryRate = 0;
@@ -48,7 +50,10 @@ export class QuizComponent implements OnInit {
   startQuiz() {
     this.categoryService.addView(this.category).subscribe();
     this.quizService.quizSelect(this.category.num).subscribe(data => {
-      this.quiz = data;
+      console.log(data);
+      const bytes = cryptoJS.AES.decrypt(data, environment.SECRET_KEY);
+      this.quiz = JSON.parse(bytes.toString(cryptoJS.enc.Utf8));
+      console.log(this.quiz);
       this.game = true;
     });
   }
