@@ -19,19 +19,19 @@
     </div>
   </div>
 
-  <div class="mx-5" [ngClass]="{'card': isMobile}" *ngIf="!game && !zequiz">
+  <div class="mx-5" [ngClass]="{'card': isMobile}" *ngIf="!game && !zeQuiz">
     <h4>Play Alone ?</h4>
-    <button class="btn bg-gradient btn-block" (click)="startQuiz()">Start Quiz</button>
+    <button class="btn bg-gradient btn-block" (click)="getQuiz(false)">Start Quiz</button>
 
     <div class="my-4">
       <span class="or"><span class="orInner">or</span></span>
     </div>
 
     <h4>ZeVersus Mode ?</h4>
-    <button class="btn bg-gradient btn-block" (click)="goToVS()">ZeVersus Lobby</button>
+    <button class="btn bg-gradient btn-block" (click)="getQuiz(true)">ZeVersus Lobby</button>
   </div>
 
-  <div *ngIf="zequiz" class="mx-5" [ngClass]="{'card': isMobile}">
+  <div *ngIf="zeQuiz" class="mx-5" [ngClass]="{'card': isMobile}">
     <img alt="avatar" src="assets/avatars/{{currentImage}}" class="mx-auto d-block" width="135" height="135">
 
     <div class="d-flex justify-content-end">
@@ -45,7 +45,6 @@
       Create Room
     </button>
   </div>
-
 </div>
 
 
