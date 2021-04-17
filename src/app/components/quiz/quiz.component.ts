@@ -5,8 +5,9 @@ import {CategoryModel} from '../../models/category.model';
 import {Router} from '@angular/router';
 import {RoomService} from '../../ressources/room.service';
 import {PlayerService} from '../../ressources/player.service';
+import {environment} from '../../../environments/environment';
 import cryptoJS from 'crypto-js';
-import {environment} from "../../../environments/environment";
+
 
 @Component({
   selector: 'app-quiz',
@@ -18,7 +19,7 @@ export class QuizComponent implements OnInit {
   game = false;
   category: CategoryModel;
   categoryRate = 0;
-  zequiz = false;
+  zeQuiz = false;
   isMobile: boolean;
   nickname = '';
   currentImage: string;
@@ -47,14 +48,16 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  startQuiz() {
+  getQuiz(isVs: boolean) {
     this.categoryService.addView(this.category).subscribe();
     this.quizService.quizSelect(this.category.num).subscribe(data => {
-      console.log(data);
       const bytes = cryptoJS.AES.decrypt(data, environment.SECRET_KEY);
       this.quiz = JSON.parse(bytes.toString(cryptoJS.enc.Utf8));
-      console.log(this.quiz);
-      this.game = true;
+      if (isVs) {
+        this.zeQuiz = true;
+      } else {
+        this.game = true;
+      }
     });
   }
 
@@ -80,11 +83,5 @@ export class QuizComponent implements OnInit {
             this.router.navigate(['/room', room._id]).then();
       });
     });
-  }
-
-  goToVS() {
-    this.categoryService.addView(this.category).subscribe();
-    this.quizService.quizSelect(this.category.num).subscribe(quiz => this.quiz = quiz);
-    this.zequiz = true;
   }
 }
