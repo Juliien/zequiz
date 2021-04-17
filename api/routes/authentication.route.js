@@ -1,10 +1,9 @@
 const bodyParser = require('body-parser');
 const AuthenticationController = require('../controllers/authentication.controller');
 const AuthenticationMiddleware = require('../middlewares/authentication.middleware');
-const PermissionMiddleware = require('../middlewares/permission.middleware');
+
 const controller = new AuthenticationController();
 const authMiddleware = new AuthenticationMiddleware();
-const permissionMiddleware = new PermissionMiddleware();
 
 
 module.exports = function (app) {

@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {QuizModel} from '../../models/quiz.model';
 import {Router} from '@angular/router';
 import {PlayerService} from '../../ressources/player.service';
-import {RoomModel} from '../../models/room.model';
 
 
 @Component({
@@ -11,7 +10,7 @@ import {RoomModel} from '../../models/room.model';
     styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-    @Input() quiz: any;
+    @Input() quiz: any[];
     @Input() isVersus: boolean;
     @Output() isFinish: EventEmitter<string> = new EventEmitter();
 
@@ -28,7 +27,7 @@ export class GameComponent implements OnInit {
                 private playerService: PlayerService) { }
 
     ngOnInit() {
-      this.listQuestions = this.quiz.results;
+      this.listQuestions = this.quiz;
       this.index = 0;
       this.score = 0;
     }

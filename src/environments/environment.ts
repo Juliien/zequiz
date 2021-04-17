@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  baseQuizUrl: 'https://opentdb.com/api.php?',
   baseApiUrl: 'http://localhost:3001/api/v1/',
-  socketUrl: 'http://localhost:5000/'
+  socketUrl: 'http://localhost:5000/',
+  SECRET_KEY: 'AhQvPT9shvhUWUDyD7Qz8tpAU3UtAgkV2uGLpQunM4ZRLAcV2xRXwjTNWFBGM57m'
 };
 
 /*
