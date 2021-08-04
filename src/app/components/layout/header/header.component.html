@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-black" *ngIf="!isMobile">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-black" *ngIf="!isMobile" aria-label="header">
   <a class="navbar-brand title" routerLink="/home" (click)="clear()">
     <img alt="ZeQuiz" height="32" width="32" src="assets/logo_light.png">ZeQuiz
   </a>
@@ -17,7 +17,7 @@
 </nav>
 
 <!-- Mobile version -->
-<nav *ngIf="isMobile" class="navbar navbar-expand-lg navbar-dark bg-black">
+<nav *ngIf="isMobile" class="navbar navbar-expand-lg navbar-dark bg-black" aria-label="header">
   <a class="navbar-brand title">
     <i class="fas fa-bars" (click)="openMenu()"></i>
     <span (click)="goToHome()">

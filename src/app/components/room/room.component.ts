@@ -46,29 +46,36 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.socket = io(environment.socketUrl);
 
     this.socket.on('room', message => {
-      if (message === 'refresh') {
-        this.roomService.getRoomById(this.roomId).subscribe(room => {
-          this.room = room;
-        });
-      }
-      if (message === 'finished') {
-        this.roomService.getRoomById(this.roomId).subscribe(room => {
-          const playersHaveEnd = room.players.filter(player => player.score !== -1);
-          if (this.room.players.length === playersHaveEnd.length) {
-            this.displayResults = true;
-            this.playersScores = room.players.sort((a, b) => b.score - a.score);
-          } else {
-            for (const player of playersHaveEnd) {
-              if (player._id === this.currentPlayer._id) {
-                this.currentPlayer.score = player.score;
+      switch (message) {
+        case 'refresh': {
+          this.roomService.getRoomById(this.roomId).subscribe(room => {
+            this.room = room;
+          });
+          break;
+        }
+        case 'finished': {
+          this.roomService.getRoomById(this.roomId).subscribe(room => {
+            const playersHaveEnd = room.players.filter(player => player.score !== -1);
+            if (this.room.players.length === playersHaveEnd.length) {
+              this.displayResults = true;
+              this.playersScores = room.players.sort((a, b) => b.score - a.score);
+            } else {
+              for (const player of playersHaveEnd) {
+                if (player._id === this.currentPlayer._id) {
+                  this.currentPlayer.score = player.score;
+                }
               }
             }
-          }
-        });
-      }
-
-      if (message === 'closed') {
-        this.error = true;
+          });
+          break;
+        }
+        case 'closed': {
+          this.error = true;
+          break;
+        }
+        default: {
+          break;
+        }
       }
     });
 
