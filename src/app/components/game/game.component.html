@@ -4,6 +4,10 @@
 
 <div class="card" *ngIf="!result">
   <div class="card-body">
+    <div class="progress">
+      <div class="progress-bar bg-info" [ngStyle]="{'width': timeLeft + '%'}" role="progressbar"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" ></div>
+    </div>
     <div class="d-flex justify-content-between">
       <p class="text-muted">Difficulty : {{listQuestions[index].difficulty}}</p>
       <p>{{index + 1}}/10</p>
@@ -19,13 +23,14 @@
         False
       </button>
     </div>
-    <div *ngIf="answer" class="my-3">
+    <div *ngIf="answer" class="mt-3 d-flex justify-content-between">
       <p class="text-success" *ngIf="correctAnswer === selectedAnswer">
-        <strong>Bravo! Good answer. The answer is {{listQuestions[index].correct_answer}}.</strong>
+        <strong>Bravo! Good answer.</strong>
       </p>
       <p class="text-danger" *ngIf="correctAnswer !== selectedAnswer">
-        <strong>Sorry! Wrong answer. The correct answer is {{listQuestions[index].correct_answer}}.</strong>
+        <strong>Sorry! Wrong answer.</strong>
       </p>
+      <p class="text-center">Score: <span class="title">{{this.score}} zp</span></p>
     </div>
 
     <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
@@ -36,15 +41,7 @@
 
 <div class="card" *ngIf="result && !isVersus">
   <div class="card-body">
-    <div class="d-flex justify-content-between">
-      <h3>Score : {{score}}/10</h3>
-    </div>
-    <div class="alert alert-info text-center" role="alert">
-      <span *ngIf="score == 10">Great Job<i class="mx-2 far fa-smile-beam fa-lg"></i></span>
-      <span *ngIf="score >= 8 && score < 10">Well done<i class="mx-2 far fa-smile-wink fa-lg"></i></span>
-      <span *ngIf="score >= 5 && score < 8">Not bad<i class="mx-2 far fa-smile fa-lg"></i></span>
-      <span *ngIf="score < 5">Not good<i class="mx-2 far fa-frown-open fa-lg"></i></span>
-    </div>
+    <h4 class="text-center">Score: <span class="title">{{score}} zp</span></h4>
     <div class="mb-3">
       <app-rate></app-rate>
     </div>
