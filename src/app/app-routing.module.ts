@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'room/:id', component: RoomComponent },
   { path: 'all', component: QuizListComponent },
   { path: 'legal', component: LegalComponent },
-  { path: 'admin/WXbE6VAGk738', component: AdminComponent },
+  { path: 'admin', component: AdminComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 

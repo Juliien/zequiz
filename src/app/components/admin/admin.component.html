@@ -88,26 +88,27 @@
           </div>
           <table class="table table-dark">
             <thead>
-            <tr>
-              <th scope="col">Image</th>
-              <th scope="col">Name</th>
-              <th scope="col">Category Number</th>
-              <th scope="col">Views</th>
-              <th scope="col">Rate</th>
-              <th scope="col">Rate number</th>
-            </tr>
+              <caption>Categories</caption>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category Number</th>
+                <th scope="col">Views</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Rate number</th>
+              </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let category of categories | filter:item">
-              <td>
-                <img src="{{category.photoUrl}}" width="100" height="80" style="border-radius: 12px">
-              </td>
-              <td>{{category.name}}</td>
-              <td>{{category.num}}</td>
-              <td>{{category.views}} </td>
-              <td>{{category.rate}}</td>
-              <td>{{category.rateNumber}}</td>
-            </tr>
+              <tr *ngFor="let category of categories | filter:item">
+                <td>
+                  <img src="{{category.photoUrl}}" width="100" height="80" style="border-radius: 12px" alt="category image">
+                </td>
+                <td>{{category.name}}</td>
+                <td>{{category.num}}</td>
+                <td>{{category.views}} </td>
+                <td>{{category.rate}}</td>
+                <td>{{category.rateNumber}}</td>
+              </tr>
             </tbody>
           </table>
         </div>
