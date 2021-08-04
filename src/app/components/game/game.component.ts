@@ -22,6 +22,8 @@ export class GameComponent implements OnInit {
     selectedAnswer: string;
     correctAnswer: string;
     errMsg: string;
+    interval: any;
+    timeLeft: number;
 
     constructor(private router: Router,
                 private playerService: PlayerService) { }
@@ -30,6 +32,8 @@ export class GameComponent implements OnInit {
       this.listQuestions = this.quiz;
       this.index = 0;
       this.score = 0;
+      this.timeLeft = 100;
+      this.timer();
     }
 
     parseQuestion(res: string) {
@@ -57,13 +61,29 @@ export class GameComponent implements OnInit {
     nextQuestion() {
         this.index += 1;
         this.answer = false;
+        this.timeLeft = 100;
+        this.timer();
+    }
+
+    timer() {
+      this.interval = setInterval(() => {
+        if (this.timeLeft > -6) {
+          this.timeLeft -= 7;
+        }
+        if (this.timeLeft === -5) {
+          this.timeLeft = 0;
+          this.validate('null');
+          clearInterval(this.interval);
+        }
+      }, 1000);
     }
 
     validate(res: string) {
+        clearInterval(this.interval);
         this.correctAnswer = this.listQuestions[this.index].correct_answer.toUpperCase();
         this.selectedAnswer = res.toUpperCase();
         if (this.selectedAnswer === this.correctAnswer) {
-            this.score++;
+            this.score += (this.timeLeft / 100) * 1000;
         }
         this.answer = true;
     }
