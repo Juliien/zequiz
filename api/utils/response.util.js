@@ -1,17 +1,14 @@
 const date = new Date();
 
 class ResponseUtil {
-  constructor() {}
 
   responseError(code, status, message) {
-    const error = {
+    return {
       timestamp: date.toISOString(),
       status: status,
       code: code,
       message: message,
     };
-
-    return error;
   }
 }
 

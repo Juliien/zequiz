@@ -7,9 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   isMobile: boolean;
-
-  constructor() { }
-
+  
   ngOnInit(): void {
     this.isMobile = window.innerWidth <= 765;
   }
