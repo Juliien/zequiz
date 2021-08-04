@@ -30,7 +30,7 @@
       <p class="text-danger" *ngIf="correctAnswer !== selectedAnswer">
         <strong>Sorry! Wrong answer.</strong>
       </p>
-      <p class="text-center">Score: <span class="title">{{this.score}} zp</span></p>
+      <p class="text-center">Score : <span class="title">{{this.score}} zp</span></p>
     </div>
 
     <button class="btn btn-info btn-block"  *ngIf="index < 9 && this.answer" (click)="nextQuestion()">Continue</button>
@@ -41,7 +41,7 @@
 
 <div class="card" *ngIf="result && !isVersus">
   <div class="card-body">
-    <h4 class="text-center">Score: <span class="title">{{score}} zp</span></h4>
+    <h4 class="text-center">Score : <span class="title">{{score}} zp</span></h4>
     <div class="mb-3">
       <app-rate></app-rate>
     </div>
