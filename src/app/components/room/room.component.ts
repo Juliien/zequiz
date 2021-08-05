@@ -38,65 +38,20 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isMobile = window.innerWidth <= 765;
     this.currentImage = this.images[Math.floor(Math.random() * this.images.length)];
     this.currentUrl = document.location.href;
-    this.isMobile = window.innerWidth <= 765;
+    this.roomId = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
 
     // websocket
     this.socket = io(environment.socketUrl);
-
-    this.socket.on('room', message => {
-      switch (message) {
-        case 'refresh': {
-          this.roomService.getRoomById(this.roomId).subscribe(room => {
-            this.room = room;
-          });
-          break;
-        }
-        case 'finished': {
-          this.roomService.getRoomById(this.roomId).subscribe(room => {
-            const playersHaveEnd = room.players.filter(player => player.score !== -1);
-            if (this.room.players.length === playersHaveEnd.length) {
-              this.displayResults = true;
-              this.playersScores = room.players.sort((a, b) => b.score - a.score);
-            } else {
-              for (const player of playersHaveEnd) {
-                if (player._id === this.currentPlayer._id) {
-                  this.currentPlayer.score = player.score;
-                }
-              }
-            }
-          });
-          break;
-        }
-        case 'closed': {
-          this.error = true;
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    });
-
-    this.socket.on('quit-room', playerId => {
-      if (playerId === this.currentPlayer._id) {
-        this.error = true;
-      }
-      const data = {
-        roomId: this.roomId,
-        playerId: playerId.toString()
-      };
-      this.roomService.quitRoom(data).subscribe(() => {
-        this.socket.emit('room', 'refresh');
-      });
-    });
+    this.roomSocket();
+    this.quitRoomSocket();
 
     if (sessionStorage.getItem('playerId')) {
       this.playerService.getPlayerById(sessionStorage.getItem('playerId')).subscribe(player => this.currentPlayer = player);
     }
 
-    this.roomId = this.currentUrl.substring(this.currentUrl.lastIndexOf('/') + 1);
     this.roomService.getRoomById(this.roomId).subscribe(room => {
       this.room = room;
       this.categoryService.getCategoryByID(this.room.categoryId).subscribe(category => {
@@ -106,6 +61,41 @@ export class RoomComponent implements OnInit, OnDestroy {
       if (err.status === 404) {
         this.error = true;
       }
+    });
+  }
+
+  roomSocket() {
+    this.socket.on('room', message => {
+      switch (message) {
+        case 'refresh': {
+          this.refreshRoom();
+          break;
+        }
+        case 'finished': {
+          this.finishRoom();
+          break;
+        }
+        default: {
+          this.error = true;
+          break;
+        }
+      }
+    });
+  }
+
+  quitRoomSocket() {
+    this.socket.on('quit-room', playerId => {
+      if (playerId === this.currentPlayer._id) {
+        this.error = true;
+      }
+      const data = {
+        roomId: this.roomId,
+        playerId: playerId.toString()
+      };
+
+      this.roomService.quitRoom(data).subscribe(() => {
+        this.socket.emit('room', 'refresh');
+      });
     });
   }
 
@@ -164,6 +154,28 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.socket.emit('quit-room', this.currentPlayer._id);
       }
     }
+  }
+
+  refreshRoom() {
+    this.roomService.getRoomById(this.roomId).subscribe(room => {
+      this.room = room;
+    });
+  }
+
+  finishRoom() {
+    this.roomService.getRoomById(this.roomId).subscribe(room => {
+      const playersHaveEnd = room.players.filter(player => player.score !== -1);
+      if (this.room.players.length === playersHaveEnd.length) {
+        this.displayResults = true;
+        this.playersScores = room.players.sort((a, b) => b.score - a.score);
+      } else {
+        for (const player of playersHaveEnd) {
+          if (player._id === this.currentPlayer._id) {
+            this.currentPlayer.score = player.score;
+          }
+        }
+      }
+    });
   }
 
   ngOnDestroy() {

@@ -4,13 +4,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {PlayerModel} from '../models/player.model';
 
-
-const options = {
-  headers: new HttpHeaders({
-    'Access-Control-Allow-Origin': '*'
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,21 +12,20 @@ export class PlayerService {
   }
 
   getPlayerById(id: string): Observable<PlayerModel> {
-    return this.http.get<PlayerModel>(environment.baseApiUrl + 'player/' + id, options);
+    return this.http.get<PlayerModel>(environment.baseApiUrl + 'player/' + id);
   }
 
   createPlayer(player: any) {
-    return this.http.post<any>(environment.baseApiUrl + 'player', player, options);
+    return this.http.post<any>(environment.baseApiUrl + 'player', player);
   }
 
   updatePlayerScore(data: any) {
-    return this.http.post<any>(environment.baseApiUrl + 'player/score', data, options);
+    return this.http.post<any>(environment.baseApiUrl + 'player/score', data);
   }
 
   deletePlayers() {
     const option = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*',
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };

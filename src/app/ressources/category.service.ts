@@ -4,13 +4,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {CategoryModel} from '../models/category.model';
 
-
-const options = {
-  headers: new HttpHeaders({
-    'Access-Control-Allow-Origin': '*'
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +13,6 @@ export class CategoryService {
   insertCategory(category: any) {
     const option = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*',
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
@@ -28,30 +20,30 @@ export class CategoryService {
   }
 
   getCategories(): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'categories', options);
+    return this.http.get<any>(environment.baseApiUrl + 'categories');
   }
 
   getCategoryByID(id: string): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'category/' + id, options);
+    return this.http.get<any>(environment.baseApiUrl + 'category/' + id);
   }
 
   addView(category: CategoryModel) {
-    return this.http.post<any>(environment.baseApiUrl + 'category/views', category, options);
+    return this.http.post<any>(environment.baseApiUrl + 'category/views', category);
   }
 
   addRate(rate: any) {
-    return this.http.post<any>(environment.baseApiUrl + 'category/rate', rate, options);
+    return this.http.post<any>(environment.baseApiUrl + 'category/rate', rate);
   }
 
   getRatedCategories(): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'category/rate', options);
+    return this.http.get<any>(environment.baseApiUrl + 'category/rate');
   }
 
   getViews(): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'category/most/viewed', options);
+    return this.http.get<any>(environment.baseApiUrl + 'category/most/viewed');
   }
 
   getNewCategories(): Observable <any> {
-    return this.http.get<any>(environment.baseApiUrl + 'category/new', options);
+    return this.http.get<any>(environment.baseApiUrl + 'category/new');
   }
 }
