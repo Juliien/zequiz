@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .then(() => console.log('Connected to MongoDB!'))
   .catch(error => console.log('MongoDB Connection Error:' + error.message));
 
-const whitelist = ['http://localhost:4200', 'https://www.zequiz.net']
+const whitelist = ['http://localhost:4200', 'https://www.zequiz.net', 'https://zequiz.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
