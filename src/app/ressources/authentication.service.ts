@@ -23,18 +23,12 @@ export class AuthenticationService {
   }
 
   login(info: any): Observable<any> {
-    const options = {
-      headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*'
-      })
-    };
-    return this.http.post<any>(environment.baseApiUrl  + 'login', info, options);
+    return this.http.post<any>(environment.baseApiUrl  + 'login', info);
   }
 
   logout(): Observable<any> {
     const option = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*',
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
@@ -44,7 +38,6 @@ export class AuthenticationService {
   getUserById(): Observable<UserModel> {
     const options = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*',
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
@@ -55,5 +48,4 @@ export class AuthenticationService {
     const token = localStorage.getItem('token');
     return token && token.length > 1;
   }
-
 }
